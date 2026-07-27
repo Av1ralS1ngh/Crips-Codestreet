@@ -1,0 +1,15 @@
+# Only the frontend is deployed; the Python engine runs offline and its output ships as
+# recorded fixtures inside frontend/src/mock. Everything else stays off the upload.
+backend
+agent
+artifacts
+scripts
+.venv
+*.log
+frontend/node_modules
+frontend/dist
+frontend/.smoke
+PITCH_DECK_BRIEF.md
+CLAUDE.md
+Makefile
+requirements.txt

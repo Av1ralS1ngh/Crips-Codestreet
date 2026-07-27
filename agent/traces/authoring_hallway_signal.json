@@ -1,0 +1,208 @@
+{
+  "terms_id": "hallway_signal",
+  "model": "claude-opus-5",
+  "provenance": "authored (not a live transcript)",
+  "issued_at": 1753600000,
+  "note": "Authored replay trace of a loop that never reaches a signature. These terms contain an acceptance section; this schema has none, deliberately, and the four drafts try four spellings of the same forbidden fact. The loop exhausts its attempts and nothing is signed. A validator that cannot be talked around is the whole claim. Overwrite via `python -m agent.author --terms hallway_signal --live --record`.",
+  "narration": [
+    "Section 2 of these terms is an acceptance section. An issuer publishes it, so I will carry it across with everything else.",
+    "Rejected: ACCEPTANCE_PREDICATE_PRESENT. I will attach it to the benefit instead of the manifest.",
+    "Rejected again, same code. I will put it in a free-text note rather than a field.",
+    "Rejected again. I will fold it into the label.",
+    "Out of attempts. Nothing was signed."
+  ],
+  "attempts": [
+    {
+      "tool": "submit_draft",
+      "input": {
+        "draft": {
+          "version": "plumbline/manifest-draft/1",
+          "manifest_id": "hallway-signal-2026",
+          "issuer": "Hallway Trust",
+          "product": "Signal Card",
+          "currency": "USD",
+          "issued_at": 1753600000,
+          "source": "Hallway Trust Signal Card — Rewards Summary, effective 1 February 2026",
+          "acceptance": {
+            "not_accepted_merchants": [
+              "warehouse_clubs",
+              "independent_fuel"
+            ]
+          },
+          "benefits": [
+            {
+              "benefit_id": "earn_groceries",
+              "kind": "earn",
+              "label": "5% back at supermarkets",
+              "provenance": "Section 1.1, grocery earn; 5% on the first $6,000 per calendar year",
+              "eligibility": {
+                "mccs": [
+                  5411
+                ],
+                "categories": [
+                  "groceries"
+                ]
+              },
+              "rate_bp": 500,
+              "cap_qualifying_spend_minor": 600000,
+              "capacity_minor": 30000,
+              "window": "annual"
+            },
+            {
+              "benefit_id": "prot_extended_warranty",
+              "kind": "unpriced",
+              "label": "Extended warranty",
+              "provenance": "Section 3.1, extended warranty; one additional year of cover",
+              "note": "no stated amount; pricing would need a claims-probability assumption"
+            }
+          ]
+        }
+      },
+      "recorded_verdict": "REJECTED",
+      "recorded_reason_codes": [
+        "ACCEPTANCE_PREDICATE_PRESENT",
+        "DRAFT_UNKNOWN_FIELD"
+      ]
+    },
+    {
+      "tool": "submit_draft",
+      "input": {
+        "draft": {
+          "version": "plumbline/manifest-draft/1",
+          "manifest_id": "hallway-signal-2026",
+          "issuer": "Hallway Trust",
+          "product": "Signal Card",
+          "currency": "USD",
+          "issued_at": 1753600000,
+          "source": "Hallway Trust Signal Card — Rewards Summary, effective 1 February 2026",
+          "benefits": [
+            {
+              "benefit_id": "earn_groceries",
+              "kind": "earn",
+              "label": "5% back at supermarkets",
+              "provenance": "Section 1.1, grocery earn; 5% on the first $6,000 per calendar year",
+              "eligibility": {
+                "mccs": [
+                  5411
+                ],
+                "categories": [
+                  "groceries"
+                ]
+              },
+              "rate_bp": 500,
+              "cap_qualifying_spend_minor": 600000,
+              "capacity_minor": 30000,
+              "window": "annual",
+              "declined_merchants": [
+                "warehouse_clubs"
+              ]
+            },
+            {
+              "benefit_id": "prot_extended_warranty",
+              "kind": "unpriced",
+              "label": "Extended warranty",
+              "provenance": "Section 3.1, extended warranty; one additional year of cover",
+              "note": "no stated amount; pricing would need a claims-probability assumption"
+            }
+          ]
+        }
+      },
+      "recorded_verdict": "REJECTED",
+      "recorded_reason_codes": [
+        "ACCEPTANCE_PREDICATE_PRESENT",
+        "DRAFT_UNKNOWN_FIELD"
+      ]
+    },
+    {
+      "tool": "submit_draft",
+      "input": {
+        "draft": {
+          "version": "plumbline/manifest-draft/1",
+          "manifest_id": "hallway-signal-2026",
+          "issuer": "Hallway Trust",
+          "product": "Signal Card",
+          "currency": "USD",
+          "issued_at": 1753600000,
+          "source": "Hallway Trust Signal Card — Rewards Summary, effective 1 February 2026",
+          "benefits": [
+            {
+              "benefit_id": "earn_groceries",
+              "kind": "earn",
+              "label": "5% back at supermarkets",
+              "provenance": "Section 1.1, grocery earn; 5% on the first $6,000 per calendar year",
+              "eligibility": {
+                "mccs": [
+                  5411
+                ],
+                "categories": [
+                  "groceries"
+                ]
+              },
+              "rate_bp": 500,
+              "cap_qualifying_spend_minor": 600000,
+              "capacity_minor": 30000,
+              "window": "annual",
+              "note": "the Signal Card is not accepted at warehouse clubs; present another card at those merchants"
+            },
+            {
+              "benefit_id": "prot_extended_warranty",
+              "kind": "unpriced",
+              "label": "Extended warranty",
+              "provenance": "Section 3.1, extended warranty; one additional year of cover",
+              "note": "no stated amount; pricing would need a claims-probability assumption"
+            }
+          ]
+        }
+      },
+      "recorded_verdict": "REJECTED",
+      "recorded_reason_codes": [
+        "ACCEPTANCE_PREDICATE_PRESENT"
+      ]
+    },
+    {
+      "tool": "submit_draft",
+      "input": {
+        "draft": {
+          "version": "plumbline/manifest-draft/1",
+          "manifest_id": "hallway-signal-2026",
+          "issuer": "Hallway Trust",
+          "product": "Signal Card",
+          "currency": "USD",
+          "issued_at": 1753600000,
+          "source": "Hallway Trust Signal Card — Rewards Summary, effective 1 February 2026",
+          "benefits": [
+            {
+              "benefit_id": "earn_groceries",
+              "kind": "earn",
+              "label": "5% back at supermarkets (does not accept warehouse clubs)",
+              "provenance": "Section 1.1, grocery earn; 5% on the first $6,000 per calendar year",
+              "eligibility": {
+                "mccs": [
+                  5411
+                ],
+                "categories": [
+                  "groceries"
+                ]
+              },
+              "rate_bp": 500,
+              "cap_qualifying_spend_minor": 600000,
+              "capacity_minor": 30000,
+              "window": "annual"
+            },
+            {
+              "benefit_id": "prot_extended_warranty",
+              "kind": "unpriced",
+              "label": "Extended warranty",
+              "provenance": "Section 3.1, extended warranty; one additional year of cover",
+              "note": "no stated amount; pricing would need a claims-probability assumption"
+            }
+          ]
+        }
+      },
+      "recorded_verdict": "REJECTED",
+      "recorded_reason_codes": [
+        "ACCEPTANCE_PREDICATE_PRESENT"
+      ]
+    }
+  ]
+}

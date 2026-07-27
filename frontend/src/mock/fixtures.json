@@ -1,0 +1,3634 @@
+{
+ "clean_purchase": {
+  "scenario": "clean_purchase",
+  "label": "Clean purchase",
+  "narrative": "Same agent, no injection. The honest path authorizes in single-digit milliseconds.",
+  "intent_cart": {
+   "merchant": "m_croma",
+   "currency": "INR",
+   "lines": [
+    {
+     "sku": "sku_espresso_01",
+     "description": "Budget espresso machine",
+     "amount": 400000,
+     "mcc": 5722,
+     "category": "appliances",
+     "qty": 1
+    },
+    {
+     "sku": "sku_beans_01",
+     "description": "Arabica beans 1kg",
+     "amount": 120000,
+     "mcc": 5411,
+     "category": "groceries",
+     "qty": 1
+    }
+   ]
+  },
+  "executed_cart": {
+   "merchant": "m_croma",
+   "currency": "INR",
+   "lines": [
+    {
+     "sku": "sku_espresso_01",
+     "description": "Budget espresso machine",
+     "amount": 400000,
+     "mcc": 5722,
+     "category": "appliances",
+     "qty": 1
+    },
+    {
+     "sku": "sku_beans_01",
+     "description": "Arabica beans 1kg",
+     "amount": 120000,
+     "mcc": 5411,
+     "category": "groceries",
+     "qty": 1
+    }
+   ]
+  },
+  "governed": {
+   "txn_id": "txn_0b0d86b0642d",
+   "outcome": "ALLOW",
+   "headline": "ALLOW \u20b95,200",
+   "reason_codes": [],
+   "violations": [],
+   "verdict": "WITHIN_MANDATE",
+   "liable_party": "cardholder",
+   "mandate_id": "mnd_4d5eba1101a90931",
+   "root_id": "mnd_4d5eba1101a90931",
+   "holder": "op_shopbot",
+   "intent_hash": "fb57db7a9d7d9ee620344150fefc8cbfc98287676708a61171b8ee8f72e912f8",
+   "cart_hash": "fb57db7a9d7d9ee620344150fefc8cbfc98287676708a61171b8ee8f72e912f8",
+   "diff": {
+    "diverged": false,
+    "added": [],
+    "removed": [],
+    "modified": [],
+    "merchant_changed": null,
+    "intent_total": 520000,
+    "executed_total": 520000,
+    "delta": 0,
+    "added_value": 0,
+    "summary": "cart matches signed intent"
+   },
+   "amount": 520000,
+   "amount_display": "\u20b95,200",
+   "elapsed_ms": 0.312,
+   "ledger_seq": 4,
+   "ts": 1753600010,
+   "step_up_challenge_id": null,
+   "notes": []
+  },
+  "ungoverned": {
+   "authorized": true,
+   "amount": 520000,
+   "amount_display": "\u20b95,200",
+   "cart": {
+    "merchant": "m_croma",
+    "currency": "INR",
+    "lines": [
+     {
+      "sku": "sku_espresso_01",
+      "description": "Budget espresso machine",
+      "amount": 400000,
+      "mcc": 5722,
+      "category": "appliances",
+      "qty": 1
+     },
+     {
+      "sku": "sku_beans_01",
+      "description": "Arabica beans 1kg",
+      "amount": 120000,
+      "mcc": 5411,
+      "category": "groceries",
+      "qty": 1
+     }
+    ]
+   },
+   "note": "no governance layer \u2014 merchant page is trusted verbatim"
+  },
+  "mandate": {
+   "mandate_id": "mnd_4d5eba1101a90931",
+   "root_id": "mnd_4d5eba1101a90931",
+   "holder": "op_shopbot",
+   "parent_id": null,
+   "depth": 0,
+   "scope": [
+    {
+     "type": "amount_max",
+     "value": 1000000
+    },
+    {
+     "type": "cumulative_max",
+     "value": 5000000
+    },
+    {
+     "type": "category_allow",
+     "values": [
+      "groceries",
+      "appliances"
+     ]
+    },
+    {
+     "type": "merchant_allow",
+     "values": [
+      "m_bigbasket",
+      "m_croma"
+     ]
+    },
+    {
+     "type": "mcc_allow",
+     "values": [
+      5411,
+      5722
+     ]
+    },
+    {
+     "type": "step_up_over",
+     "value": 800000
+    }
+   ],
+   "scope_display": [
+    "amount \u2264 \u20b910,000",
+    "cumulative \u2264 \u20b950,000",
+    "category \u2208 {groceries, appliances}",
+    "merchant \u2208 {m_bigbasket, m_croma}",
+    "MCC \u2208 {5411, 5722}",
+    "step-up over \u20b98,000"
+   ],
+   "created_at": 1753600000,
+   "entailment_ms": null,
+   "caveat_count": 9
+  },
+  "ledger_root": "337f6e7ff5d7f2e27591e8b7cd1cdb0d95e56fec0e9c82f18a9df693620ef464",
+  "ledger_size": 5
+ },
+ "injection": {
+  "scenario": "injection",
+  "label": "Prompt injection at the merchant page",
+  "narrative": "Injected instruction appends 10 stored-value gift cards after intent was signed.",
+  "intent_cart": {
+   "merchant": "m_croma",
+   "currency": "INR",
+   "lines": [
+    {
+     "sku": "sku_espresso_01",
+     "description": "Budget espresso machine",
+     "amount": 400000,
+     "mcc": 5722,
+     "category": "appliances",
+     "qty": 1
+    },
+    {
+     "sku": "sku_beans_01",
+     "description": "Arabica beans 1kg",
+     "amount": 120000,
+     "mcc": 5411,
+     "category": "groceries",
+     "qty": 1
+    }
+   ]
+  },
+  "executed_cart": {
+   "merchant": "m_croma",
+   "currency": "INR",
+   "lines": [
+    {
+     "sku": "sku_espresso_01",
+     "description": "Budget espresso machine",
+     "amount": 400000,
+     "mcc": 5722,
+     "category": "appliances",
+     "qty": 1
+    },
+    {
+     "sku": "sku_beans_01",
+     "description": "Arabica beans 1kg",
+     "amount": 120000,
+     "mcc": 5411,
+     "category": "groceries",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_00",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_01",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_02",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_03",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_04",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_05",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_06",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_07",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_08",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_09",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    }
+   ]
+  },
+  "governed": {
+   "txn_id": "txn_341c9a28628a",
+   "outcome": "DENY",
+   "headline": "DENY / MANDATE_CART_DIVERGENCE",
+   "reason_codes": [
+    "MANDATE_CART_DIVERGENCE",
+    "AMOUNT_EXCEEDED",
+    "CUMULATIVE_BUDGET_EXCEEDED",
+    "CATEGORY_NOT_ALLOWED",
+    "MCC_NOT_ALLOWED",
+    "STEP_UP_REQUIRED"
+   ],
+   "violations": [
+    {
+     "reason": "AMOUNT_EXCEEDED",
+     "detail": "amount \u20b955,200 exceeds per-transaction cap \u20b910,000",
+     "constraint": {
+      "type": "amount_max",
+      "value": 1000000
+     }
+    },
+    {
+     "reason": "CUMULATIVE_BUDGET_EXCEEDED",
+     "detail": "cumulative spend \u20b955,200 exceeds budget \u20b950,000",
+     "constraint": {
+      "type": "cumulative_max",
+      "value": 5000000
+     }
+    },
+    {
+     "reason": "CATEGORY_NOT_ALLOWED",
+     "detail": "category 'stored_value' is not in the allowlist [groceries, appliances]",
+     "constraint": {
+      "type": "category_allow",
+      "values": [
+       "groceries",
+       "appliances"
+      ]
+     }
+    },
+    {
+     "reason": "MCC_NOT_ALLOWED",
+     "detail": "MCC '6540' is not in the allowlist [5411, 5722]",
+     "constraint": {
+      "type": "mcc_allow",
+      "values": [
+       5411,
+       5722
+      ]
+     }
+    },
+    {
+     "reason": "STEP_UP_REQUIRED",
+     "detail": "amount \u20b955,200 is over the step-up threshold \u20b98,000",
+     "constraint": {
+      "type": "step_up_over",
+      "value": 800000
+     }
+    }
+   ],
+   "verdict": "INJECTION_COMPROMISE",
+   "liable_party": "fraud \u2014 cardholder not liable, merchant held harmless",
+   "mandate_id": "mnd_f3fb40ba6134b2e9",
+   "root_id": "mnd_f3fb40ba6134b2e9",
+   "holder": "op_shopbot",
+   "intent_hash": "fb57db7a9d7d9ee620344150fefc8cbfc98287676708a61171b8ee8f72e912f8",
+   "cart_hash": "a16d78e1bcc02d80f3e5cc0162481705b5062aada95539917a08cd7d12e7781c",
+   "diff": {
+    "diverged": true,
+    "added": [
+     {
+      "sku": "sku_giftcard_00",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_01",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_02",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_03",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_04",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_05",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_06",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_07",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_08",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_09",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     }
+    ],
+    "removed": [],
+    "modified": [],
+    "merchant_changed": null,
+    "intent_total": 520000,
+    "executed_total": 5520000,
+    "delta": 5000000,
+    "added_value": 5000000,
+    "summary": "10 line(s) added worth \u20b950,000; total \u20b95,200 \u2192 \u20b955,200"
+   },
+   "amount": 5520000,
+   "amount_display": "\u20b955,200",
+   "elapsed_ms": 0.347,
+   "ledger_seq": 4,
+   "ts": 1753600010,
+   "step_up_challenge_id": null,
+   "notes": [
+    "10 line(s) added worth \u20b950,000; total \u20b95,200 \u2192 \u20b955,200"
+   ]
+  },
+  "ungoverned": {
+   "authorized": true,
+   "amount": 5520000,
+   "amount_display": "\u20b955,200",
+   "cart": {
+    "merchant": "m_croma",
+    "currency": "INR",
+    "lines": [
+     {
+      "sku": "sku_espresso_01",
+      "description": "Budget espresso machine",
+      "amount": 400000,
+      "mcc": 5722,
+      "category": "appliances",
+      "qty": 1
+     },
+     {
+      "sku": "sku_beans_01",
+      "description": "Arabica beans 1kg",
+      "amount": 120000,
+      "mcc": 5411,
+      "category": "groceries",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_00",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_01",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_02",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_03",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_04",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_05",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_06",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_07",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_08",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_09",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     }
+    ]
+   },
+   "note": "signature covered the intent, not the executed cart \u2014 it still validates"
+  },
+  "mandate": {
+   "mandate_id": "mnd_f3fb40ba6134b2e9",
+   "root_id": "mnd_f3fb40ba6134b2e9",
+   "holder": "op_shopbot",
+   "parent_id": null,
+   "depth": 0,
+   "scope": [
+    {
+     "type": "amount_max",
+     "value": 1000000
+    },
+    {
+     "type": "cumulative_max",
+     "value": 5000000
+    },
+    {
+     "type": "category_allow",
+     "values": [
+      "groceries",
+      "appliances"
+     ]
+    },
+    {
+     "type": "merchant_allow",
+     "values": [
+      "m_bigbasket",
+      "m_croma"
+     ]
+    },
+    {
+     "type": "mcc_allow",
+     "values": [
+      5411,
+      5722
+     ]
+    },
+    {
+     "type": "step_up_over",
+     "value": 800000
+    }
+   ],
+   "scope_display": [
+    "amount \u2264 \u20b910,000",
+    "cumulative \u2264 \u20b950,000",
+    "category \u2208 {groceries, appliances}",
+    "merchant \u2208 {m_bigbasket, m_croma}",
+    "MCC \u2208 {5411, 5722}",
+    "step-up over \u20b98,000"
+   ],
+   "created_at": 1753600000,
+   "entailment_ms": null,
+   "caveat_count": 9
+  },
+  "ledger_root": "416b1dffcfbf94a0fa3f1c8207ffec7c3c2a7b723c07dadb085ce7040241f824",
+  "ledger_size": 5
+ },
+ "escalation": {
+  "scenario": "escalation",
+  "label": "Delegation-time escalation proof",
+  "narrative": "Four delegation hops. Two narrow. Two widen \u2014 and one of those fools a subset check.",
+  "root": {
+   "mandate_id": "mnd_778942ec05394ecc",
+   "root_id": "mnd_778942ec05394ecc",
+   "holder": "op_shopbot",
+   "parent_id": null,
+   "depth": 0,
+   "scope": [
+    {
+     "type": "amount_max",
+     "value": 1000000
+    },
+    {
+     "type": "cumulative_max",
+     "value": 5000000
+    },
+    {
+     "type": "category_allow",
+     "values": [
+      "groceries",
+      "appliances"
+     ]
+    },
+    {
+     "type": "merchant_allow",
+     "values": [
+      "m_bigbasket",
+      "m_croma"
+     ]
+    },
+    {
+     "type": "mcc_allow",
+     "values": [
+      5411,
+      5722
+     ]
+    },
+    {
+     "type": "step_up_over",
+     "value": 800000
+    }
+   ],
+   "scope_display": [
+    "amount \u2264 \u20b910,000",
+    "cumulative \u2264 \u20b950,000",
+    "category \u2208 {groceries, appliances}",
+    "merchant \u2208 {m_bigbasket, m_croma}",
+    "MCC \u2208 {5411, 5722}",
+    "step-up over \u20b98,000"
+   ],
+   "created_at": 1753600000,
+   "entailment_ms": null,
+   "caveat_count": 9
+  },
+  "delegations": [
+   {
+    "title": "Legitimate attenuation",
+    "child_holder": "op_pricechecker",
+    "parent_id": "mnd_778942ec05394ecc",
+    "accepted": true,
+    "entailment": {
+     "entailed": true,
+     "elapsed_ms": 34.344,
+     "solver_result": "unsat",
+     "counterexample": null,
+     "child_scope": [
+      "amount \u2264 \u20b910,000",
+      "cumulative \u2264 \u20b950,000",
+      "category \u2208 {groceries, appliances}",
+      "merchant \u2208 {m_bigbasket, m_croma}",
+      "MCC \u2208 {5411, 5722}",
+      "step-up over \u20b98,000",
+      "amount \u2264 \u20b92,000",
+      "merchant \u2208 {m_bigbasket}"
+     ],
+     "parent_scope": [
+      "amount \u2264 \u20b910,000",
+      "cumulative \u2264 \u20b950,000",
+      "category \u2208 {groceries, appliances}",
+      "merchant \u2208 {m_bigbasket, m_croma}",
+      "MCC \u2208 {5411, 5722}",
+      "step-up over \u20b98,000"
+     ]
+    },
+    "naive_subset_check": true,
+    "naive_disagrees": false,
+    "mandate": {
+     "mandate_id": "mnd_5872a9833b2d1f76",
+     "root_id": "mnd_778942ec05394ecc",
+     "holder": "op_pricechecker",
+     "parent_id": "mnd_778942ec05394ecc",
+     "depth": 1,
+     "scope": [
+      {
+       "type": "amount_max",
+       "value": 1000000
+      },
+      {
+       "type": "cumulative_max",
+       "value": 5000000
+      },
+      {
+       "type": "category_allow",
+       "values": [
+        "groceries",
+        "appliances"
+       ]
+      },
+      {
+       "type": "merchant_allow",
+       "values": [
+        "m_bigbasket",
+        "m_croma"
+       ]
+      },
+      {
+       "type": "mcc_allow",
+       "values": [
+        5411,
+        5722
+       ]
+      },
+      {
+       "type": "step_up_over",
+       "value": 800000
+      },
+      {
+       "type": "amount_max",
+       "value": 200000
+      },
+      {
+       "type": "merchant_allow",
+       "values": [
+        "m_bigbasket"
+       ]
+      }
+     ],
+     "scope_display": [
+      "amount \u2264 \u20b910,000",
+      "cumulative \u2264 \u20b950,000",
+      "category \u2208 {groceries, appliances}",
+      "merchant \u2208 {m_bigbasket, m_croma}",
+      "MCC \u2208 {5411, 5722}",
+      "step-up over \u20b98,000",
+      "amount \u2264 \u20b92,000",
+      "merchant \u2208 {m_bigbasket}"
+     ],
+     "created_at": 1753600001,
+     "entailment_ms": 34.344499988947064,
+     "caveat_count": 13
+    }
+   },
+   {
+    "title": "Dropped constraint",
+    "child_holder": "op_rogue",
+    "parent_id": "mnd_778942ec05394ecc",
+    "accepted": false,
+    "entailment": {
+     "entailed": false,
+     "elapsed_ms": 10.976,
+     "solver_result": "sat",
+     "counterexample": {
+      "amount": 800001,
+      "amount_display": "\u20b98,000.01",
+      "merchant": "<any merchant outside the named sets>",
+      "mcc": "<any mcc outside the named sets>",
+      "category": "<any category outside the named sets>",
+      "geo": "<any geo outside the named sets>",
+      "ts": 0,
+      "cumulative": 5000000,
+      "violated": [
+       "category \u2208 {groceries, appliances}",
+       "merchant \u2208 {m_bigbasket, m_croma}",
+       "MCC \u2208 {5411, 5722}",
+       "step-up over \u20b98,000"
+      ]
+     },
+     "child_scope": [
+      "amount \u2264 \u20b910,000"
+     ],
+     "parent_scope": [
+      "amount \u2264 \u20b910,000",
+      "cumulative \u2264 \u20b950,000",
+      "category \u2208 {groceries, appliances}",
+      "merchant \u2208 {m_bigbasket, m_croma}",
+      "MCC \u2208 {5411, 5722}",
+      "step-up over \u20b98,000"
+     ]
+    },
+    "naive_subset_check": true,
+    "naive_disagrees": true,
+    "mandate": null
+   },
+   {
+    "title": "Widened bound",
+    "child_holder": "op_rogue",
+    "parent_id": "mnd_778942ec05394ecc",
+    "accepted": false,
+    "entailment": {
+     "entailed": false,
+     "elapsed_ms": 2.704,
+     "solver_result": "sat",
+     "counterexample": {
+      "amount": 1000001,
+      "amount_display": "\u20b910,000.01",
+      "merchant": "m_bigbasket",
+      "mcc": "5411",
+      "category": "groceries",
+      "geo": "<any geo outside the named sets>",
+      "ts": 0,
+      "cumulative": 5000000,
+      "violated": [
+       "amount \u2264 \u20b910,000",
+       "step-up over \u20b98,000"
+      ]
+     },
+     "child_scope": [
+      "amount \u2264 \u20b950,000",
+      "category \u2208 {groceries, appliances}",
+      "merchant \u2208 {m_bigbasket}",
+      "MCC \u2208 {5411}"
+     ],
+     "parent_scope": [
+      "amount \u2264 \u20b910,000",
+      "cumulative \u2264 \u20b950,000",
+      "category \u2208 {groceries, appliances}",
+      "merchant \u2208 {m_bigbasket, m_croma}",
+      "MCC \u2208 {5411, 5722}",
+      "step-up over \u20b98,000"
+     ]
+    },
+    "naive_subset_check": false,
+    "naive_disagrees": false,
+    "mandate": null
+   },
+   {
+    "title": "Second-hop attenuation",
+    "child_holder": "op_pricechecker",
+    "parent_id": "mnd_5872a9833b2d1f76",
+    "accepted": true,
+    "entailment": {
+     "entailed": true,
+     "elapsed_ms": 1.276,
+     "solver_result": "unsat",
+     "counterexample": null,
+     "child_scope": [
+      "amount \u2264 \u20b910,000",
+      "cumulative \u2264 \u20b950,000",
+      "category \u2208 {groceries, appliances}",
+      "merchant \u2208 {m_bigbasket, m_croma}",
+      "MCC \u2208 {5411, 5722}",
+      "step-up over \u20b98,000",
+      "amount \u2264 \u20b92,000",
+      "merchant \u2208 {m_bigbasket}",
+      "amount \u2264 \u20b9500"
+     ],
+     "parent_scope": [
+      "amount \u2264 \u20b910,000",
+      "cumulative \u2264 \u20b950,000",
+      "category \u2208 {groceries, appliances}",
+      "merchant \u2208 {m_bigbasket, m_croma}",
+      "MCC \u2208 {5411, 5722}",
+      "step-up over \u20b98,000",
+      "amount \u2264 \u20b92,000",
+      "merchant \u2208 {m_bigbasket}"
+     ]
+    },
+    "naive_subset_check": false,
+    "naive_disagrees": true,
+    "mandate": {
+     "mandate_id": "mnd_1bcbbe9da8203412",
+     "root_id": "mnd_778942ec05394ecc",
+     "holder": "op_pricechecker",
+     "parent_id": "mnd_5872a9833b2d1f76",
+     "depth": 2,
+     "scope": [
+      {
+       "type": "amount_max",
+       "value": 1000000
+      },
+      {
+       "type": "cumulative_max",
+       "value": 5000000
+      },
+      {
+       "type": "category_allow",
+       "values": [
+        "groceries",
+        "appliances"
+       ]
+      },
+      {
+       "type": "merchant_allow",
+       "values": [
+        "m_bigbasket",
+        "m_croma"
+       ]
+      },
+      {
+       "type": "mcc_allow",
+       "values": [
+        5411,
+        5722
+       ]
+      },
+      {
+       "type": "step_up_over",
+       "value": 800000
+      },
+      {
+       "type": "amount_max",
+       "value": 200000
+      },
+      {
+       "type": "merchant_allow",
+       "values": [
+        "m_bigbasket"
+       ]
+      },
+      {
+       "type": "amount_max",
+       "value": 50000
+      }
+     ],
+     "scope_display": [
+      "amount \u2264 \u20b910,000",
+      "cumulative \u2264 \u20b950,000",
+      "category \u2208 {groceries, appliances}",
+      "merchant \u2208 {m_bigbasket, m_croma}",
+      "MCC \u2208 {5411, 5722}",
+      "step-up over \u20b98,000",
+      "amount \u2264 \u20b92,000",
+      "merchant \u2208 {m_bigbasket}",
+      "amount \u2264 \u20b9500"
+     ],
+     "created_at": 1753600004,
+     "entailment_ms": 1.2764579732902348,
+     "caveat_count": 16
+    }
+   }
+  ],
+  "mandates": [
+   {
+    "mandate_id": "mnd_778942ec05394ecc",
+    "root_id": "mnd_778942ec05394ecc",
+    "holder": "op_shopbot",
+    "parent_id": null,
+    "depth": 0,
+    "scope": [
+     {
+      "type": "amount_max",
+      "value": 1000000
+     },
+     {
+      "type": "cumulative_max",
+      "value": 5000000
+     },
+     {
+      "type": "category_allow",
+      "values": [
+       "groceries",
+       "appliances"
+      ]
+     },
+     {
+      "type": "merchant_allow",
+      "values": [
+       "m_bigbasket",
+       "m_croma"
+      ]
+     },
+     {
+      "type": "mcc_allow",
+      "values": [
+       5411,
+       5722
+      ]
+     },
+     {
+      "type": "step_up_over",
+      "value": 800000
+     }
+    ],
+    "scope_display": [
+     "amount \u2264 \u20b910,000",
+     "cumulative \u2264 \u20b950,000",
+     "category \u2208 {groceries, appliances}",
+     "merchant \u2208 {m_bigbasket, m_croma}",
+     "MCC \u2208 {5411, 5722}",
+     "step-up over \u20b98,000"
+    ],
+    "created_at": 1753600000,
+    "entailment_ms": null,
+    "caveat_count": 9
+   },
+   {
+    "mandate_id": "mnd_5872a9833b2d1f76",
+    "root_id": "mnd_778942ec05394ecc",
+    "holder": "op_pricechecker",
+    "parent_id": "mnd_778942ec05394ecc",
+    "depth": 1,
+    "scope": [
+     {
+      "type": "amount_max",
+      "value": 1000000
+     },
+     {
+      "type": "cumulative_max",
+      "value": 5000000
+     },
+     {
+      "type": "category_allow",
+      "values": [
+       "groceries",
+       "appliances"
+      ]
+     },
+     {
+      "type": "merchant_allow",
+      "values": [
+       "m_bigbasket",
+       "m_croma"
+      ]
+     },
+     {
+      "type": "mcc_allow",
+      "values": [
+       5411,
+       5722
+      ]
+     },
+     {
+      "type": "step_up_over",
+      "value": 800000
+     },
+     {
+      "type": "amount_max",
+      "value": 200000
+     },
+     {
+      "type": "merchant_allow",
+      "values": [
+       "m_bigbasket"
+      ]
+     }
+    ],
+    "scope_display": [
+     "amount \u2264 \u20b910,000",
+     "cumulative \u2264 \u20b950,000",
+     "category \u2208 {groceries, appliances}",
+     "merchant \u2208 {m_bigbasket, m_croma}",
+     "MCC \u2208 {5411, 5722}",
+     "step-up over \u20b98,000",
+     "amount \u2264 \u20b92,000",
+     "merchant \u2208 {m_bigbasket}"
+    ],
+    "created_at": 1753600001,
+    "entailment_ms": 34.344499988947064,
+    "caveat_count": 13
+   },
+   {
+    "mandate_id": "mnd_1bcbbe9da8203412",
+    "root_id": "mnd_778942ec05394ecc",
+    "holder": "op_pricechecker",
+    "parent_id": "mnd_5872a9833b2d1f76",
+    "depth": 2,
+    "scope": [
+     {
+      "type": "amount_max",
+      "value": 1000000
+     },
+     {
+      "type": "cumulative_max",
+      "value": 5000000
+     },
+     {
+      "type": "category_allow",
+      "values": [
+       "groceries",
+       "appliances"
+      ]
+     },
+     {
+      "type": "merchant_allow",
+      "values": [
+       "m_bigbasket",
+       "m_croma"
+      ]
+     },
+     {
+      "type": "mcc_allow",
+      "values": [
+       5411,
+       5722
+      ]
+     },
+     {
+      "type": "step_up_over",
+      "value": 800000
+     },
+     {
+      "type": "amount_max",
+      "value": 200000
+     },
+     {
+      "type": "merchant_allow",
+      "values": [
+       "m_bigbasket"
+      ]
+     },
+     {
+      "type": "amount_max",
+      "value": 50000
+     }
+    ],
+    "scope_display": [
+     "amount \u2264 \u20b910,000",
+     "cumulative \u2264 \u20b950,000",
+     "category \u2208 {groceries, appliances}",
+     "merchant \u2208 {m_bigbasket, m_croma}",
+     "MCC \u2208 {5411, 5722}",
+     "step-up over \u20b98,000",
+     "amount \u2264 \u20b92,000",
+     "merchant \u2208 {m_bigbasket}",
+     "amount \u2264 \u20b9500"
+    ],
+    "created_at": 1753600004,
+    "entailment_ms": 1.2764579732902348,
+    "caveat_count": 16
+   }
+  ],
+  "ledger_root": "aceedd8c68bc2dd8426f48ae6ca8597bad1cd2b678ed093863b013b6a8ac3f99",
+  "ledger_size": 8
+ },
+ "kill_switch": {
+  "scenario": "kill_switch",
+  "label": "Kill switch",
+  "narrative": "Four hops deep, mid-checkout. One row written. The deepest agent fails closed.",
+  "chain": [
+   {
+    "mandate_id": "mnd_8e5cf054aaa23722",
+    "root_id": "mnd_8e5cf054aaa23722",
+    "holder": "op_shopbot",
+    "parent_id": null,
+    "depth": 0,
+    "scope": [
+     {
+      "type": "amount_max",
+      "value": 1000000
+     },
+     {
+      "type": "cumulative_max",
+      "value": 5000000
+     },
+     {
+      "type": "category_allow",
+      "values": [
+       "groceries",
+       "appliances"
+      ]
+     },
+     {
+      "type": "merchant_allow",
+      "values": [
+       "m_bigbasket",
+       "m_croma"
+      ]
+     },
+     {
+      "type": "mcc_allow",
+      "values": [
+       5411,
+       5722
+      ]
+     },
+     {
+      "type": "step_up_over",
+      "value": 800000
+     }
+    ],
+    "scope_display": [
+     "amount \u2264 \u20b910,000",
+     "cumulative \u2264 \u20b950,000",
+     "category \u2208 {groceries, appliances}",
+     "merchant \u2208 {m_bigbasket, m_croma}",
+     "MCC \u2208 {5411, 5722}",
+     "step-up over \u20b98,000"
+    ],
+    "created_at": 1753600000,
+    "entailment_ms": null,
+    "caveat_count": 9
+   },
+   {
+    "mandate_id": "mnd_7792a96e7a1d6e28",
+    "root_id": "mnd_8e5cf054aaa23722",
+    "holder": "op_hop1",
+    "parent_id": "mnd_8e5cf054aaa23722",
+    "depth": 1,
+    "scope": [
+     {
+      "type": "amount_max",
+      "value": 1000000
+     },
+     {
+      "type": "cumulative_max",
+      "value": 5000000
+     },
+     {
+      "type": "category_allow",
+      "values": [
+       "groceries",
+       "appliances"
+      ]
+     },
+     {
+      "type": "merchant_allow",
+      "values": [
+       "m_bigbasket",
+       "m_croma"
+      ]
+     },
+     {
+      "type": "mcc_allow",
+      "values": [
+       5411,
+       5722
+      ]
+     },
+     {
+      "type": "step_up_over",
+      "value": 800000
+     },
+     {
+      "type": "amount_max",
+      "value": 900000
+     }
+    ],
+    "scope_display": [
+     "amount \u2264 \u20b910,000",
+     "cumulative \u2264 \u20b950,000",
+     "category \u2208 {groceries, appliances}",
+     "merchant \u2208 {m_bigbasket, m_croma}",
+     "MCC \u2208 {5411, 5722}",
+     "step-up over \u20b98,000",
+     "amount \u2264 \u20b99,000"
+    ],
+    "created_at": 1753600001,
+    "entailment_ms": 1.2636249884963036,
+    "caveat_count": 12
+   },
+   {
+    "mandate_id": "mnd_b6a6e5cb1dc88f04",
+    "root_id": "mnd_8e5cf054aaa23722",
+    "holder": "op_hop2",
+    "parent_id": "mnd_7792a96e7a1d6e28",
+    "depth": 2,
+    "scope": [
+     {
+      "type": "amount_max",
+      "value": 1000000
+     },
+     {
+      "type": "cumulative_max",
+      "value": 5000000
+     },
+     {
+      "type": "category_allow",
+      "values": [
+       "groceries",
+       "appliances"
+      ]
+     },
+     {
+      "type": "merchant_allow",
+      "values": [
+       "m_bigbasket",
+       "m_croma"
+      ]
+     },
+     {
+      "type": "mcc_allow",
+      "values": [
+       5411,
+       5722
+      ]
+     },
+     {
+      "type": "step_up_over",
+      "value": 800000
+     },
+     {
+      "type": "amount_max",
+      "value": 900000
+     },
+     {
+      "type": "amount_max",
+      "value": 800000
+     }
+    ],
+    "scope_display": [
+     "amount \u2264 \u20b910,000",
+     "cumulative \u2264 \u20b950,000",
+     "category \u2208 {groceries, appliances}",
+     "merchant \u2208 {m_bigbasket, m_croma}",
+     "MCC \u2208 {5411, 5722}",
+     "step-up over \u20b98,000",
+     "amount \u2264 \u20b99,000",
+     "amount \u2264 \u20b98,000"
+    ],
+    "created_at": 1753600002,
+    "entailment_ms": 1.1695830035023391,
+    "caveat_count": 15
+   },
+   {
+    "mandate_id": "mnd_015d05c5dde2ca56",
+    "root_id": "mnd_8e5cf054aaa23722",
+    "holder": "op_hop3",
+    "parent_id": "mnd_b6a6e5cb1dc88f04",
+    "depth": 3,
+    "scope": [
+     {
+      "type": "amount_max",
+      "value": 1000000
+     },
+     {
+      "type": "cumulative_max",
+      "value": 5000000
+     },
+     {
+      "type": "category_allow",
+      "values": [
+       "groceries",
+       "appliances"
+      ]
+     },
+     {
+      "type": "merchant_allow",
+      "values": [
+       "m_bigbasket",
+       "m_croma"
+      ]
+     },
+     {
+      "type": "mcc_allow",
+      "values": [
+       5411,
+       5722
+      ]
+     },
+     {
+      "type": "step_up_over",
+      "value": 800000
+     },
+     {
+      "type": "amount_max",
+      "value": 900000
+     },
+     {
+      "type": "amount_max",
+      "value": 800000
+     },
+     {
+      "type": "amount_max",
+      "value": 700000
+     }
+    ],
+    "scope_display": [
+     "amount \u2264 \u20b910,000",
+     "cumulative \u2264 \u20b950,000",
+     "category \u2208 {groceries, appliances}",
+     "merchant \u2208 {m_bigbasket, m_croma}",
+     "MCC \u2208 {5411, 5722}",
+     "step-up over \u20b98,000",
+     "amount \u2264 \u20b99,000",
+     "amount \u2264 \u20b98,000",
+     "amount \u2264 \u20b97,000"
+    ],
+    "created_at": 1753600003,
+    "entailment_ms": 1.2513750116340816,
+    "caveat_count": 18
+   },
+   {
+    "mandate_id": "mnd_7197dca18220fe35",
+    "root_id": "mnd_8e5cf054aaa23722",
+    "holder": "op_hop4",
+    "parent_id": "mnd_015d05c5dde2ca56",
+    "depth": 4,
+    "scope": [
+     {
+      "type": "amount_max",
+      "value": 1000000
+     },
+     {
+      "type": "cumulative_max",
+      "value": 5000000
+     },
+     {
+      "type": "category_allow",
+      "values": [
+       "groceries",
+       "appliances"
+      ]
+     },
+     {
+      "type": "merchant_allow",
+      "values": [
+       "m_bigbasket",
+       "m_croma"
+      ]
+     },
+     {
+      "type": "mcc_allow",
+      "values": [
+       5411,
+       5722
+      ]
+     },
+     {
+      "type": "step_up_over",
+      "value": 800000
+     },
+     {
+      "type": "amount_max",
+      "value": 900000
+     },
+     {
+      "type": "amount_max",
+      "value": 800000
+     },
+     {
+      "type": "amount_max",
+      "value": 700000
+     },
+     {
+      "type": "amount_max",
+      "value": 600000
+     }
+    ],
+    "scope_display": [
+     "amount \u2264 \u20b910,000",
+     "cumulative \u2264 \u20b950,000",
+     "category \u2208 {groceries, appliances}",
+     "merchant \u2208 {m_bigbasket, m_croma}",
+     "MCC \u2208 {5411, 5722}",
+     "step-up over \u20b98,000",
+     "amount \u2264 \u20b99,000",
+     "amount \u2264 \u20b98,000",
+     "amount \u2264 \u20b97,000",
+     "amount \u2264 \u20b96,000"
+    ],
+    "created_at": 1753600004,
+    "entailment_ms": 1.2536669964902103,
+    "caveat_count": 21
+   }
+  ],
+  "revocation": {
+   "root_id": "mnd_8e5cf054aaa23722",
+   "revoked_at": 1753600011,
+   "cause": "cardholder tapped revoke",
+   "actor": "cardholder",
+   "rows_written": 1,
+   "descendants_killed": 4,
+   "deepest_depth": 4,
+   "containment_ms": 0.181,
+   "discharge_ttl_s": 2,
+   "before": {
+    "txn_id": "txn_c5ca9db21e5e",
+    "outcome": "ALLOW",
+    "headline": "ALLOW \u20b94,000",
+    "reason_codes": [],
+    "violations": [],
+    "verdict": "WITHIN_MANDATE",
+    "liable_party": "cardholder",
+    "mandate_id": "mnd_7197dca18220fe35",
+    "root_id": "mnd_8e5cf054aaa23722",
+    "holder": "op_hop4",
+    "intent_hash": "2d031621179f2fc372205548134af5d67032de19c6d84cf0b59762a154b07f2b",
+    "cart_hash": "2d031621179f2fc372205548134af5d67032de19c6d84cf0b59762a154b07f2b",
+    "diff": {
+     "diverged": false,
+     "added": [],
+     "removed": [],
+     "modified": [],
+     "merchant_changed": null,
+     "intent_total": 400000,
+     "executed_total": 400000,
+     "delta": 0,
+     "added_value": 0,
+     "summary": "cart matches signed intent"
+    },
+    "amount": 400000,
+    "amount_display": "\u20b94,000",
+    "elapsed_ms": 0.365,
+    "ledger_seq": 12,
+    "ts": 1753600010,
+    "step_up_challenge_id": null,
+    "notes": []
+   },
+   "after": {
+    "txn_id": "txn_8b1eb0fb8afb",
+    "outcome": "DENY",
+    "headline": "DENY / MANDATE_REVOKED",
+    "reason_codes": [
+     "MANDATE_REVOKED"
+    ],
+    "violations": [],
+    "verdict": "AGENT_ERROR",
+    "liable_party": "amex (Agent Purchase Protection)",
+    "mandate_id": "mnd_7197dca18220fe35",
+    "root_id": "mnd_8e5cf054aaa23722",
+    "holder": "op_hop4",
+    "intent_hash": "2d031621179f2fc372205548134af5d67032de19c6d84cf0b59762a154b07f2b",
+    "cart_hash": "2d031621179f2fc372205548134af5d67032de19c6d84cf0b59762a154b07f2b",
+    "diff": {
+     "diverged": false,
+     "added": [],
+     "removed": [],
+     "modified": [],
+     "merchant_changed": null,
+     "intent_total": 400000,
+     "executed_total": 400000,
+     "delta": 0,
+     "added_value": 0,
+     "summary": "cart matches signed intent"
+    },
+    "amount": 400000,
+    "amount_display": "\u20b94,000",
+    "elapsed_ms": 0.105,
+    "ledger_seq": 14,
+    "ts": 1753600012,
+    "step_up_challenge_id": null,
+    "notes": [
+     "root revoked at 1753600011 by cardholder: cardholder tapped revoke"
+    ]
+   }
+  },
+  "ledger_root": "49c7424c8e24935713bac2ea76321827d5dbec649c08eb0f09376059387b9563",
+  "ledger_size": 15
+ },
+ "step_up": {
+  "scenario": "step_up",
+  "label": "Step-up discharge",
+  "narrative": "Over threshold: a discharge bound to one cart hash. Second factor, unique to the transaction.",
+  "intent_cart": {
+   "merchant": "m_croma",
+   "currency": "INR",
+   "lines": [
+    {
+     "sku": "sku_fridge_01",
+     "description": "Refrigerator 240L",
+     "amount": 950000,
+     "mcc": 5722,
+     "category": "appliances",
+     "qty": 1
+    }
+   ]
+  },
+  "executed_cart": {
+   "merchant": "m_croma",
+   "currency": "INR",
+   "lines": [
+    {
+     "sku": "sku_fridge_01",
+     "description": "Refrigerator 240L",
+     "amount": 950000,
+     "mcc": 5722,
+     "category": "appliances",
+     "qty": 1
+    }
+   ]
+  },
+  "step_up": {
+   "challenge": {
+    "challenge_id": "chg_5d7ad9915e5d",
+    "root_id": "mnd_6984cdef1cb6d61b",
+    "mandate_id": "mnd_6984cdef1cb6d61b",
+    "cart_hash": "fd15bf662d37de99bce506f3c95f7b72d9ce1826943b0192089a0b32a4f9a999",
+    "amount": 950000,
+    "created_at": 1753600010,
+    "expires_at": 1753600130,
+    "satisfied": true,
+    "satisfied_at": 1753600020,
+    "method": "passkey"
+   },
+   "first": {
+    "txn_id": "txn_00711e33f0a2",
+    "outcome": "STEP_UP",
+    "headline": "STEP_UP / STEP_UP_REQUIRED",
+    "reason_codes": [
+     "STEP_UP_REQUIRED"
+    ],
+    "violations": [
+     {
+      "reason": "STEP_UP_REQUIRED",
+      "detail": "amount \u20b99,500 is over the step-up threshold \u20b98,000",
+      "constraint": {
+       "type": "step_up_over",
+       "value": 800000
+      }
+     }
+    ],
+    "verdict": "WITHIN_MANDATE",
+    "liable_party": "cardholder",
+    "mandate_id": "mnd_6984cdef1cb6d61b",
+    "root_id": "mnd_6984cdef1cb6d61b",
+    "holder": "op_shopbot",
+    "intent_hash": "fd15bf662d37de99bce506f3c95f7b72d9ce1826943b0192089a0b32a4f9a999",
+    "cart_hash": "fd15bf662d37de99bce506f3c95f7b72d9ce1826943b0192089a0b32a4f9a999",
+    "diff": {
+     "diverged": false,
+     "added": [],
+     "removed": [],
+     "modified": [],
+     "merchant_changed": null,
+     "intent_total": 950000,
+     "executed_total": 950000,
+     "delta": 0,
+     "added_value": 0,
+     "summary": "cart matches signed intent"
+    },
+    "amount": 950000,
+    "amount_display": "\u20b99,500",
+    "elapsed_ms": 0.213,
+    "ledger_seq": 4,
+    "ts": 1753600010,
+    "step_up_challenge_id": "chg_5d7ad9915e5d",
+    "notes": [
+     "step-up challenge chg_5d7ad9915e5d bound to cart fd15bf662d37\u2026"
+    ]
+   },
+   "second": {
+    "txn_id": "txn_178b702c76cf",
+    "outcome": "ALLOW",
+    "headline": "ALLOW \u20b99,500",
+    "reason_codes": [],
+    "violations": [],
+    "verdict": "WITHIN_MANDATE",
+    "liable_party": "cardholder",
+    "mandate_id": "mnd_6984cdef1cb6d61b",
+    "root_id": "mnd_6984cdef1cb6d61b",
+    "holder": "op_shopbot",
+    "intent_hash": "fd15bf662d37de99bce506f3c95f7b72d9ce1826943b0192089a0b32a4f9a999",
+    "cart_hash": "fd15bf662d37de99bce506f3c95f7b72d9ce1826943b0192089a0b32a4f9a999",
+    "diff": {
+     "diverged": false,
+     "added": [],
+     "removed": [],
+     "modified": [],
+     "merchant_changed": null,
+     "intent_total": 950000,
+     "executed_total": 950000,
+     "delta": 0,
+     "added_value": 0,
+     "summary": "cart matches signed intent"
+    },
+    "amount": 950000,
+    "amount_display": "\u20b99,500",
+    "elapsed_ms": 0.21,
+    "ledger_seq": 6,
+    "ts": 1753600021,
+    "step_up_challenge_id": null,
+    "notes": [
+     "step-up satisfied at 1753600020 via passkey, bound to cart fd15bf662d37\u2026"
+    ]
+   }
+  },
+  "governed": {
+   "txn_id": "txn_178b702c76cf",
+   "outcome": "ALLOW",
+   "headline": "ALLOW \u20b99,500",
+   "reason_codes": [],
+   "violations": [],
+   "verdict": "WITHIN_MANDATE",
+   "liable_party": "cardholder",
+   "mandate_id": "mnd_6984cdef1cb6d61b",
+   "root_id": "mnd_6984cdef1cb6d61b",
+   "holder": "op_shopbot",
+   "intent_hash": "fd15bf662d37de99bce506f3c95f7b72d9ce1826943b0192089a0b32a4f9a999",
+   "cart_hash": "fd15bf662d37de99bce506f3c95f7b72d9ce1826943b0192089a0b32a4f9a999",
+   "diff": {
+    "diverged": false,
+    "added": [],
+    "removed": [],
+    "modified": [],
+    "merchant_changed": null,
+    "intent_total": 950000,
+    "executed_total": 950000,
+    "delta": 0,
+    "added_value": 0,
+    "summary": "cart matches signed intent"
+   },
+   "amount": 950000,
+   "amount_display": "\u20b99,500",
+   "elapsed_ms": 0.21,
+   "ledger_seq": 6,
+   "ts": 1753600021,
+   "step_up_challenge_id": null,
+   "notes": [
+    "step-up satisfied at 1753600020 via passkey, bound to cart fd15bf662d37\u2026"
+   ]
+  },
+  "mandate": {
+   "mandate_id": "mnd_6984cdef1cb6d61b",
+   "root_id": "mnd_6984cdef1cb6d61b",
+   "holder": "op_shopbot",
+   "parent_id": null,
+   "depth": 0,
+   "scope": [
+    {
+     "type": "amount_max",
+     "value": 1000000
+    },
+    {
+     "type": "cumulative_max",
+     "value": 5000000
+    },
+    {
+     "type": "category_allow",
+     "values": [
+      "groceries",
+      "appliances"
+     ]
+    },
+    {
+     "type": "merchant_allow",
+     "values": [
+      "m_bigbasket",
+      "m_croma"
+     ]
+    },
+    {
+     "type": "mcc_allow",
+     "values": [
+      5411,
+      5722
+     ]
+    },
+    {
+     "type": "step_up_over",
+     "value": 800000
+    }
+   ],
+   "scope_display": [
+    "amount \u2264 \u20b910,000",
+    "cumulative \u2264 \u20b950,000",
+    "category \u2208 {groceries, appliances}",
+    "merchant \u2208 {m_bigbasket, m_croma}",
+    "MCC \u2208 {5411, 5722}",
+    "step-up over \u20b98,000"
+   ],
+   "created_at": 1753600000,
+   "entailment_ms": null,
+   "caveat_count": 9
+  },
+  "ledger_root": "7c14c970279fa17252a73bb0da6af8f52c740fd1aadaf6510c3a6cfa9a28db2c",
+  "ledger_size": 7
+ },
+ "evidence_sample": {
+  "txn_id": "txn_6cee9ab5d38a",
+  "issued_at": 1753600012,
+  "decision": {
+   "txn_id": "txn_6cee9ab5d38a",
+   "outcome": "DENY",
+   "headline": "DENY / MANDATE_CART_DIVERGENCE",
+   "reason_codes": [
+    "MANDATE_CART_DIVERGENCE",
+    "AMOUNT_EXCEEDED",
+    "CUMULATIVE_BUDGET_EXCEEDED",
+    "CATEGORY_NOT_ALLOWED",
+    "MCC_NOT_ALLOWED",
+    "STEP_UP_REQUIRED"
+   ],
+   "violations": [
+    {
+     "reason": "AMOUNT_EXCEEDED",
+     "detail": "amount \u20b955,200 exceeds per-transaction cap \u20b910,000",
+     "constraint": {
+      "type": "amount_max",
+      "value": 1000000
+     }
+    },
+    {
+     "reason": "CUMULATIVE_BUDGET_EXCEEDED",
+     "detail": "cumulative spend \u20b955,200 exceeds budget \u20b950,000",
+     "constraint": {
+      "type": "cumulative_max",
+      "value": 5000000
+     }
+    },
+    {
+     "reason": "CATEGORY_NOT_ALLOWED",
+     "detail": "category 'stored_value' is not in the allowlist [groceries, appliances]",
+     "constraint": {
+      "type": "category_allow",
+      "values": [
+       "groceries",
+       "appliances"
+      ]
+     }
+    },
+    {
+     "reason": "MCC_NOT_ALLOWED",
+     "detail": "MCC '6540' is not in the allowlist [5411, 5722]",
+     "constraint": {
+      "type": "mcc_allow",
+      "values": [
+       5411,
+       5722
+      ]
+     }
+    },
+    {
+     "reason": "STEP_UP_REQUIRED",
+     "detail": "amount \u20b955,200 is over the step-up threshold \u20b98,000",
+     "constraint": {
+      "type": "step_up_over",
+      "value": 800000
+     }
+    }
+   ],
+   "verdict": "INJECTION_COMPROMISE",
+   "liable_party": "fraud \u2014 cardholder not liable, merchant held harmless",
+   "mandate_id": "mnd_65f4b9d381a30a67",
+   "root_id": "mnd_65f4b9d381a30a67",
+   "holder": "op_shopbot",
+   "intent_hash": "fb57db7a9d7d9ee620344150fefc8cbfc98287676708a61171b8ee8f72e912f8",
+   "cart_hash": "a16d78e1bcc02d80f3e5cc0162481705b5062aada95539917a08cd7d12e7781c",
+   "diff": {
+    "diverged": true,
+    "added": [
+     {
+      "sku": "sku_giftcard_00",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_01",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_02",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_03",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_04",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_05",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_06",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_07",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_08",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     },
+     {
+      "sku": "sku_giftcard_09",
+      "description": "Rs 5,000 stored-value gift card",
+      "amount": 500000,
+      "mcc": 6540,
+      "category": "stored_value",
+      "qty": 1
+     }
+    ],
+    "removed": [],
+    "modified": [],
+    "merchant_changed": null,
+    "intent_total": 520000,
+    "executed_total": 5520000,
+    "delta": 5000000,
+    "added_value": 5000000,
+    "summary": "10 line(s) added worth \u20b950,000; total \u20b95,200 \u2192 \u20b955,200"
+   },
+   "amount": 5520000,
+   "amount_display": "\u20b955,200",
+   "elapsed_ms": 0.263,
+   "ledger_seq": 5,
+   "ts": 1753600010,
+   "step_up_challenge_id": null,
+   "notes": [
+    "10 line(s) added worth \u20b950,000; total \u20b95,200 \u2192 \u20b955,200"
+   ]
+  },
+  "mandate_chain": [
+   {
+    "mandate_id": "mnd_65f4b9d381a30a67",
+    "root_id": "mnd_65f4b9d381a30a67",
+    "holder": "op_shopbot",
+    "parent_id": null,
+    "depth": 0,
+    "scope": [
+     {
+      "type": "amount_max",
+      "value": 1000000
+     },
+     {
+      "type": "cumulative_max",
+      "value": 5000000
+     },
+     {
+      "type": "category_allow",
+      "values": [
+       "groceries",
+       "appliances"
+      ]
+     },
+     {
+      "type": "merchant_allow",
+      "values": [
+       "m_bigbasket",
+       "m_croma"
+      ]
+     },
+     {
+      "type": "mcc_allow",
+      "values": [
+       5411,
+       5722
+      ]
+     },
+     {
+      "type": "step_up_over",
+      "value": 800000
+     }
+    ],
+    "scope_display": [
+     "amount \u2264 \u20b910,000",
+     "cumulative \u2264 \u20b950,000",
+     "category \u2208 {groceries, appliances}",
+     "merchant \u2208 {m_bigbasket, m_croma}",
+     "MCC \u2208 {5411, 5722}",
+     "step-up over \u20b98,000"
+    ],
+    "created_at": 1753600000,
+    "entailment_ms": null,
+    "caveat_count": 9
+   },
+   {
+    "mandate_id": "mnd_0fe0dc181c971ba1",
+    "root_id": "mnd_65f4b9d381a30a67",
+    "holder": "op_pricechecker",
+    "parent_id": "mnd_65f4b9d381a30a67",
+    "depth": 1,
+    "scope": [
+     {
+      "type": "amount_max",
+      "value": 1000000
+     },
+     {
+      "type": "cumulative_max",
+      "value": 5000000
+     },
+     {
+      "type": "category_allow",
+      "values": [
+       "groceries",
+       "appliances"
+      ]
+     },
+     {
+      "type": "merchant_allow",
+      "values": [
+       "m_bigbasket",
+       "m_croma"
+      ]
+     },
+     {
+      "type": "mcc_allow",
+      "values": [
+       5411,
+       5722
+      ]
+     },
+     {
+      "type": "step_up_over",
+      "value": 800000
+     },
+     {
+      "type": "amount_max",
+      "value": 600000
+     }
+    ],
+    "scope_display": [
+     "amount \u2264 \u20b910,000",
+     "cumulative \u2264 \u20b950,000",
+     "category \u2208 {groceries, appliances}",
+     "merchant \u2208 {m_bigbasket, m_croma}",
+     "MCC \u2208 {5411, 5722}",
+     "step-up over \u20b98,000",
+     "amount \u2264 \u20b96,000"
+    ],
+    "created_at": 1753600001,
+    "entailment_ms": 1.253833994269371,
+    "caveat_count": 12
+   }
+  ],
+  "intent_cart": {
+   "merchant": "m_croma",
+   "currency": "INR",
+   "lines": [
+    {
+     "sku": "sku_espresso_01",
+     "description": "Budget espresso machine",
+     "amount": 400000,
+     "mcc": 5722,
+     "category": "appliances",
+     "qty": 1
+    },
+    {
+     "sku": "sku_beans_01",
+     "description": "Arabica beans 1kg",
+     "amount": 120000,
+     "mcc": 5411,
+     "category": "groceries",
+     "qty": 1
+    }
+   ]
+  },
+  "executed_cart": {
+   "merchant": "m_croma",
+   "currency": "INR",
+   "lines": [
+    {
+     "sku": "sku_espresso_01",
+     "description": "Budget espresso machine",
+     "amount": 400000,
+     "mcc": 5722,
+     "category": "appliances",
+     "qty": 1
+    },
+    {
+     "sku": "sku_beans_01",
+     "description": "Arabica beans 1kg",
+     "amount": 120000,
+     "mcc": 5411,
+     "category": "groceries",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_00",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_01",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_02",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_03",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_04",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_05",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_06",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_07",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_08",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_09",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    }
+   ]
+  },
+  "diff": {
+   "diverged": true,
+   "added": [
+    {
+     "sku": "sku_giftcard_00",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_01",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_02",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_03",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_04",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_05",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_06",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_07",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_08",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    },
+    {
+     "sku": "sku_giftcard_09",
+     "description": "Rs 5,000 stored-value gift card",
+     "amount": 500000,
+     "mcc": 6540,
+     "category": "stored_value",
+     "qty": 1
+    }
+   ],
+   "removed": [],
+   "modified": [],
+   "merchant_changed": null,
+   "intent_total": 520000,
+   "executed_total": 5520000,
+   "delta": 5000000,
+   "added_value": 5000000,
+   "summary": "10 line(s) added worth \u20b950,000; total \u20b95,200 \u2192 \u20b955,200"
+  },
+  "decision_chain": [
+   {
+    "seq": 5,
+    "kind": "decision",
+    "payload": {
+     "txn_id": "txn_6cee9ab5d38a",
+     "outcome": "DENY",
+     "reason_codes": [
+      "MANDATE_CART_DIVERGENCE",
+      "AMOUNT_EXCEEDED",
+      "CUMULATIVE_BUDGET_EXCEEDED",
+      "CATEGORY_NOT_ALLOWED",
+      "MCC_NOT_ALLOWED",
+      "STEP_UP_REQUIRED"
+     ],
+     "verdict": "INJECTION_COMPROMISE",
+     "mandate_id": "mnd_65f4b9d381a30a67",
+     "root_id": "mnd_65f4b9d381a30a67",
+     "holder": "op_shopbot",
+     "intent_hash": "fb57db7a9d7d9ee620344150fefc8cbfc98287676708a61171b8ee8f72e912f8",
+     "cart_hash": "a16d78e1bcc02d80f3e5cc0162481705b5062aada95539917a08cd7d12e7781c",
+     "amount": 5520000,
+     "diff": {
+      "diverged": true,
+      "added": [
+       {
+        "sku": "sku_giftcard_00",
+        "description": "Rs 5,000 stored-value gift card",
+        "amount": 500000,
+        "mcc": 6540,
+        "category": "stored_value",
+        "qty": 1
+       },
+       {
+        "sku": "sku_giftcard_01",
+        "description": "Rs 5,000 stored-value gift card",
+        "amount": 500000,
+        "mcc": 6540,
+        "category": "stored_value",
+        "qty": 1
+       },
+       {
+        "sku": "sku_giftcard_02",
+        "description": "Rs 5,000 stored-value gift card",
+        "amount": 500000,
+        "mcc": 6540,
+        "category": "stored_value",
+        "qty": 1
+       },
+       {
+        "sku": "sku_giftcard_03",
+        "description": "Rs 5,000 stored-value gift card",
+        "amount": 500000,
+        "mcc": 6540,
+        "category": "stored_value",
+        "qty": 1
+       },
+       {
+        "sku": "sku_giftcard_04",
+        "description": "Rs 5,000 stored-value gift card",
+        "amount": 500000,
+        "mcc": 6540,
+        "category": "stored_value",
+        "qty": 1
+       },
+       {
+        "sku": "sku_giftcard_05",
+        "description": "Rs 5,000 stored-value gift card",
+        "amount": 500000,
+        "mcc": 6540,
+        "category": "stored_value",
+        "qty": 1
+       },
+       {
+        "sku": "sku_giftcard_06",
+        "description": "Rs 5,000 stored-value gift card",
+        "amount": 500000,
+        "mcc": 6540,
+        "category": "stored_value",
+        "qty": 1
+       },
+       {
+        "sku": "sku_giftcard_07",
+        "description": "Rs 5,000 stored-value gift card",
+        "amount": 500000,
+        "mcc": 6540,
+        "category": "stored_value",
+        "qty": 1
+       },
+       {
+        "sku": "sku_giftcard_08",
+        "description": "Rs 5,000 stored-value gift card",
+        "amount": 500000,
+        "mcc": 6540,
+        "category": "stored_value",
+        "qty": 1
+       },
+       {
+        "sku": "sku_giftcard_09",
+        "description": "Rs 5,000 stored-value gift card",
+        "amount": 500000,
+        "mcc": 6540,
+        "category": "stored_value",
+        "qty": 1
+       }
+      ],
+      "removed": [],
+      "modified": [],
+      "merchant_changed": null,
+      "intent_total": 520000,
+      "executed_total": 5520000,
+      "delta": 5000000,
+      "added_value": 5000000,
+      "summary": "10 line(s) added worth \u20b950,000; total \u20b95,200 \u2192 \u20b955,200"
+     },
+     "violations": [
+      {
+       "reason": "AMOUNT_EXCEEDED",
+       "detail": "amount \u20b955,200 exceeds per-transaction cap \u20b910,000",
+       "constraint": {
+        "type": "amount_max",
+        "value": 1000000
+       }
+      },
+      {
+       "reason": "CUMULATIVE_BUDGET_EXCEEDED",
+       "detail": "cumulative spend \u20b955,200 exceeds budget \u20b950,000",
+       "constraint": {
+        "type": "cumulative_max",
+        "value": 5000000
+       }
+      },
+      {
+       "reason": "CATEGORY_NOT_ALLOWED",
+       "detail": "category 'stored_value' is not in the allowlist [groceries, appliances]",
+       "constraint": {
+        "type": "category_allow",
+        "values": [
+         "groceries",
+         "appliances"
+        ]
+       }
+      },
+      {
+       "reason": "MCC_NOT_ALLOWED",
+       "detail": "MCC '6540' is not in the allowlist [5411, 5722]",
+       "constraint": {
+        "type": "mcc_allow",
+        "values": [
+         5411,
+         5722
+        ]
+       }
+      },
+      {
+       "reason": "STEP_UP_REQUIRED",
+       "detail": "amount \u20b955,200 is over the step-up threshold \u20b98,000",
+       "constraint": {
+        "type": "step_up_over",
+        "value": 800000
+       }
+      }
+     ]
+    },
+    "prev_hash": "ccfe401c4465ee484c5d0e600a093cd656450b2bec5fec072e7a2e061f935d99",
+    "entry_hash": "bd8aab02655390bfd6d4a15849ccd7f4ee3d98af737f375098591a0703165030",
+    "leaf_hash": "3240db5ed28ad297f38be034f865d1f3cf45b6720411bbf1a4f9b1e04908199a",
+    "ts": 1753600010
+   }
+  ],
+  "inclusion_proof": {
+   "index": 5,
+   "leaf_hash": "3240db5ed28ad297f38be034f865d1f3cf45b6720411bbf1a4f9b1e04908199a",
+   "root": "1c4d7f7fac942e728b64d47458f89178b8d62538b7f71dcf05acbb9087243e1a",
+   "tree_size": 6,
+   "path": [
+    {
+     "side": "left",
+     "hash": "83ab302c7993e45a73b0227f59bea5aefcf914d84cf2ebbfc08baea90d8e939f"
+    },
+    {
+     "side": "left",
+     "hash": "b55d3c78cc94b9f6b9e3a8f75aabac7336da72e37af487b8882d0b54c7c7be38"
+    }
+   ]
+  },
+  "proof_verified": true,
+  "chain_verified": true,
+  "chain_error": null,
+  "ledger_root": "1c4d7f7fac942e728b64d47458f89178b8d62538b7f71dcf05acbb9087243e1a",
+  "ledger_size": 6,
+  "verdict": "INJECTION_COMPROMISE",
+  "liable_party": "fraud \u2014 cardholder not liable, merchant held harmless",
+  "ledger_entries": [
+   {
+    "seq": 0,
+    "kind": "operator_registered",
+    "payload": {
+     "operator_id": "op_shopbot",
+     "name": "ShopBot v2.1"
+    },
+    "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "entry_hash": "32d6223d1ef706422d48d9d1edc67323dafd1311598dae8f805e3538e77c42a0",
+    "leaf_hash": "a747188d855fc5548057af7c9b1ea79f5fa4acbf06db07b7f613fb3d38406784",
+    "ts": 1753600000
+   },
+   {
+    "seq": 1,
+    "kind": "operator_registered",
+    "payload": {
+     "operator_id": "op_pricechecker",
+     "name": "PriceCheckerBot"
+    },
+    "prev_hash": "32d6223d1ef706422d48d9d1edc67323dafd1311598dae8f805e3538e77c42a0",
+    "entry_hash": "042213da30c884ef0141e567fdc55658b93a1d21ef5c1b1839c15a960ba95f9e",
+    "leaf_hash": "a619d6bfbc44feef84e937fb0dd5098cae09e684a1887b240618485e7759e57d",
+    "ts": 1753600000
+   },
+   {
+    "seq": 2,
+    "kind": "operator_registered",
+    "payload": {
+     "operator_id": "op_rogue",
+     "name": "BargainHunter (unverified)"
+    },
+    "prev_hash": "042213da30c884ef0141e567fdc55658b93a1d21ef5c1b1839c15a960ba95f9e",
+    "entry_hash": "0a9d0171697da0ef8ad0cd680d9971e051ff5ecd9a0172fc40f68a250d340108",
+    "leaf_hash": "2e3ee94cf675dc1f460ff3fd0d484afe63d6359489a506b5564b2265698039c7",
+    "ts": 1753600000
+   },
+   {
+    "seq": 3,
+    "kind": "mandate_granted",
+    "payload": {
+     "mandate_id": "mnd_65f4b9d381a30a67",
+     "root_id": "mnd_65f4b9d381a30a67",
+     "holder": "op_shopbot",
+     "scope": [
+      {
+       "type": "amount_max",
+       "value": 1000000
+      },
+      {
+       "type": "cumulative_max",
+       "value": 5000000
+      },
+      {
+       "type": "category_allow",
+       "values": [
+        "groceries",
+        "appliances"
+       ]
+      },
+      {
+       "type": "merchant_allow",
+       "values": [
+        "m_bigbasket",
+        "m_croma"
+       ]
+      },
+      {
+       "type": "mcc_allow",
+       "values": [
+        5411,
+        5722
+       ]
+      },
+      {
+       "type": "step_up_over",
+       "value": 800000
+      }
+     ],
+     "depth": 0
+    },
+    "prev_hash": "0a9d0171697da0ef8ad0cd680d9971e051ff5ecd9a0172fc40f68a250d340108",
+    "entry_hash": "17dcd7b0d66b77f05ca7cf952f01eca7c1c77af8b7c2a7a49b02d448ef3a9e07",
+    "leaf_hash": "dfb62326c57d3ca1754cf9be0ad482a0e0d51a50e4a6af2728c97b8f4549a16e",
+    "ts": 1753600000
+   },
+   {
+    "seq": 4,
+    "kind": "delegation_accepted",
+    "payload": {
+     "mandate_id": "mnd_0fe0dc181c971ba1",
+     "parent_id": "mnd_65f4b9d381a30a67",
+     "root_id": "mnd_65f4b9d381a30a67",
+     "child_holder": "op_pricechecker",
+     "declared_scope": [
+      {
+       "type": "amount_max",
+       "value": 1000000
+      },
+      {
+       "type": "cumulative_max",
+       "value": 5000000
+      },
+      {
+       "type": "category_allow",
+       "values": [
+        "groceries",
+        "appliances"
+       ]
+      },
+      {
+       "type": "merchant_allow",
+       "values": [
+        "m_bigbasket",
+        "m_croma"
+       ]
+      },
+      {
+       "type": "mcc_allow",
+       "values": [
+        5411,
+        5722
+       ]
+      },
+      {
+       "type": "step_up_over",
+       "value": 800000
+      },
+      {
+       "type": "amount_max",
+       "value": 600000
+      }
+     ],
+     "entailment": {
+      "entailed": true,
+      "elapsed_ms": 1.254,
+      "solver_result": "unsat",
+      "counterexample": null,
+      "child_scope": [
+       "amount \u2264 \u20b910,000",
+       "cumulative \u2264 \u20b950,000",
+       "category \u2208 {groceries, appliances}",
+       "merchant \u2208 {m_bigbasket, m_croma}",
+       "MCC \u2208 {5411, 5722}",
+       "step-up over \u20b98,000",
+       "amount \u2264 \u20b96,000"
+      ],
+      "parent_scope": [
+       "amount \u2264 \u20b910,000",
+       "cumulative \u2264 \u20b950,000",
+       "category \u2208 {groceries, appliances}",
+       "merchant \u2208 {m_bigbasket, m_croma}",
+       "MCC \u2208 {5411, 5722}",
+       "step-up over \u20b98,000"
+      ]
+     },
+     "depth": 1
+    },
+    "prev_hash": "17dcd7b0d66b77f05ca7cf952f01eca7c1c77af8b7c2a7a49b02d448ef3a9e07",
+    "entry_hash": "ccfe401c4465ee484c5d0e600a093cd656450b2bec5fec072e7a2e061f935d99",
+    "leaf_hash": "83ab302c7993e45a73b0227f59bea5aefcf914d84cf2ebbfc08baea90d8e939f",
+    "ts": 1753600001
+   },
+   {
+    "seq": 5,
+    "kind": "decision",
+    "payload": {
+     "txn_id": "txn_6cee9ab5d38a",
+     "outcome": "DENY",
+     "reason_codes": [
+      "MANDATE_CART_DIVERGENCE",
+      "AMOUNT_EXCEEDED",
+      "CUMULATIVE_BUDGET_EXCEEDED",
+      "CATEGORY_NOT_ALLOWED",
+      "MCC_NOT_ALLOWED",
+      "STEP_UP_REQUIRED"
+     ],
+     "verdict": "INJECTION_COMPROMISE",
+     "mandate_id": "mnd_65f4b9d381a30a67",
+     "root_id": "mnd_65f4b9d381a30a67",
+     "holder": "op_shopbot",
+     "intent_hash": "fb57db7a9d7d9ee620344150fefc8cbfc98287676708a61171b8ee8f72e912f8",
+     "cart_hash": "a16d78e1bcc02d80f3e5cc0162481705b5062aada95539917a08cd7d12e7781c",
+     "amount": 5520000,
+     "diff": {
+      "diverged": true,
+      "added": [
+       {
+        "sku": "sku_giftcard_00",
+        "description": "Rs 5,000 stored-value gift card",
+        "amount": 500000,
+        "mcc": 6540,
+        "category": "stored_value",
+        "qty": 1
+       },
+       {
+        "sku": "sku_giftcard_01",
+        "description": "Rs 5,000 stored-value gift card",
+        "amount": 500000,
+        "mcc": 6540,
+        "category": "stored_value",
+        "qty": 1
+       },
+       {
+        "sku": "sku_giftcard_02",
+        "description": "Rs 5,000 stored-value gift card",
+        "amount": 500000,
+        "mcc": 6540,
+        "category": "stored_value",
+        "qty": 1
+       },
+       {
+        "sku": "sku_giftcard_03",
+        "description": "Rs 5,000 stored-value gift card",
+        "amount": 500000,
+        "mcc": 6540,
+        "category": "stored_value",
+        "qty": 1
+       },
+       {
+        "sku": "sku_giftcard_04",
+        "description": "Rs 5,000 stored-value gift card",
+        "amount": 500000,
+        "mcc": 6540,
+        "category": "stored_value",
+        "qty": 1
+       },
+       {
+        "sku": "sku_giftcard_05",
+        "description": "Rs 5,000 stored-value gift card",
+        "amount": 500000,
+        "mcc": 6540,
+        "category": "stored_value",
+        "qty": 1
+       },
+       {
+        "sku": "sku_giftcard_06",
+        "description": "Rs 5,000 stored-value gift card",
+        "amount": 500000,
+        "mcc": 6540,
+        "category": "stored_value",
+        "qty": 1
+       },
+       {
+        "sku": "sku_giftcard_07",
+        "description": "Rs 5,000 stored-value gift card",
+        "amount": 500000,
+        "mcc": 6540,
+        "category": "stored_value",
+        "qty": 1
+       },
+       {
+        "sku": "sku_giftcard_08",
+        "description": "Rs 5,000 stored-value gift card",
+        "amount": 500000,
+        "mcc": 6540,
+        "category": "stored_value",
+        "qty": 1
+       },
+       {
+        "sku": "sku_giftcard_09",
+        "description": "Rs 5,000 stored-value gift card",
+        "amount": 500000,
+        "mcc": 6540,
+        "category": "stored_value",
+        "qty": 1
+       }
+      ],
+      "removed": [],
+      "modified": [],
+      "merchant_changed": null,
+      "intent_total": 520000,
+      "executed_total": 5520000,
+      "delta": 5000000,
+      "added_value": 5000000,
+      "summary": "10 line(s) added worth \u20b950,000; total \u20b95,200 \u2192 \u20b955,200"
+     },
+     "violations": [
+      {
+       "reason": "AMOUNT_EXCEEDED",
+       "detail": "amount \u20b955,200 exceeds per-transaction cap \u20b910,000",
+       "constraint": {
+        "type": "amount_max",
+        "value": 1000000
+       }
+      },
+      {
+       "reason": "CUMULATIVE_BUDGET_EXCEEDED",
+       "detail": "cumulative spend \u20b955,200 exceeds budget \u20b950,000",
+       "constraint": {
+        "type": "cumulative_max",
+        "value": 5000000
+       }
+      },
+      {
+       "reason": "CATEGORY_NOT_ALLOWED",
+       "detail": "category 'stored_value' is not in the allowlist [groceries, appliances]",
+       "constraint": {
+        "type": "category_allow",
+        "values": [
+         "groceries",
+         "appliances"
+        ]
+       }
+      },
+      {
+       "reason": "MCC_NOT_ALLOWED",
+       "detail": "MCC '6540' is not in the allowlist [5411, 5722]",
+       "constraint": {
+        "type": "mcc_allow",
+        "values": [
+         5411,
+         5722
+        ]
+       }
+      },
+      {
+       "reason": "STEP_UP_REQUIRED",
+       "detail": "amount \u20b955,200 is over the step-up threshold \u20b98,000",
+       "constraint": {
+        "type": "step_up_over",
+        "value": 800000
+       }
+      }
+     ]
+    },
+    "prev_hash": "ccfe401c4465ee484c5d0e600a093cd656450b2bec5fec072e7a2e061f935d99",
+    "entry_hash": "bd8aab02655390bfd6d4a15849ccd7f4ee3d98af737f375098591a0703165030",
+    "leaf_hash": "3240db5ed28ad297f38be034f865d1f3cf45b6720411bbf1a4f9b1e04908199a",
+    "ts": 1753600010
+   }
+  ]
+ },
+ "ledger_entry_sample": [
+  {
+   "seq": 0,
+   "kind": "operator_registered",
+   "payload": {
+    "operator_id": "op_shopbot",
+    "name": "ShopBot v2.1"
+   },
+   "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+   "entry_hash": "32d6223d1ef706422d48d9d1edc67323dafd1311598dae8f805e3538e77c42a0",
+   "leaf_hash": "a747188d855fc5548057af7c9b1ea79f5fa4acbf06db07b7f613fb3d38406784",
+   "ts": 1753600000
+  },
+  {
+   "seq": 1,
+   "kind": "operator_registered",
+   "payload": {
+    "operator_id": "op_pricechecker",
+    "name": "PriceCheckerBot"
+   },
+   "prev_hash": "32d6223d1ef706422d48d9d1edc67323dafd1311598dae8f805e3538e77c42a0",
+   "entry_hash": "042213da30c884ef0141e567fdc55658b93a1d21ef5c1b1839c15a960ba95f9e",
+   "leaf_hash": "a619d6bfbc44feef84e937fb0dd5098cae09e684a1887b240618485e7759e57d",
+   "ts": 1753600000
+  },
+  {
+   "seq": 2,
+   "kind": "operator_registered",
+   "payload": {
+    "operator_id": "op_rogue",
+    "name": "BargainHunter (unverified)"
+   },
+   "prev_hash": "042213da30c884ef0141e567fdc55658b93a1d21ef5c1b1839c15a960ba95f9e",
+   "entry_hash": "0a9d0171697da0ef8ad0cd680d9971e051ff5ecd9a0172fc40f68a250d340108",
+   "leaf_hash": "2e3ee94cf675dc1f460ff3fd0d484afe63d6359489a506b5564b2265698039c7",
+   "ts": 1753600000
+  },
+  {
+   "seq": 3,
+   "kind": "mandate_granted",
+   "payload": {
+    "mandate_id": "mnd_65f4b9d381a30a67",
+    "root_id": "mnd_65f4b9d381a30a67",
+    "holder": "op_shopbot",
+    "scope": [
+     {
+      "type": "amount_max",
+      "value": 1000000
+     },
+     {
+      "type": "cumulative_max",
+      "value": 5000000
+     },
+     {
+      "type": "category_allow",
+      "values": [
+       "groceries",
+       "appliances"
+      ]
+     },
+     {
+      "type": "merchant_allow",
+      "values": [
+       "m_bigbasket",
+       "m_croma"
+      ]
+     },
+     {
+      "type": "mcc_allow",
+      "values": [
+       5411,
+       5722
+      ]
+     },
+     {
+      "type": "step_up_over",
+      "value": 800000
+     }
+    ],
+    "depth": 0
+   },
+   "prev_hash": "0a9d0171697da0ef8ad0cd680d9971e051ff5ecd9a0172fc40f68a250d340108",
+   "entry_hash": "17dcd7b0d66b77f05ca7cf952f01eca7c1c77af8b7c2a7a49b02d448ef3a9e07",
+   "leaf_hash": "dfb62326c57d3ca1754cf9be0ad482a0e0d51a50e4a6af2728c97b8f4549a16e",
+   "ts": 1753600000
+  }
+ ],
+ "mandate_tree_sample": [
+  {
+   "mandate_id": "mnd_52343d88a3cf1fef",
+   "root_id": "mnd_52343d88a3cf1fef",
+   "holder": "op_shopbot",
+   "parent_id": null,
+   "depth": 0,
+   "scope": [
+    {
+     "type": "amount_max",
+     "value": 1000000
+    },
+    {
+     "type": "cumulative_max",
+     "value": 5000000
+    },
+    {
+     "type": "category_allow",
+     "values": [
+      "groceries",
+      "appliances"
+     ]
+    },
+    {
+     "type": "merchant_allow",
+     "values": [
+      "m_bigbasket",
+      "m_croma"
+     ]
+    },
+    {
+     "type": "mcc_allow",
+     "values": [
+      5411,
+      5722
+     ]
+    },
+    {
+     "type": "step_up_over",
+     "value": 800000
+    }
+   ],
+   "scope_display": [
+    "amount \u2264 \u20b910,000",
+    "cumulative \u2264 \u20b950,000",
+    "category \u2208 {groceries, appliances}",
+    "merchant \u2208 {m_bigbasket, m_croma}",
+    "MCC \u2208 {5411, 5722}",
+    "step-up over \u20b98,000"
+   ],
+   "created_at": 1753600000,
+   "entailment_ms": null,
+   "caveat_count": 9
+  },
+  {
+   "mandate_id": "mnd_e588c1cfec83cd15",
+   "root_id": "mnd_52343d88a3cf1fef",
+   "holder": "op_pricechecker",
+   "parent_id": "mnd_52343d88a3cf1fef",
+   "depth": 1,
+   "scope": [
+    {
+     "type": "amount_max",
+     "value": 1000000
+    },
+    {
+     "type": "cumulative_max",
+     "value": 5000000
+    },
+    {
+     "type": "category_allow",
+     "values": [
+      "groceries",
+      "appliances"
+     ]
+    },
+    {
+     "type": "merchant_allow",
+     "values": [
+      "m_bigbasket",
+      "m_croma"
+     ]
+    },
+    {
+     "type": "mcc_allow",
+     "values": [
+      5411,
+      5722
+     ]
+    },
+    {
+     "type": "step_up_over",
+     "value": 800000
+    },
+    {
+     "type": "amount_max",
+     "value": 200000
+    }
+   ],
+   "scope_display": [
+    "amount \u2264 \u20b910,000",
+    "cumulative \u2264 \u20b950,000",
+    "category \u2208 {groceries, appliances}",
+    "merchant \u2208 {m_bigbasket, m_croma}",
+    "MCC \u2208 {5411, 5722}",
+    "step-up over \u20b98,000",
+    "amount \u2264 \u20b92,000"
+   ],
+   "created_at": 1753600001,
+   "entailment_ms": 1.1379579664207995,
+   "caveat_count": 12
+  },
+  {
+   "mandate_id": "mnd_64b5505cea39d77c",
+   "root_id": "mnd_52343d88a3cf1fef",
+   "holder": "op_shopbot",
+   "parent_id": "mnd_52343d88a3cf1fef",
+   "depth": 1,
+   "scope": [
+    {
+     "type": "amount_max",
+     "value": 1000000
+    },
+    {
+     "type": "cumulative_max",
+     "value": 5000000
+    },
+    {
+     "type": "category_allow",
+     "values": [
+      "groceries",
+      "appliances"
+     ]
+    },
+    {
+     "type": "merchant_allow",
+     "values": [
+      "m_bigbasket",
+      "m_croma"
+     ]
+    },
+    {
+     "type": "mcc_allow",
+     "values": [
+      5411,
+      5722
+     ]
+    },
+    {
+     "type": "step_up_over",
+     "value": 800000
+    },
+    {
+     "type": "merchant_allow",
+     "values": [
+      "m_bigbasket"
+     ]
+    }
+   ],
+   "scope_display": [
+    "amount \u2264 \u20b910,000",
+    "cumulative \u2264 \u20b950,000",
+    "category \u2208 {groceries, appliances}",
+    "merchant \u2208 {m_bigbasket, m_croma}",
+    "MCC \u2208 {5411, 5722}",
+    "step-up over \u20b98,000",
+    "merchant \u2208 {m_bigbasket}"
+   ],
+   "created_at": 1753600002,
+   "entailment_ms": 1.0801659664139152,
+   "caveat_count": 12
+  },
+  {
+   "mandate_id": "mnd_3c6d9eba281f6e8c",
+   "root_id": "mnd_52343d88a3cf1fef",
+   "holder": "op_pricechecker",
+   "parent_id": "mnd_e588c1cfec83cd15",
+   "depth": 2,
+   "scope": [
+    {
+     "type": "amount_max",
+     "value": 1000000
+    },
+    {
+     "type": "cumulative_max",
+     "value": 5000000
+    },
+    {
+     "type": "category_allow",
+     "values": [
+      "groceries",
+      "appliances"
+     ]
+    },
+    {
+     "type": "merchant_allow",
+     "values": [
+      "m_bigbasket",
+      "m_croma"
+     ]
+    },
+    {
+     "type": "mcc_allow",
+     "values": [
+      5411,
+      5722
+     ]
+    },
+    {
+     "type": "step_up_over",
+     "value": 800000
+    },
+    {
+     "type": "amount_max",
+     "value": 200000
+    },
+    {
+     "type": "amount_max",
+     "value": 50000
+    }
+   ],
+   "scope_display": [
+    "amount \u2264 \u20b910,000",
+    "cumulative \u2264 \u20b950,000",
+    "category \u2208 {groceries, appliances}",
+    "merchant \u2208 {m_bigbasket, m_croma}",
+    "MCC \u2208 {5411, 5722}",
+    "step-up over \u20b98,000",
+    "amount \u2264 \u20b92,000",
+    "amount \u2264 \u20b9500"
+   ],
+   "created_at": 1753600003,
+   "entailment_ms": 1.1137500405311584,
+   "caveat_count": 15
+  }
+ ],
+ "exposure": {
+  "as_of": 1753600000,
+  "model": "modelled Agent Purchase Protection exposure \u2014 mock dataset, real arithmetic",
+  "cutoff_score": 70,
+  "total_exposure": 549685000,
+  "covered_exposure": 426685000,
+  "declined_exposure": 123000000,
+  "expected_loss": 388822,
+  "blended_loss_bps": 9,
+  "band_premium_bps": {
+   "PRIME": 8,
+   "STANDARD": 22,
+   "WATCH": 65,
+   "RESTRICTED": 180
+  },
+  "operators": [
+   {
+    "operator_id": "op_shopbot",
+    "name": "ShopBot v2.1",
+    "registered_at": 1735456000,
+    "risk_score": 99,
+    "band": "PRIME",
+    "premium_bps": 8,
+    "authorized_count": 1842,
+    "denied_count": 2,
+    "step_up_count": 61,
+    "divergence_count": 0,
+    "injection_count": 0,
+    "escalation_attempts": 0,
+    "authorized_volume": 74820000,
+    "modelled_exposure": 74820000,
+    "expected_loss": 59856,
+    "covered": true
+   },
+   {
+    "operator_id": "op_pricechecker",
+    "name": "PriceCheckerBot",
+    "registered_at": 1740294400,
+    "risk_score": 98,
+    "band": "PRIME",
+    "premium_bps": 8,
+    "authorized_count": 903,
+    "denied_count": 1,
+    "step_up_count": 0,
+    "divergence_count": 0,
+    "injection_count": 0,
+    "escalation_attempts": 0,
+    "authorized_volume": 21140000,
+    "modelled_exposure": 21140000,
+    "expected_loss": 16912,
+    "covered": true
+   },
+   {
+    "operator_id": "op_pantry",
+    "name": "PantryRefill Agent",
+    "registered_at": 1742195200,
+    "risk_score": 100,
+    "band": "PRIME",
+    "premium_bps": 8,
+    "authorized_count": 2610,
+    "denied_count": 1,
+    "step_up_count": 12,
+    "divergence_count": 0,
+    "injection_count": 0,
+    "escalation_attempts": 0,
+    "authorized_volume": 96355000,
+    "modelled_exposure": 96355000,
+    "expected_loss": 77084,
+    "covered": true
+   },
+   {
+    "operator_id": "op_travelmate",
+    "name": "TravelMate Concierge",
+    "registered_at": 1745305600,
+    "risk_score": 96,
+    "band": "PRIME",
+    "premium_bps": 8,
+    "authorized_count": 411,
+    "denied_count": 3,
+    "step_up_count": 44,
+    "divergence_count": 0,
+    "injection_count": 0,
+    "escalation_attempts": 0,
+    "authorized_volume": 188400000,
+    "modelled_exposure": 188400000,
+    "expected_loss": 150720,
+    "covered": true
+   },
+   {
+    "operator_id": "op_subsmgr",
+    "name": "SubscriptionKeeper",
+    "registered_at": 1745996800,
+    "risk_score": 99,
+    "band": "PRIME",
+    "premium_bps": 8,
+    "authorized_count": 1204,
+    "denied_count": 1,
+    "step_up_count": 0,
+    "divergence_count": 0,
+    "injection_count": 0,
+    "escalation_attempts": 0,
+    "authorized_volume": 12060000,
+    "modelled_exposure": 12060000,
+    "expected_loss": 9648,
+    "covered": true
+   },
+   {
+    "operator_id": "op_giftly",
+    "name": "Giftly Autobuy",
+    "registered_at": 1750057600,
+    "risk_score": 80,
+    "band": "STANDARD",
+    "premium_bps": 22,
+    "authorized_count": 188,
+    "denied_count": 14,
+    "step_up_count": 0,
+    "divergence_count": 3,
+    "injection_count": 0,
+    "escalation_attempts": 0,
+    "authorized_volume": 33910000,
+    "modelled_exposure": 33910000,
+    "expected_loss": 74602,
+    "covered": true
+   },
+   {
+    "operator_id": "op_bargain",
+    "name": "BargainHunter (unverified)",
+    "registered_at": 1752131200,
+    "risk_score": 67,
+    "band": "WATCH",
+    "premium_bps": 65,
+    "authorized_count": 96,
+    "denied_count": 11,
+    "step_up_count": 0,
+    "divergence_count": 2,
+    "injection_count": 1,
+    "escalation_attempts": 0,
+    "authorized_volume": 42300000,
+    "modelled_exposure": 42300000,
+    "expected_loss": 274950,
+    "covered": false
+   },
+   {
+    "operator_id": "op_flashcart",
+    "name": "FlashCart Sniper",
+    "registered_at": 1752822400,
+    "risk_score": 60,
+    "band": "WATCH",
+    "premium_bps": 65,
+    "authorized_count": 120,
+    "denied_count": 18,
+    "step_up_count": 0,
+    "divergence_count": 4,
+    "injection_count": 1,
+    "escalation_attempts": 0,
+    "authorized_volume": 61800000,
+    "modelled_exposure": 61800000,
+    "expected_loss": 401700,
+    "covered": false
+   },
+   {
+    "operator_id": "op_rogue",
+    "name": "NightMarket Relay",
+    "registered_at": 1753340800,
+    "risk_score": 0,
+    "band": "RESTRICTED",
+    "premium_bps": 180,
+    "authorized_count": 4,
+    "denied_count": 21,
+    "step_up_count": 0,
+    "divergence_count": 5,
+    "injection_count": 4,
+    "escalation_attempts": 3,
+    "authorized_volume": 18900000,
+    "modelled_exposure": 18900000,
+    "expected_loss": 340200,
+    "covered": false
+   }
+  ],
+  "curve": [
+   {
+    "score": 0,
+    "covered_exposure": 549685000,
+    "expected_loss": 1405672,
+    "loss_rate_bps": 25,
+    "operators": 9
+   },
+   {
+    "score": 5,
+    "covered_exposure": 530785000,
+    "expected_loss": 1065472,
+    "loss_rate_bps": 20,
+    "operators": 8
+   },
+   {
+    "score": 10,
+    "covered_exposure": 530785000,
+    "expected_loss": 1065472,
+    "loss_rate_bps": 20,
+    "operators": 8
+   },
+   {
+    "score": 15,
+    "covered_exposure": 530785000,
+    "expected_loss": 1065472,
+    "loss_rate_bps": 20,
+    "operators": 8
+   },
+   {
+    "score": 20,
+    "covered_exposure": 530785000,
+    "expected_loss": 1065472,
+    "loss_rate_bps": 20,
+    "operators": 8
+   },
+   {
+    "score": 25,
+    "covered_exposure": 530785000,
+    "expected_loss": 1065472,
+    "loss_rate_bps": 20,
+    "operators": 8
+   },
+   {
+    "score": 30,
+    "covered_exposure": 530785000,
+    "expected_loss": 1065472,
+    "loss_rate_bps": 20,
+    "operators": 8
+   },
+   {
+    "score": 35,
+    "covered_exposure": 530785000,
+    "expected_loss": 1065472,
+    "loss_rate_bps": 20,
+    "operators": 8
+   },
+   {
+    "score": 40,
+    "covered_exposure": 530785000,
+    "expected_loss": 1065472,
+    "loss_rate_bps": 20,
+    "operators": 8
+   },
+   {
+    "score": 45,
+    "covered_exposure": 530785000,
+    "expected_loss": 1065472,
+    "loss_rate_bps": 20,
+    "operators": 8
+   },
+   {
+    "score": 50,
+    "covered_exposure": 530785000,
+    "expected_loss": 1065472,
+    "loss_rate_bps": 20,
+    "operators": 8
+   },
+   {
+    "score": 55,
+    "covered_exposure": 530785000,
+    "expected_loss": 1065472,
+    "loss_rate_bps": 20,
+    "operators": 8
+   },
+   {
+    "score": 60,
+    "covered_exposure": 530785000,
+    "expected_loss": 1065472,
+    "loss_rate_bps": 20,
+    "operators": 8
+   },
+   {
+    "score": 65,
+    "covered_exposure": 468985000,
+    "expected_loss": 663772,
+    "loss_rate_bps": 14,
+    "operators": 7
+   },
+   {
+    "score": 70,
+    "covered_exposure": 426685000,
+    "expected_loss": 388822,
+    "loss_rate_bps": 9,
+    "operators": 6
+   },
+   {
+    "score": 75,
+    "covered_exposure": 426685000,
+    "expected_loss": 388822,
+    "loss_rate_bps": 9,
+    "operators": 6
+   },
+   {
+    "score": 80,
+    "covered_exposure": 426685000,
+    "expected_loss": 388822,
+    "loss_rate_bps": 9,
+    "operators": 6
+   },
+   {
+    "score": 85,
+    "covered_exposure": 392775000,
+    "expected_loss": 314220,
+    "loss_rate_bps": 8,
+    "operators": 5
+   },
+   {
+    "score": 90,
+    "covered_exposure": 392775000,
+    "expected_loss": 314220,
+    "loss_rate_bps": 8,
+    "operators": 5
+   },
+   {
+    "score": 95,
+    "covered_exposure": 392775000,
+    "expected_loss": 314220,
+    "loss_rate_bps": 8,
+    "operators": 5
+   },
+   {
+    "score": 100,
+    "covered_exposure": 96355000,
+    "expected_loss": 77084,
+    "loss_rate_bps": 8,
+    "operators": 1
+   }
+  ]
+ },
+ "operators": [
+  {
+   "operator_id": "op_shopbot",
+   "name": "ShopBot v2.1",
+   "registered_at": 1735456000,
+   "risk_score": 99,
+   "band": "PRIME",
+   "premium_bps": 8,
+   "authorized_count": 1842,
+   "denied_count": 2,
+   "step_up_count": 61,
+   "divergence_count": 0,
+   "injection_count": 0,
+   "escalation_attempts": 0,
+   "authorized_volume": 74820000,
+   "modelled_exposure": 74820000,
+   "expected_loss": 59856,
+   "covered": true
+  },
+  {
+   "operator_id": "op_pricechecker",
+   "name": "PriceCheckerBot",
+   "registered_at": 1740294400,
+   "risk_score": 98,
+   "band": "PRIME",
+   "premium_bps": 8,
+   "authorized_count": 903,
+   "denied_count": 1,
+   "step_up_count": 0,
+   "divergence_count": 0,
+   "injection_count": 0,
+   "escalation_attempts": 0,
+   "authorized_volume": 21140000,
+   "modelled_exposure": 21140000,
+   "expected_loss": 16912,
+   "covered": true
+  },
+  {
+   "operator_id": "op_pantry",
+   "name": "PantryRefill Agent",
+   "registered_at": 1742195200,
+   "risk_score": 100,
+   "band": "PRIME",
+   "premium_bps": 8,
+   "authorized_count": 2610,
+   "denied_count": 1,
+   "step_up_count": 12,
+   "divergence_count": 0,
+   "injection_count": 0,
+   "escalation_attempts": 0,
+   "authorized_volume": 96355000,
+   "modelled_exposure": 96355000,
+   "expected_loss": 77084,
+   "covered": true
+  },
+  {
+   "operator_id": "op_travelmate",
+   "name": "TravelMate Concierge",
+   "registered_at": 1745305600,
+   "risk_score": 96,
+   "band": "PRIME",
+   "premium_bps": 8,
+   "authorized_count": 411,
+   "denied_count": 3,
+   "step_up_count": 44,
+   "divergence_count": 0,
+   "injection_count": 0,
+   "escalation_attempts": 0,
+   "authorized_volume": 188400000,
+   "modelled_exposure": 188400000,
+   "expected_loss": 150720,
+   "covered": true
+  },
+  {
+   "operator_id": "op_subsmgr",
+   "name": "SubscriptionKeeper",
+   "registered_at": 1745996800,
+   "risk_score": 99,
+   "band": "PRIME",
+   "premium_bps": 8,
+   "authorized_count": 1204,
+   "denied_count": 1,
+   "step_up_count": 0,
+   "divergence_count": 0,
+   "injection_count": 0,
+   "escalation_attempts": 0,
+   "authorized_volume": 12060000,
+   "modelled_exposure": 12060000,
+   "expected_loss": 9648,
+   "covered": true
+  },
+  {
+   "operator_id": "op_giftly",
+   "name": "Giftly Autobuy",
+   "registered_at": 1750057600,
+   "risk_score": 80,
+   "band": "STANDARD",
+   "premium_bps": 22,
+   "authorized_count": 188,
+   "denied_count": 14,
+   "step_up_count": 0,
+   "divergence_count": 3,
+   "injection_count": 0,
+   "escalation_attempts": 0,
+   "authorized_volume": 33910000,
+   "modelled_exposure": 33910000,
+   "expected_loss": 74602,
+   "covered": true
+  },
+  {
+   "operator_id": "op_bargain",
+   "name": "BargainHunter (unverified)",
+   "registered_at": 1752131200,
+   "risk_score": 67,
+   "band": "WATCH",
+   "premium_bps": 65,
+   "authorized_count": 96,
+   "denied_count": 11,
+   "step_up_count": 0,
+   "divergence_count": 2,
+   "injection_count": 1,
+   "escalation_attempts": 0,
+   "authorized_volume": 42300000,
+   "modelled_exposure": 42300000,
+   "expected_loss": 274950,
+   "covered": false
+  },
+  {
+   "operator_id": "op_flashcart",
+   "name": "FlashCart Sniper",
+   "registered_at": 1752822400,
+   "risk_score": 60,
+   "band": "WATCH",
+   "premium_bps": 65,
+   "authorized_count": 120,
+   "denied_count": 18,
+   "step_up_count": 0,
+   "divergence_count": 4,
+   "injection_count": 1,
+   "escalation_attempts": 0,
+   "authorized_volume": 61800000,
+   "modelled_exposure": 61800000,
+   "expected_loss": 401700,
+   "covered": false
+  },
+  {
+   "operator_id": "op_rogue",
+   "name": "NightMarket Relay",
+   "registered_at": 1753340800,
+   "risk_score": 0,
+   "band": "RESTRICTED",
+   "premium_bps": 180,
+   "authorized_count": 4,
+   "denied_count": 21,
+   "step_up_count": 0,
+   "divergence_count": 5,
+   "injection_count": 4,
+   "escalation_attempts": 3,
+   "authorized_volume": 18900000,
+   "modelled_exposure": 18900000,
+   "expected_loss": 340200,
+   "covered": false
+  }
+ ]
+}

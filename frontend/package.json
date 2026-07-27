@@ -1,0 +1,36 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "dev:live": "VITE_CAVEAT_TRANSPORT=live vite",
+    "typecheck": "tsc -b --noEmit",
+    "typefloor": "! grep -rEno \"text-\\\\[0\\\\.([0-6][0-9]?|7[0-4]?)rem\\\\]|text-\\\\[([0-9]|1[01])px\\\\]\" src && echo 'type floor holds: nothing renders below 0.75rem'",
+    "smoke": "tsc -p tsconfig.smoke.json --noEmit && vite build --ssr scripts/smoke.tsx --outDir .smoke --logLevel error && node .smoke/smoke.js"
+  },
+  "dependencies": {
+    "@fontsource-variable/archivo": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/jsdom": "^28.0.3",
+    "@types/node": "^24.13.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "jsdom": "^29.1.1",
+    "oxlint": "^1.71.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~6.0.2",
+    "vite": "^8.1.1"
+  }
+}

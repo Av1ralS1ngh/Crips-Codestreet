@@ -1,0 +1,4598 @@
+{
+ "generated_at": 1785110400,
+ "disclosure": "Recorded output of backend/plumbline and backend/caveat at a fixed clock. Card terms are modelled from publicly published terms \u2014 there is no live Offers feed \u2014 and every remaining balance is synthetic member state, not live issuer data. One instrument, Hypothetical Bank Illustrative Reserve, is invented outright and says so on its own provenance line; it is not modelled on any real product. Signatures are HMAC under prototype keys; production signs with the issuer's HSM key.",
+ "cart": {
+  "merchant": "m_travel_desk_in",
+  "currency": "INR",
+  "lines": [
+   {
+    "sku": "in_hotel",
+    "description": "Marina Bay hotel, 3 nights, booked direct",
+    "amount": 2840000,
+    "mcc": 7011,
+    "category": "overseas_spend",
+    "qty": 3
+   },
+   {
+    "sku": "in_hotel_transit",
+    "description": "Airport transit hotel, 1 night, booked direct",
+    "amount": 620000,
+    "mcc": 7011,
+    "category": "hotel_direct",
+    "qty": 1
+   },
+   {
+    "sku": "in_flight",
+    "description": "BLR\u2013SIN return, booked direct with the airline",
+    "amount": 1420000,
+    "mcc": 3000,
+    "category": "airfare",
+    "qty": 2
+   },
+   {
+    "sku": "in_dining",
+    "description": "Dinner for four, Marina Bay",
+    "amount": 168400,
+    "mcc": 5812,
+    "category": "overseas_spend",
+    "qty": 1
+   },
+   {
+    "sku": "in_fuel",
+    "description": "Fuel, full tank before the airport drive",
+    "amount": 480000,
+    "mcc": 5541,
+    "category": "fuel",
+    "qty": 1
+   },
+   {
+    "sku": "in_retail",
+    "description": "Noise-cancelling headphones",
+    "amount": 249900,
+    "mcc": 5732,
+    "category": "india_retail",
+    "qty": 1
+   }
+  ]
+ },
+ "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+ "instruments": [
+  {
+   "instrument_id": "amex-platinum-charge-in-2026",
+   "issuer": "American Express",
+   "product": "The Platinum Card (India)",
+   "issuer_signed": true,
+   "source": "publicly published card terms as at 2026-07-27, modelled; remaining balances are SYNTHETIC member state, not live issuer data",
+   "manifest": {
+    "version": "plumbline/manifest/1",
+    "manifest_id": "amex-platinum-charge-in-2026",
+    "issuer": "American Express",
+    "product": "The Platinum Card (India)",
+    "currency": "INR",
+    "issued_at": 1785110400,
+    "source": "publicly published card terms as at 2026-07-27, modelled; remaining balances are SYNTHETIC member state, not live issuer data",
+    "benefits": [
+     {
+      "benefit_id": "amex_in_plat_earn_base",
+      "kind": "earn",
+      "label": "1 Membership Rewards point for every \u20b940 spent",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": [
+        "dining",
+        "hotel_direct",
+        "airfare",
+        "india_retail",
+        "overseas_spend"
+       ]
+      },
+      "rate_bp": 62,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": "amex_in_plat:earn",
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "1 MR per \u20b940 at \u20b90.25 per point is 0.62% and rounds down to 62 bp. Eligibility is an allow-list because the published terms exclude fuel, insurance, utilities, cash_transaction, emi_conversion; fuel is excluded here and carries its own published rate below"
+     },
+     {
+      "benefit_id": "amex_in_plat_earn_overseas_3x",
+      "kind": "earn",
+      "label": "3X Membership Rewards points on spend incurred abroad",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": [
+        "overseas_spend"
+       ]
+      },
+      "rate_bp": 187,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": "amex_in_plat:earn",
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "shares an exclusivity group with the base rate: 3X replaces 1X and is never added to it. Overseas-ness is carried on the cart line, so the manifest declares no condition its own vocabulary cannot express"
+     },
+     {
+      "benefit_id": "amex_in_plat_earn_fuel",
+      "kind": "earn",
+      "label": "5 Membership Rewards points for every \u20b9100 spent on fuel",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": [
+        "fuel"
+       ]
+      },
+      "rate_bp": 125,
+      "capacity_minor": 75000,
+      "flat_minor": 0,
+      "exclusivity_group": "amex_in_plat:earn",
+      "window": "monthly",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "published cap is 5,000 Membership Rewards Points per calendar month, carried here as value headroom. SYNTHETIC member state: 2,000 points already drawn, leaving \u20b9750. An earn benefit is never applied fractionally, so a fuel line whose earn exceeds the headroom is dropped rather than clipped, which understates"
+     },
+     {
+      "benefit_id": "amex_in_plat_taj_epicure",
+      "kind": "unpriced",
+      "label": "Taj Epicure Plus membership",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored, and stated precisely because it is the term this card is most often misquoted on: Taj Epicure Plus is a MEMBERSHIP the Cardmember enrols into, not a rupee credit. It delivers percentage privileges \u2014 25% off food and beverage at participating Taj, SeleQtions, Vivanta, Gateway and Claridges hotels, 25% off Qmin delivery, 20% off Jiva Spa treatments. American Express publishes no rupee value for it, so this manifest asserts none"
+     },
+     {
+      "benefit_id": "amex_in_plat_district_dining_offer",
+      "kind": "unpriced",
+      "label": "25% off dining on District by Zomato, Wednesdays",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: the published offer is 25% off up to \u20b95,000 per transaction and \u20b910,000 per calendar month, but it requires a coupon code, runs only on one weekday and is time-boxed to a promo window. This manifest's vocabulary can express none of those three conditions, and a benefit priced without the conditions that gate it would overstate"
+     },
+     {
+      "benefit_id": "amex_in_plat_lounge_access",
+      "kind": "unpriced",
+      "label": "1,550+ airport lounges worldwide, including The Centurion Lounge, Delta Sky Club and Priority Pass",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     },
+     {
+      "benefit_id": "amex_in_plat_hotel_programmes",
+      "kind": "unpriced",
+      "label": "Fine Hotels + Resorts, The Hotel Collection, Taj and Oberoi partner rates, and Marriott Bonvoy and Hilton Honors Gold status",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: the published figures are either an average value across stays or a discount off a rate this cart does not carry, and neither is an amount an allocation on this cart could realize"
+     },
+     {
+      "benefit_id": "amex_in_plat_milestones",
+      "kind": "unpriced",
+      "label": "Welcome gift on \u20b950,000 of net spend in the first two months, and renewal vouchers up to \u20b935,000 on \u20b920 lakh of spend in the membership year",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: both turn on a spend total over a membership period, and no allocation on one cart can realize them"
+     },
+     {
+      "benefit_id": "amex_in_plat_rewards_xcelerator",
+      "kind": "unpriced",
+      "label": "Rewards Xcelerator, up to 20X Membership Rewards at partner brands",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: member-targeted and enrollment-gated, and we model no live Offers feed and claim no access to one"
+     },
+     {
+      "benefit_id": "amex_in_plat_protections",
+      "kind": "unpriced",
+      "label": "Air accident cover, purchase protection, overseas medical and emergency assistance cover",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: pricing contingent cover needs a claims-probability assumption this system does not have and will not invent"
+     },
+     {
+      "benefit_id": "amex_in_plat_offers",
+      "kind": "unpriced",
+      "label": "Amex Offers",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: member-targeted and enrollment-gated, and we model no live Offers feed and claim no access to one"
+     }
+    ]
+   }
+  },
+  {
+   "instrument_id": "amex-platinum-travel-in-2026",
+   "issuer": "American Express",
+   "product": "Platinum Travel Credit Card (India)",
+   "issuer_signed": true,
+   "source": "publicly published card terms as at 2026-07-27, modelled; remaining balances are SYNTHETIC member state, not live issuer data",
+   "manifest": {
+    "version": "plumbline/manifest/1",
+    "manifest_id": "amex-platinum-travel-in-2026",
+    "issuer": "American Express",
+    "product": "Platinum Travel Credit Card (India)",
+    "currency": "INR",
+    "issued_at": 1785110400,
+    "source": "publicly published card terms as at 2026-07-27, modelled; remaining balances are SYNTHETIC member state, not live issuer data",
+    "benefits": [
+     {
+      "benefit_id": "amex_in_travel_earn_base",
+      "kind": "earn",
+      "label": "1 Membership Rewards point for every \u20b950 spent",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": [
+        "dining",
+        "hotel_direct",
+        "airfare",
+        "india_retail",
+        "overseas_spend"
+       ]
+      },
+      "rate_bp": 50,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": "amex_in_travel:earn",
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "1 MR per \u20b950 at \u20b90.25 per point is 0.5% and rounds down to 50 bp. Eligibility is an allow-list because the published terms exclude fuel, insurance, utilities, cash_transaction, emi_conversion. This card publishes no fuel rate, so fuel earns nothing here"
+     },
+     {
+      "benefit_id": "amex_in_travel_milestones",
+      "kind": "unpriced",
+      "label": "7,500 bonus Membership Rewards Points at \u20b91.9 lakh of spend, 10,000 at \u20b94 lakh, and 22,500 plus a Taj e-gift card worth \u20b910,000 at \u20b97 lakh",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: every threshold is measured over a membership year, and no allocation on one cart can realize any of them. This is the largest published number on the card and pricing it against a single cart would be the clearest possible way to overstate"
+     },
+     {
+      "benefit_id": "amex_in_travel_welcome",
+      "kind": "unpriced",
+      "label": "Welcome gift of 10,000 Membership Rewards Points on \u20b915,000 of spend in the first 90 days",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: it is a one-time event over an enrolment window, not value this cart realizes"
+     },
+     {
+      "benefit_id": "amex_in_travel_lounge_access",
+      "kind": "unpriced",
+      "label": "8 complimentary domestic lounge visits a year, limited to two per quarter, plus a complimentary Priority Pass membership",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     },
+     {
+      "benefit_id": "amex_in_travel_protections",
+      "kind": "unpriced",
+      "label": "Travel and purchase protections",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: pricing contingent cover needs a claims-probability assumption this system does not have and will not invent"
+     },
+     {
+      "benefit_id": "amex_in_travel_offers",
+      "kind": "unpriced",
+      "label": "Amex Offers",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: member-targeted and enrollment-gated, and we model no live Offers feed and claim no access to one"
+     }
+    ]
+   }
+  },
+  {
+   "instrument_id": "hdfc-infinia-metal-2026",
+   "issuer": "HDFC Bank",
+   "product": "Infinia Metal Edition",
+   "issuer_signed": false,
+   "source": "publicly published card terms as at 2026-07-27, modelled; remaining balances are SYNTHETIC member state, not live issuer data",
+   "manifest": {
+    "version": "plumbline/manifest/1",
+    "manifest_id": "hdfc-infinia-metal-2026",
+    "issuer": "HDFC Bank",
+    "product": "Infinia Metal Edition",
+    "currency": "INR",
+    "issued_at": 1785110400,
+    "source": "publicly published card terms as at 2026-07-27, modelled; remaining balances are SYNTHETIC member state, not live issuer data",
+    "benefits": [
+     {
+      "benefit_id": "hdfc_infinia_earn_base",
+      "kind": "earn",
+      "label": "5 Reward Points per \u20b9150 of eligible retail spend",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": [
+        "smartbuy_hotel",
+        "smartbuy_flight",
+        "india_retail",
+        "dining",
+        "hotel_direct",
+        "airfare",
+        "overseas_spend"
+       ]
+      },
+      "rate_bp": 333,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": "hdfc_infinia:earn",
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "5 RP per \u20b9150 at 1 RP = \u20b91 on SmartBuy travel redemption is 3.33% and rounds down to 333 bp. Points accrue in whole \u20b9150 blocks, which a linear rate cannot express; the modelled rate can exceed the block-rounded figure by strictly less than 5 RP on one line. Eligibility is an allow-list because the published terms pay nothing on wallet_load, fuel, rent, government, emi_conversion"
+     },
+     {
+      "benefit_id": "hdfc_infinia_earn_smartbuy_hotel_10x",
+      "kind": "earn",
+      "label": "10X Reward Points on hotels booked through SmartBuy",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": [
+        "smartbuy_hotel"
+       ]
+      },
+      "rate_bp": 3333,
+      "capacity_minor": 920000,
+      "flat_minor": 0,
+      "exclusivity_group": "hdfc_infinia:earn",
+      "window": "monthly",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "10X of the 5 RP per \u20b9150 base is 50 RP per \u20b9150, which rounds down to 3333 bp. The published cap is 15,000 accelerated Reward Points per calendar month, shared across SmartBuy categories. SYNTHETIC member state: 5,800 already drawn, leaving \u20b99,200"
+     },
+     {
+      "benefit_id": "hdfc_infinia_earn_smartbuy_flight_5x",
+      "kind": "earn",
+      "label": "5X Reward Points on flights booked through SmartBuy",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": [
+        "smartbuy_flight"
+       ]
+      },
+      "rate_bp": 1666,
+      "capacity_minor": 0,
+      "flat_minor": 0,
+      "exclusivity_group": "hdfc_infinia:earn",
+      "window": "monthly",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "5X of the base is 25 RP per \u20b9150, which rounds down to 1666 bp. Declared with zero headroom because the monthly accelerated pool is SHARED with the hotel accelerator and is carried there in full: giving each accelerator its own copy of one pool would let a cart spend it twice"
+     },
+     {
+      "benefit_id": "hdfc_infinia_lounge_access",
+      "kind": "unpriced",
+      "label": "Unlimited domestic and international airport lounge access via Priority Pass, for the primary and add-on cardholders, with no spend condition",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     },
+     {
+      "benefit_id": "hdfc_infinia_forex",
+      "kind": "unpriced",
+      "label": "2% foreign currency markup",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: a markup is a cost avoided relative to another card, not value this cart realizes, and netting it here would make the number a comparison rather than an allocation"
+     },
+     {
+      "benefit_id": "hdfc_infinia_fee_waiver",
+      "kind": "unpriced",
+      "label": "Renewal fee waived at \u20b910 lakh of annual spend",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: it turns on a full year of spend, and no allocation on one cart can realize it"
+     },
+     {
+      "benefit_id": "hdfc_infinia_service",
+      "kind": "unpriced",
+      "label": "24x7 concierge and Club Marriott membership",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     }
+    ]
+   }
+  },
+  {
+   "instrument_id": "hypothetical-illustrative-reserve",
+   "issuer": "Hypothetical Bank",
+   "product": "Illustrative Reserve",
+   "issuer_signed": false,
+   "source": "HYPOTHETICAL INSTRUMENT \u2014 invented for this demonstration. Not a real product, not modelled from any issuer's published terms, and signed by no one. It is in the candidate set because the published Indian catalogue carries no statement credits, so the case where two credits compete for one line cannot be shown from real Indian terms; attaching invented credits to a real issuer's product name is the one thing this system may never do.",
+   "manifest": {
+    "version": "plumbline/manifest/1",
+    "manifest_id": "hypothetical-illustrative-reserve",
+    "issuer": "Hypothetical Bank",
+    "product": "Illustrative Reserve",
+    "currency": "INR",
+    "issued_at": 1785110400,
+    "source": "HYPOTHETICAL INSTRUMENT \u2014 invented for this demonstration. Not a real product, not modelled from any issuer's published terms, and signed by no one. It is in the candidate set because the published Indian catalogue carries no statement credits, so the case where two credits compete for one line cannot be shown from real Indian terms; attaching invented credits to a real issuer's product name is the one thing this system may never do.",
+    "benefits": [
+     {
+      "benefit_id": "hypo_dining_credit_monthly",
+      "kind": "credit",
+      "label": "Monthly dining credit",
+      "eligibility": {
+       "mccs": [
+        5812
+       ],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": 30000,
+      "flat_minor": 0,
+      "exclusivity_group": "hypo:dining_credit",
+      "window": "monthly",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "invented figure on a hypothetical instrument; no issuer publishes this; \u20b9300 of balance against a larger dinner"
+     },
+     {
+      "benefit_id": "hypo_dining_credit_partner",
+      "kind": "credit",
+      "label": "Partner restaurant credit",
+      "eligibility": {
+       "mccs": [
+        5812
+       ],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": 20000,
+      "flat_minor": 0,
+      "exclusivity_group": "hypo:dining_credit",
+      "window": "monthly",
+      "requires_enrollment": true,
+      "enrolled": true,
+      "note": "invented figure on a hypothetical instrument; no issuer publishes this; shares an exclusivity group with the monthly dining credit, so one dinner draws at most one of them"
+     },
+     {
+      "benefit_id": "hypo_stay_credit",
+      "kind": "credit",
+      "label": "Annual stay credit",
+      "eligibility": {
+       "mccs": [
+        7011
+       ],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": 50000,
+      "flat_minor": 0,
+      "exclusivity_group": "hypo:stay_credit",
+      "window": "annual",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "invented figure on a hypothetical instrument; no issuer publishes this; \u20b9500 of balance against a much larger room charge"
+     },
+     {
+      "benefit_id": "hypo_earn_travel",
+      "kind": "earn",
+      "label": "Travel multiplier",
+      "eligibility": {
+       "mccs": [
+        7011,
+        3000
+       ],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 250,
+      "capacity_minor": 40000,
+      "flat_minor": 0,
+      "exclusivity_group": "hypo:earn",
+      "window": "annual",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "invented figure on a hypothetical instrument; no issuer publishes this; the shared annual headroom is drawn down across lines"
+     },
+     {
+      "benefit_id": "hypo_earn_base",
+      "kind": "earn",
+      "label": "Base earn",
+      "eligibility": {
+       "mccs": [
+        7011,
+        3000,
+        5812,
+        5732
+       ],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 75,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": "hypo:earn",
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "invented figure on a hypothetical instrument; no issuer publishes this; shares an exclusivity group with the travel multiplier, because a bonus rate replaces a base rate and never adds to it"
+     },
+     {
+      "benefit_id": "hypo_lounge",
+      "kind": "unpriced",
+      "label": "Lounge access",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored \u2014 and invented, like everything else on this instrument"
+     }
+    ]
+   }
+  }
+ ],
+ "valuation": {
+  "scenario_id": "india_trip_basket",
+  "label": "Three nights abroad, one dinner, one flight, one fuel stop",
+  "narrative": "The same basket, valued two ways on the same instrument. The left column adds every eligible benefit to every line it admits. The right column exhibits an allocation that actually satisfies the balances and the exclusivity groups, and asserts only what that allocation realises.",
+  "headline_instrument": "amex-platinum-charge-in-2026",
+  "instruments": [
+   {
+    "instrument_id": "amex-platinum-charge-in-2026",
+    "issuer": "American Express",
+    "product": "The Platinum Card (India)",
+    "manifest_id": "amex-platinum-charge-in-2026",
+    "manifest_hash": "69e801c5acfb302d8fbc0861872cb5bbf591abf37c77b85bd6225f626c8b855a",
+    "manifest_source": "publicly published card terms as at 2026-07-27, modelled; remaining balances are SYNTHETIC member state, not live issuer data",
+    "issuer_signed": true,
+    "signature": "1abe4fdfc8966c4448ff1af45c3b3736db03c6c9ef7a5ca47a2570bb4241326e",
+    "key_id": "plumbline-console-issuer",
+    "asserted_minor": 76454,
+    "asserted_display": "\u20b9764.54",
+    "witness": {
+     "manifest_id": "amex-platinum-charge-in-2026",
+     "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+     "assignments": [
+      {
+       "line_sku": "in_dining",
+       "benefit_id": "amex_in_plat_earn_overseas_3x",
+       "consumed_minor": 3149,
+       "value_minor": 3149
+      },
+      {
+       "line_sku": "in_flight",
+       "benefit_id": "amex_in_plat_earn_base",
+       "consumed_minor": 8804,
+       "value_minor": 8804
+      },
+      {
+       "line_sku": "in_fuel",
+       "benefit_id": "amex_in_plat_earn_fuel",
+       "consumed_minor": 6000,
+       "value_minor": 6000
+      },
+      {
+       "line_sku": "in_hotel",
+       "benefit_id": "amex_in_plat_earn_overseas_3x",
+       "consumed_minor": 53108,
+       "value_minor": 53108
+      },
+      {
+       "line_sku": "in_hotel_transit",
+       "benefit_id": "amex_in_plat_earn_base",
+       "consumed_minor": 3844,
+       "value_minor": 3844
+      },
+      {
+       "line_sku": "in_retail",
+       "benefit_id": "amex_in_plat_earn_base",
+       "consumed_minor": 1549,
+       "value_minor": 1549
+      }
+     ],
+     "realized_minor": 76454,
+     "realized_display": "\u20b9764.54"
+    },
+    "witness_hash": "e9489e52dee85ade0f5f675435a862c2517be5641202abbcd5ec95bea4615dff",
+    "verification": {
+     "ok": true,
+     "supports_assertion": true,
+     "realized_minor": 76454,
+     "realized_display": "\u20b9764.54",
+     "claimed_minor": 76454,
+     "claimed_display": "\u20b9764.54",
+     "asserted_minor": 76454,
+     "asserted_display": "\u20b9764.54",
+     "failures": []
+    },
+    "derivation": [
+     {
+      "line_sku": "in_dining",
+      "line_description": "Dinner for four, Marina Bay",
+      "line_amount": 168400,
+      "line_mcc": 5812,
+      "benefit_id": "amex_in_plat_earn_overseas_3x",
+      "benefit_label": "3X Membership Rewards points on spend incurred abroad",
+      "benefit_kind": "earn",
+      "rate_bp": 187,
+      "window": "none",
+      "exclusivity_group": "amex_in_plat:earn",
+      "consumed_minor": 3149,
+      "value_minor": 3149,
+      "value_display": "\u20b931.49",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_flight",
+      "line_description": "BLR\u2013SIN return, booked direct with the airline",
+      "line_amount": 1420000,
+      "line_mcc": 3000,
+      "benefit_id": "amex_in_plat_earn_base",
+      "benefit_label": "1 Membership Rewards point for every \u20b940 spent",
+      "benefit_kind": "earn",
+      "rate_bp": 62,
+      "window": "none",
+      "exclusivity_group": "amex_in_plat:earn",
+      "consumed_minor": 8804,
+      "value_minor": 8804,
+      "value_display": "\u20b988.04",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_fuel",
+      "line_description": "Fuel, full tank before the airport drive",
+      "line_amount": 480000,
+      "line_mcc": 5541,
+      "benefit_id": "amex_in_plat_earn_fuel",
+      "benefit_label": "5 Membership Rewards points for every \u20b9100 spent on fuel",
+      "benefit_kind": "earn",
+      "rate_bp": 125,
+      "window": "monthly",
+      "exclusivity_group": "amex_in_plat:earn",
+      "consumed_minor": 6000,
+      "value_minor": 6000,
+      "value_display": "\u20b960",
+      "capacity_before": 75000,
+      "capacity_after": 69000
+     },
+     {
+      "line_sku": "in_hotel",
+      "line_description": "Marina Bay hotel, 3 nights, booked direct",
+      "line_amount": 2840000,
+      "line_mcc": 7011,
+      "benefit_id": "amex_in_plat_earn_overseas_3x",
+      "benefit_label": "3X Membership Rewards points on spend incurred abroad",
+      "benefit_kind": "earn",
+      "rate_bp": 187,
+      "window": "none",
+      "exclusivity_group": "amex_in_plat:earn",
+      "consumed_minor": 53108,
+      "value_minor": 53108,
+      "value_display": "\u20b9531.08",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_hotel_transit",
+      "line_description": "Airport transit hotel, 1 night, booked direct",
+      "line_amount": 620000,
+      "line_mcc": 7011,
+      "benefit_id": "amex_in_plat_earn_base",
+      "benefit_label": "1 Membership Rewards point for every \u20b940 spent",
+      "benefit_kind": "earn",
+      "rate_bp": 62,
+      "window": "none",
+      "exclusivity_group": "amex_in_plat:earn",
+      "consumed_minor": 3844,
+      "value_minor": 3844,
+      "value_display": "\u20b938.44",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_retail",
+      "line_description": "Noise-cancelling headphones",
+      "line_amount": 249900,
+      "line_mcc": 5732,
+      "benefit_id": "amex_in_plat_earn_base",
+      "benefit_label": "1 Membership Rewards point for every \u20b940 spent",
+      "benefit_kind": "earn",
+      "rate_bp": 62,
+      "window": "none",
+      "exclusivity_group": "amex_in_plat:earn",
+      "consumed_minor": 1549,
+      "value_minor": 1549,
+      "value_display": "\u20b915.49",
+      "capacity_before": null,
+      "capacity_after": null
+     }
+    ],
+    "reconciliation": {
+     "naive_minor": 95106,
+     "naive_display": "\u20b9951.06",
+     "capped_minor": 95106,
+     "capped_display": "\u20b9951.06",
+     "witness_minor": 76454,
+     "witness_display": "\u20b9764.54",
+     "overstatement_minor": 18652,
+     "overstatement_display": "\u20b9186.52",
+     "capped_overstatement_minor": 18652,
+     "capped_overstatement_display": "\u20b9186.52",
+     "by_cause": [
+      {
+       "cause": "OVER_REMAINING_BALANCE",
+       "minor": 0,
+       "display": "\u20b90",
+       "visible_per_line": true
+      },
+      {
+       "cause": "STRUCK_EXCLUSIVITY_GROUP",
+       "minor": 18652,
+       "display": "\u20b9186.52",
+       "visible_per_line": false
+      },
+      {
+       "cause": "BALANCE_ALREADY_CONSUMED",
+       "minor": 0,
+       "display": "\u20b90",
+       "visible_per_line": false
+      }
+     ],
+     "rows": [
+      {
+       "line_sku": "in_hotel",
+       "line_description": "Marina Bay hotel, 3 nights, booked direct",
+       "benefit_id": "amex_in_plat_earn_base",
+       "benefit_label": "1 Membership Rewards point for every \u20b940 spent",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_plat:earn",
+       "naive_minor": 17608,
+       "capped_minor": 17608,
+       "realized_minor": 0,
+       "shortfall_minor": 17608,
+       "cause": "STRUCK_EXCLUSIVITY_GROUP",
+       "struck_by": "amex_in_plat_earn_overseas_3x"
+      },
+      {
+       "line_sku": "in_hotel_transit",
+       "line_description": "Airport transit hotel, 1 night, booked direct",
+       "benefit_id": "amex_in_plat_earn_base",
+       "benefit_label": "1 Membership Rewards point for every \u20b940 spent",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_plat:earn",
+       "naive_minor": 3844,
+       "capped_minor": 3844,
+       "realized_minor": 3844,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_flight",
+       "line_description": "BLR\u2013SIN return, booked direct with the airline",
+       "benefit_id": "amex_in_plat_earn_base",
+       "benefit_label": "1 Membership Rewards point for every \u20b940 spent",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_plat:earn",
+       "naive_minor": 8804,
+       "capped_minor": 8804,
+       "realized_minor": 8804,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_dining",
+       "line_description": "Dinner for four, Marina Bay",
+       "benefit_id": "amex_in_plat_earn_base",
+       "benefit_label": "1 Membership Rewards point for every \u20b940 spent",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_plat:earn",
+       "naive_minor": 1044,
+       "capped_minor": 1044,
+       "realized_minor": 0,
+       "shortfall_minor": 1044,
+       "cause": "STRUCK_EXCLUSIVITY_GROUP",
+       "struck_by": "amex_in_plat_earn_overseas_3x"
+      },
+      {
+       "line_sku": "in_retail",
+       "line_description": "Noise-cancelling headphones",
+       "benefit_id": "amex_in_plat_earn_base",
+       "benefit_label": "1 Membership Rewards point for every \u20b940 spent",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_plat:earn",
+       "naive_minor": 1549,
+       "capped_minor": 1549,
+       "realized_minor": 1549,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_hotel",
+       "line_description": "Marina Bay hotel, 3 nights, booked direct",
+       "benefit_id": "amex_in_plat_earn_overseas_3x",
+       "benefit_label": "3X Membership Rewards points on spend incurred abroad",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_plat:earn",
+       "naive_minor": 53108,
+       "capped_minor": 53108,
+       "realized_minor": 53108,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_dining",
+       "line_description": "Dinner for four, Marina Bay",
+       "benefit_id": "amex_in_plat_earn_overseas_3x",
+       "benefit_label": "3X Membership Rewards points on spend incurred abroad",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_plat:earn",
+       "naive_minor": 3149,
+       "capped_minor": 3149,
+       "realized_minor": 3149,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_fuel",
+       "line_description": "Fuel, full tank before the airport drive",
+       "benefit_id": "amex_in_plat_earn_fuel",
+       "benefit_label": "5 Membership Rewards points for every \u20b9100 spent on fuel",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_plat:earn",
+       "naive_minor": 6000,
+       "capped_minor": 6000,
+       "realized_minor": 6000,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      }
+     ]
+    },
+    "collisions": [
+     {
+      "line_sku": "in_dining",
+      "line_description": "Dinner for four, Marina Bay",
+      "line_amount": 168400,
+      "exclusivity_group": "amex_in_plat:earn",
+      "winner": {
+       "benefit_id": "amex_in_plat_earn_overseas_3x",
+       "label": "3X Membership Rewards points on spend incurred abroad",
+       "value_minor": 3149,
+       "value_display": "\u20b931.49",
+       "capacity_minor": null
+      },
+      "struck": [
+       {
+        "benefit_id": "amex_in_plat_earn_base",
+        "label": "1 Membership Rewards point for every \u20b940 spent",
+        "value_minor": 1044,
+        "value_display": "\u20b910.44",
+        "capacity_minor": null
+       }
+      ]
+     },
+     {
+      "line_sku": "in_hotel",
+      "line_description": "Marina Bay hotel, 3 nights, booked direct",
+      "line_amount": 2840000,
+      "exclusivity_group": "amex_in_plat:earn",
+      "winner": {
+       "benefit_id": "amex_in_plat_earn_overseas_3x",
+       "label": "3X Membership Rewards points on spend incurred abroad",
+       "value_minor": 53108,
+       "value_display": "\u20b9531.08",
+       "capacity_minor": null
+      },
+      "struck": [
+       {
+        "benefit_id": "amex_in_plat_earn_base",
+        "label": "1 Membership Rewards point for every \u20b940 spent",
+        "value_minor": 17608,
+        "value_display": "\u20b9176.08",
+        "capacity_minor": null
+       }
+      ]
+     }
+    ],
+    "unpriced": [
+     {
+      "benefit_id": "amex_in_plat_taj_epicure",
+      "label": "Taj Epicure Plus membership",
+      "note": "declared and considered, deliberately not scored, and stated precisely because it is the term this card is most often misquoted on: Taj Epicure Plus is a MEMBERSHIP the Cardmember enrols into, not a rupee credit. It delivers percentage privileges \u2014 25% off food and beverage at participating Taj, SeleQtions, Vivanta, Gateway and Claridges hotels, 25% off Qmin delivery, 20% off Jiva Spa treatments. American Express publishes no rupee value for it, so this manifest asserts none"
+     },
+     {
+      "benefit_id": "amex_in_plat_district_dining_offer",
+      "label": "25% off dining on District by Zomato, Wednesdays",
+      "note": "declared and considered, deliberately not scored: the published offer is 25% off up to \u20b95,000 per transaction and \u20b910,000 per calendar month, but it requires a coupon code, runs only on one weekday and is time-boxed to a promo window. This manifest's vocabulary can express none of those three conditions, and a benefit priced without the conditions that gate it would overstate"
+     },
+     {
+      "benefit_id": "amex_in_plat_lounge_access",
+      "label": "1,550+ airport lounges worldwide, including The Centurion Lounge, Delta Sky Club and Priority Pass",
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     },
+     {
+      "benefit_id": "amex_in_plat_hotel_programmes",
+      "label": "Fine Hotels + Resorts, The Hotel Collection, Taj and Oberoi partner rates, and Marriott Bonvoy and Hilton Honors Gold status",
+      "note": "declared and considered, deliberately not scored: the published figures are either an average value across stays or a discount off a rate this cart does not carry, and neither is an amount an allocation on this cart could realize"
+     },
+     {
+      "benefit_id": "amex_in_plat_milestones",
+      "label": "Welcome gift on \u20b950,000 of net spend in the first two months, and renewal vouchers up to \u20b935,000 on \u20b920 lakh of spend in the membership year",
+      "note": "declared and considered, deliberately not scored: both turn on a spend total over a membership period, and no allocation on one cart can realize them"
+     },
+     {
+      "benefit_id": "amex_in_plat_rewards_xcelerator",
+      "label": "Rewards Xcelerator, up to 20X Membership Rewards at partner brands",
+      "note": "declared and considered, deliberately not scored: member-targeted and enrollment-gated, and we model no live Offers feed and claim no access to one"
+     },
+     {
+      "benefit_id": "amex_in_plat_protections",
+      "label": "Air accident cover, purchase protection, overseas medical and emergency assistance cover",
+      "note": "declared and considered, deliberately not scored: pricing contingent cover needs a claims-probability assumption this system does not have and will not invent"
+     },
+     {
+      "benefit_id": "amex_in_plat_offers",
+      "label": "Amex Offers",
+      "note": "declared and considered, deliberately not scored: member-targeted and enrollment-gated, and we model no live Offers feed and claim no access to one"
+     }
+    ],
+    "allocator_stats": {
+     "considered": 8,
+     "assigned": 6,
+     "skipped_capacity": 0,
+     "skipped_exclusivity": 2
+    }
+   },
+   {
+    "instrument_id": "amex-platinum-travel-in-2026",
+    "issuer": "American Express",
+    "product": "Platinum Travel Credit Card (India)",
+    "manifest_id": "amex-platinum-travel-in-2026",
+    "manifest_hash": "594ca438f97479cecb4cf389e64208f7bde3ae80408c3d820fafe126921036aa",
+    "manifest_source": "publicly published card terms as at 2026-07-27, modelled; remaining balances are SYNTHETIC member state, not live issuer data",
+    "issuer_signed": true,
+    "signature": "962b6c53a1d07617f8a7a13dfff311f085495c43601c640ce2e5b17d982d0b93",
+    "key_id": "plumbline-console-issuer",
+    "asserted_minor": 26491,
+    "asserted_display": "\u20b9264.91",
+    "witness": {
+     "manifest_id": "amex-platinum-travel-in-2026",
+     "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+     "assignments": [
+      {
+       "line_sku": "in_dining",
+       "benefit_id": "amex_in_travel_earn_base",
+       "consumed_minor": 842,
+       "value_minor": 842
+      },
+      {
+       "line_sku": "in_flight",
+       "benefit_id": "amex_in_travel_earn_base",
+       "consumed_minor": 7100,
+       "value_minor": 7100
+      },
+      {
+       "line_sku": "in_hotel",
+       "benefit_id": "amex_in_travel_earn_base",
+       "consumed_minor": 14200,
+       "value_minor": 14200
+      },
+      {
+       "line_sku": "in_hotel_transit",
+       "benefit_id": "amex_in_travel_earn_base",
+       "consumed_minor": 3100,
+       "value_minor": 3100
+      },
+      {
+       "line_sku": "in_retail",
+       "benefit_id": "amex_in_travel_earn_base",
+       "consumed_minor": 1249,
+       "value_minor": 1249
+      }
+     ],
+     "realized_minor": 26491,
+     "realized_display": "\u20b9264.91"
+    },
+    "witness_hash": "88c12622ab89b09744bd6b954dd1fbc4f601c0f7158c6c60f642d2a931516821",
+    "verification": {
+     "ok": true,
+     "supports_assertion": true,
+     "realized_minor": 26491,
+     "realized_display": "\u20b9264.91",
+     "claimed_minor": 26491,
+     "claimed_display": "\u20b9264.91",
+     "asserted_minor": 26491,
+     "asserted_display": "\u20b9264.91",
+     "failures": []
+    },
+    "derivation": [
+     {
+      "line_sku": "in_dining",
+      "line_description": "Dinner for four, Marina Bay",
+      "line_amount": 168400,
+      "line_mcc": 5812,
+      "benefit_id": "amex_in_travel_earn_base",
+      "benefit_label": "1 Membership Rewards point for every \u20b950 spent",
+      "benefit_kind": "earn",
+      "rate_bp": 50,
+      "window": "none",
+      "exclusivity_group": "amex_in_travel:earn",
+      "consumed_minor": 842,
+      "value_minor": 842,
+      "value_display": "\u20b98.42",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_flight",
+      "line_description": "BLR\u2013SIN return, booked direct with the airline",
+      "line_amount": 1420000,
+      "line_mcc": 3000,
+      "benefit_id": "amex_in_travel_earn_base",
+      "benefit_label": "1 Membership Rewards point for every \u20b950 spent",
+      "benefit_kind": "earn",
+      "rate_bp": 50,
+      "window": "none",
+      "exclusivity_group": "amex_in_travel:earn",
+      "consumed_minor": 7100,
+      "value_minor": 7100,
+      "value_display": "\u20b971",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_hotel",
+      "line_description": "Marina Bay hotel, 3 nights, booked direct",
+      "line_amount": 2840000,
+      "line_mcc": 7011,
+      "benefit_id": "amex_in_travel_earn_base",
+      "benefit_label": "1 Membership Rewards point for every \u20b950 spent",
+      "benefit_kind": "earn",
+      "rate_bp": 50,
+      "window": "none",
+      "exclusivity_group": "amex_in_travel:earn",
+      "consumed_minor": 14200,
+      "value_minor": 14200,
+      "value_display": "\u20b9142",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_hotel_transit",
+      "line_description": "Airport transit hotel, 1 night, booked direct",
+      "line_amount": 620000,
+      "line_mcc": 7011,
+      "benefit_id": "amex_in_travel_earn_base",
+      "benefit_label": "1 Membership Rewards point for every \u20b950 spent",
+      "benefit_kind": "earn",
+      "rate_bp": 50,
+      "window": "none",
+      "exclusivity_group": "amex_in_travel:earn",
+      "consumed_minor": 3100,
+      "value_minor": 3100,
+      "value_display": "\u20b931",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_retail",
+      "line_description": "Noise-cancelling headphones",
+      "line_amount": 249900,
+      "line_mcc": 5732,
+      "benefit_id": "amex_in_travel_earn_base",
+      "benefit_label": "1 Membership Rewards point for every \u20b950 spent",
+      "benefit_kind": "earn",
+      "rate_bp": 50,
+      "window": "none",
+      "exclusivity_group": "amex_in_travel:earn",
+      "consumed_minor": 1249,
+      "value_minor": 1249,
+      "value_display": "\u20b912.49",
+      "capacity_before": null,
+      "capacity_after": null
+     }
+    ],
+    "reconciliation": {
+     "naive_minor": 26491,
+     "naive_display": "\u20b9264.91",
+     "capped_minor": 26491,
+     "capped_display": "\u20b9264.91",
+     "witness_minor": 26491,
+     "witness_display": "\u20b9264.91",
+     "overstatement_minor": 0,
+     "overstatement_display": "\u20b90",
+     "capped_overstatement_minor": 0,
+     "capped_overstatement_display": "\u20b90",
+     "by_cause": [
+      {
+       "cause": "OVER_REMAINING_BALANCE",
+       "minor": 0,
+       "display": "\u20b90",
+       "visible_per_line": true
+      },
+      {
+       "cause": "STRUCK_EXCLUSIVITY_GROUP",
+       "minor": 0,
+       "display": "\u20b90",
+       "visible_per_line": false
+      },
+      {
+       "cause": "BALANCE_ALREADY_CONSUMED",
+       "minor": 0,
+       "display": "\u20b90",
+       "visible_per_line": false
+      }
+     ],
+     "rows": [
+      {
+       "line_sku": "in_hotel",
+       "line_description": "Marina Bay hotel, 3 nights, booked direct",
+       "benefit_id": "amex_in_travel_earn_base",
+       "benefit_label": "1 Membership Rewards point for every \u20b950 spent",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_travel:earn",
+       "naive_minor": 14200,
+       "capped_minor": 14200,
+       "realized_minor": 14200,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_hotel_transit",
+       "line_description": "Airport transit hotel, 1 night, booked direct",
+       "benefit_id": "amex_in_travel_earn_base",
+       "benefit_label": "1 Membership Rewards point for every \u20b950 spent",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_travel:earn",
+       "naive_minor": 3100,
+       "capped_minor": 3100,
+       "realized_minor": 3100,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_flight",
+       "line_description": "BLR\u2013SIN return, booked direct with the airline",
+       "benefit_id": "amex_in_travel_earn_base",
+       "benefit_label": "1 Membership Rewards point for every \u20b950 spent",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_travel:earn",
+       "naive_minor": 7100,
+       "capped_minor": 7100,
+       "realized_minor": 7100,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_dining",
+       "line_description": "Dinner for four, Marina Bay",
+       "benefit_id": "amex_in_travel_earn_base",
+       "benefit_label": "1 Membership Rewards point for every \u20b950 spent",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_travel:earn",
+       "naive_minor": 842,
+       "capped_minor": 842,
+       "realized_minor": 842,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_retail",
+       "line_description": "Noise-cancelling headphones",
+       "benefit_id": "amex_in_travel_earn_base",
+       "benefit_label": "1 Membership Rewards point for every \u20b950 spent",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_travel:earn",
+       "naive_minor": 1249,
+       "capped_minor": 1249,
+       "realized_minor": 1249,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      }
+     ]
+    },
+    "collisions": [],
+    "unpriced": [
+     {
+      "benefit_id": "amex_in_travel_milestones",
+      "label": "7,500 bonus Membership Rewards Points at \u20b91.9 lakh of spend, 10,000 at \u20b94 lakh, and 22,500 plus a Taj e-gift card worth \u20b910,000 at \u20b97 lakh",
+      "note": "declared and considered, deliberately not scored: every threshold is measured over a membership year, and no allocation on one cart can realize any of them. This is the largest published number on the card and pricing it against a single cart would be the clearest possible way to overstate"
+     },
+     {
+      "benefit_id": "amex_in_travel_welcome",
+      "label": "Welcome gift of 10,000 Membership Rewards Points on \u20b915,000 of spend in the first 90 days",
+      "note": "declared and considered, deliberately not scored: it is a one-time event over an enrolment window, not value this cart realizes"
+     },
+     {
+      "benefit_id": "amex_in_travel_lounge_access",
+      "label": "8 complimentary domestic lounge visits a year, limited to two per quarter, plus a complimentary Priority Pass membership",
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     },
+     {
+      "benefit_id": "amex_in_travel_protections",
+      "label": "Travel and purchase protections",
+      "note": "declared and considered, deliberately not scored: pricing contingent cover needs a claims-probability assumption this system does not have and will not invent"
+     },
+     {
+      "benefit_id": "amex_in_travel_offers",
+      "label": "Amex Offers",
+      "note": "declared and considered, deliberately not scored: member-targeted and enrollment-gated, and we model no live Offers feed and claim no access to one"
+     }
+    ],
+    "allocator_stats": {
+     "considered": 5,
+     "assigned": 5,
+     "skipped_capacity": 0,
+     "skipped_exclusivity": 0
+    }
+   },
+   {
+    "instrument_id": "hdfc-infinia-metal-2026",
+    "issuer": "HDFC Bank",
+    "product": "Infinia Metal Edition",
+    "manifest_id": "hdfc-infinia-metal-2026",
+    "manifest_hash": "8e65617707e2cd21a4f16d1c69204c0597c65b4549d81eceaf3125024f05a5b4",
+    "manifest_source": "publicly published card terms as at 2026-07-27, modelled; remaining balances are SYNTHETIC member state, not live issuer data",
+    "issuer_signed": false,
+    "signature": null,
+    "key_id": null,
+    "asserted_minor": 176432,
+    "asserted_display": "\u20b91,764.32",
+    "witness": {
+     "manifest_id": "hdfc-infinia-metal-2026",
+     "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+     "assignments": [
+      {
+       "line_sku": "in_dining",
+       "benefit_id": "hdfc_infinia_earn_base",
+       "consumed_minor": 5607,
+       "value_minor": 5607
+      },
+      {
+       "line_sku": "in_flight",
+       "benefit_id": "hdfc_infinia_earn_base",
+       "consumed_minor": 47286,
+       "value_minor": 47286
+      },
+      {
+       "line_sku": "in_hotel",
+       "benefit_id": "hdfc_infinia_earn_base",
+       "consumed_minor": 94572,
+       "value_minor": 94572
+      },
+      {
+       "line_sku": "in_hotel_transit",
+       "benefit_id": "hdfc_infinia_earn_base",
+       "consumed_minor": 20646,
+       "value_minor": 20646
+      },
+      {
+       "line_sku": "in_retail",
+       "benefit_id": "hdfc_infinia_earn_base",
+       "consumed_minor": 8321,
+       "value_minor": 8321
+      }
+     ],
+     "realized_minor": 176432,
+     "realized_display": "\u20b91,764.32"
+    },
+    "witness_hash": "756d4e65a6a28b1346db8b86c9d844a46ebf925a0b241397698e4388c8530a5a",
+    "verification": {
+     "ok": true,
+     "supports_assertion": true,
+     "realized_minor": 176432,
+     "realized_display": "\u20b91,764.32",
+     "claimed_minor": 176432,
+     "claimed_display": "\u20b91,764.32",
+     "asserted_minor": 176432,
+     "asserted_display": "\u20b91,764.32",
+     "failures": []
+    },
+    "derivation": [
+     {
+      "line_sku": "in_dining",
+      "line_description": "Dinner for four, Marina Bay",
+      "line_amount": 168400,
+      "line_mcc": 5812,
+      "benefit_id": "hdfc_infinia_earn_base",
+      "benefit_label": "5 Reward Points per \u20b9150 of eligible retail spend",
+      "benefit_kind": "earn",
+      "rate_bp": 333,
+      "window": "none",
+      "exclusivity_group": "hdfc_infinia:earn",
+      "consumed_minor": 5607,
+      "value_minor": 5607,
+      "value_display": "\u20b956.07",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_flight",
+      "line_description": "BLR\u2013SIN return, booked direct with the airline",
+      "line_amount": 1420000,
+      "line_mcc": 3000,
+      "benefit_id": "hdfc_infinia_earn_base",
+      "benefit_label": "5 Reward Points per \u20b9150 of eligible retail spend",
+      "benefit_kind": "earn",
+      "rate_bp": 333,
+      "window": "none",
+      "exclusivity_group": "hdfc_infinia:earn",
+      "consumed_minor": 47286,
+      "value_minor": 47286,
+      "value_display": "\u20b9472.86",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_hotel",
+      "line_description": "Marina Bay hotel, 3 nights, booked direct",
+      "line_amount": 2840000,
+      "line_mcc": 7011,
+      "benefit_id": "hdfc_infinia_earn_base",
+      "benefit_label": "5 Reward Points per \u20b9150 of eligible retail spend",
+      "benefit_kind": "earn",
+      "rate_bp": 333,
+      "window": "none",
+      "exclusivity_group": "hdfc_infinia:earn",
+      "consumed_minor": 94572,
+      "value_minor": 94572,
+      "value_display": "\u20b9945.72",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_hotel_transit",
+      "line_description": "Airport transit hotel, 1 night, booked direct",
+      "line_amount": 620000,
+      "line_mcc": 7011,
+      "benefit_id": "hdfc_infinia_earn_base",
+      "benefit_label": "5 Reward Points per \u20b9150 of eligible retail spend",
+      "benefit_kind": "earn",
+      "rate_bp": 333,
+      "window": "none",
+      "exclusivity_group": "hdfc_infinia:earn",
+      "consumed_minor": 20646,
+      "value_minor": 20646,
+      "value_display": "\u20b9206.46",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_retail",
+      "line_description": "Noise-cancelling headphones",
+      "line_amount": 249900,
+      "line_mcc": 5732,
+      "benefit_id": "hdfc_infinia_earn_base",
+      "benefit_label": "5 Reward Points per \u20b9150 of eligible retail spend",
+      "benefit_kind": "earn",
+      "rate_bp": 333,
+      "window": "none",
+      "exclusivity_group": "hdfc_infinia:earn",
+      "consumed_minor": 8321,
+      "value_minor": 8321,
+      "value_display": "\u20b983.21",
+      "capacity_before": null,
+      "capacity_after": null
+     }
+    ],
+    "reconciliation": {
+     "naive_minor": 176432,
+     "naive_display": "\u20b91,764.32",
+     "capped_minor": 176432,
+     "capped_display": "\u20b91,764.32",
+     "witness_minor": 176432,
+     "witness_display": "\u20b91,764.32",
+     "overstatement_minor": 0,
+     "overstatement_display": "\u20b90",
+     "capped_overstatement_minor": 0,
+     "capped_overstatement_display": "\u20b90",
+     "by_cause": [
+      {
+       "cause": "OVER_REMAINING_BALANCE",
+       "minor": 0,
+       "display": "\u20b90",
+       "visible_per_line": true
+      },
+      {
+       "cause": "STRUCK_EXCLUSIVITY_GROUP",
+       "minor": 0,
+       "display": "\u20b90",
+       "visible_per_line": false
+      },
+      {
+       "cause": "BALANCE_ALREADY_CONSUMED",
+       "minor": 0,
+       "display": "\u20b90",
+       "visible_per_line": false
+      }
+     ],
+     "rows": [
+      {
+       "line_sku": "in_hotel",
+       "line_description": "Marina Bay hotel, 3 nights, booked direct",
+       "benefit_id": "hdfc_infinia_earn_base",
+       "benefit_label": "5 Reward Points per \u20b9150 of eligible retail spend",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hdfc_infinia:earn",
+       "naive_minor": 94572,
+       "capped_minor": 94572,
+       "realized_minor": 94572,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_hotel_transit",
+       "line_description": "Airport transit hotel, 1 night, booked direct",
+       "benefit_id": "hdfc_infinia_earn_base",
+       "benefit_label": "5 Reward Points per \u20b9150 of eligible retail spend",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hdfc_infinia:earn",
+       "naive_minor": 20646,
+       "capped_minor": 20646,
+       "realized_minor": 20646,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_flight",
+       "line_description": "BLR\u2013SIN return, booked direct with the airline",
+       "benefit_id": "hdfc_infinia_earn_base",
+       "benefit_label": "5 Reward Points per \u20b9150 of eligible retail spend",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hdfc_infinia:earn",
+       "naive_minor": 47286,
+       "capped_minor": 47286,
+       "realized_minor": 47286,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_dining",
+       "line_description": "Dinner for four, Marina Bay",
+       "benefit_id": "hdfc_infinia_earn_base",
+       "benefit_label": "5 Reward Points per \u20b9150 of eligible retail spend",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hdfc_infinia:earn",
+       "naive_minor": 5607,
+       "capped_minor": 5607,
+       "realized_minor": 5607,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_retail",
+       "line_description": "Noise-cancelling headphones",
+       "benefit_id": "hdfc_infinia_earn_base",
+       "benefit_label": "5 Reward Points per \u20b9150 of eligible retail spend",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hdfc_infinia:earn",
+       "naive_minor": 8321,
+       "capped_minor": 8321,
+       "realized_minor": 8321,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      }
+     ]
+    },
+    "collisions": [],
+    "unpriced": [
+     {
+      "benefit_id": "hdfc_infinia_lounge_access",
+      "label": "Unlimited domestic and international airport lounge access via Priority Pass, for the primary and add-on cardholders, with no spend condition",
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     },
+     {
+      "benefit_id": "hdfc_infinia_forex",
+      "label": "2% foreign currency markup",
+      "note": "declared and considered, deliberately not scored: a markup is a cost avoided relative to another card, not value this cart realizes, and netting it here would make the number a comparison rather than an allocation"
+     },
+     {
+      "benefit_id": "hdfc_infinia_fee_waiver",
+      "label": "Renewal fee waived at \u20b910 lakh of annual spend",
+      "note": "declared and considered, deliberately not scored: it turns on a full year of spend, and no allocation on one cart can realize it"
+     },
+     {
+      "benefit_id": "hdfc_infinia_service",
+      "label": "24x7 concierge and Club Marriott membership",
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     }
+    ],
+    "allocator_stats": {
+     "considered": 5,
+     "assigned": 5,
+     "skipped_capacity": 0,
+     "skipped_exclusivity": 0
+    }
+   },
+   {
+    "instrument_id": "hypothetical-illustrative-reserve",
+    "issuer": "Hypothetical Bank",
+    "product": "Illustrative Reserve",
+    "manifest_id": "hypothetical-illustrative-reserve",
+    "manifest_hash": "11522317a4ce5e71da973e22cd4f572e79e1a22e88ddd7ec9c708de628933f45",
+    "manifest_source": "HYPOTHETICAL INSTRUMENT \u2014 invented for this demonstration. Not a real product, not modelled from any issuer's published terms, and signed by no one. It is in the candidate set because the published Indian catalogue carries no statement credits, so the case where two credits compete for one line cannot be shown from real Indian terms; attaching invented credits to a real issuer's product name is the one thing this system may never do.",
+    "issuer_signed": false,
+    "signature": null,
+    "key_id": null,
+    "asserted_minor": 144587,
+    "asserted_display": "\u20b91,445.87",
+    "witness": {
+     "manifest_id": "hypothetical-illustrative-reserve",
+     "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+     "assignments": [
+      {
+       "line_sku": "in_dining",
+       "benefit_id": "hypo_dining_credit_monthly",
+       "consumed_minor": 30000,
+       "value_minor": 30000
+      },
+      {
+       "line_sku": "in_dining",
+       "benefit_id": "hypo_earn_base",
+       "consumed_minor": 1263,
+       "value_minor": 1263
+      },
+      {
+       "line_sku": "in_flight",
+       "benefit_id": "hypo_earn_travel",
+       "consumed_minor": 35500,
+       "value_minor": 35500
+      },
+      {
+       "line_sku": "in_hotel",
+       "benefit_id": "hypo_earn_base",
+       "consumed_minor": 21300,
+       "value_minor": 21300
+      },
+      {
+       "line_sku": "in_hotel",
+       "benefit_id": "hypo_stay_credit",
+       "consumed_minor": 50000,
+       "value_minor": 50000
+      },
+      {
+       "line_sku": "in_hotel_transit",
+       "benefit_id": "hypo_earn_base",
+       "consumed_minor": 4650,
+       "value_minor": 4650
+      },
+      {
+       "line_sku": "in_retail",
+       "benefit_id": "hypo_earn_base",
+       "consumed_minor": 1874,
+       "value_minor": 1874
+      }
+     ],
+     "realized_minor": 144587,
+     "realized_display": "\u20b91,445.87"
+    },
+    "witness_hash": "a6846cafb547ac8e9e3d27068e9b6fce85cdcd352aa3c2822d8ec075ad4f49ad",
+    "verification": {
+     "ok": true,
+     "supports_assertion": true,
+     "realized_minor": 144587,
+     "realized_display": "\u20b91,445.87",
+     "claimed_minor": 144587,
+     "claimed_display": "\u20b91,445.87",
+     "asserted_minor": 144587,
+     "asserted_display": "\u20b91,445.87",
+     "failures": []
+    },
+    "derivation": [
+     {
+      "line_sku": "in_dining",
+      "line_description": "Dinner for four, Marina Bay",
+      "line_amount": 168400,
+      "line_mcc": 5812,
+      "benefit_id": "hypo_dining_credit_monthly",
+      "benefit_label": "Monthly dining credit",
+      "benefit_kind": "credit",
+      "rate_bp": 0,
+      "window": "monthly",
+      "exclusivity_group": "hypo:dining_credit",
+      "consumed_minor": 30000,
+      "value_minor": 30000,
+      "value_display": "\u20b9300",
+      "capacity_before": 30000,
+      "capacity_after": 0
+     },
+     {
+      "line_sku": "in_dining",
+      "line_description": "Dinner for four, Marina Bay",
+      "line_amount": 168400,
+      "line_mcc": 5812,
+      "benefit_id": "hypo_earn_base",
+      "benefit_label": "Base earn",
+      "benefit_kind": "earn",
+      "rate_bp": 75,
+      "window": "none",
+      "exclusivity_group": "hypo:earn",
+      "consumed_minor": 1263,
+      "value_minor": 1263,
+      "value_display": "\u20b912.63",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_flight",
+      "line_description": "BLR\u2013SIN return, booked direct with the airline",
+      "line_amount": 1420000,
+      "line_mcc": 3000,
+      "benefit_id": "hypo_earn_travel",
+      "benefit_label": "Travel multiplier",
+      "benefit_kind": "earn",
+      "rate_bp": 250,
+      "window": "annual",
+      "exclusivity_group": "hypo:earn",
+      "consumed_minor": 35500,
+      "value_minor": 35500,
+      "value_display": "\u20b9355",
+      "capacity_before": 40000,
+      "capacity_after": 4500
+     },
+     {
+      "line_sku": "in_hotel",
+      "line_description": "Marina Bay hotel, 3 nights, booked direct",
+      "line_amount": 2840000,
+      "line_mcc": 7011,
+      "benefit_id": "hypo_earn_base",
+      "benefit_label": "Base earn",
+      "benefit_kind": "earn",
+      "rate_bp": 75,
+      "window": "none",
+      "exclusivity_group": "hypo:earn",
+      "consumed_minor": 21300,
+      "value_minor": 21300,
+      "value_display": "\u20b9213",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_hotel",
+      "line_description": "Marina Bay hotel, 3 nights, booked direct",
+      "line_amount": 2840000,
+      "line_mcc": 7011,
+      "benefit_id": "hypo_stay_credit",
+      "benefit_label": "Annual stay credit",
+      "benefit_kind": "credit",
+      "rate_bp": 0,
+      "window": "annual",
+      "exclusivity_group": "hypo:stay_credit",
+      "consumed_minor": 50000,
+      "value_minor": 50000,
+      "value_display": "\u20b9500",
+      "capacity_before": 50000,
+      "capacity_after": 0
+     },
+     {
+      "line_sku": "in_hotel_transit",
+      "line_description": "Airport transit hotel, 1 night, booked direct",
+      "line_amount": 620000,
+      "line_mcc": 7011,
+      "benefit_id": "hypo_earn_base",
+      "benefit_label": "Base earn",
+      "benefit_kind": "earn",
+      "rate_bp": 75,
+      "window": "none",
+      "exclusivity_group": "hypo:earn",
+      "consumed_minor": 4650,
+      "value_minor": 4650,
+      "value_display": "\u20b946.50",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_retail",
+      "line_description": "Noise-cancelling headphones",
+      "line_amount": 249900,
+      "line_mcc": 5732,
+      "benefit_id": "hypo_earn_base",
+      "benefit_label": "Base earn",
+      "benefit_kind": "earn",
+      "rate_bp": 75,
+      "window": "none",
+      "exclusivity_group": "hypo:earn",
+      "consumed_minor": 1874,
+      "value_minor": 1874,
+      "value_display": "\u20b918.74",
+      "capacity_before": null,
+      "capacity_after": null
+     }
+    ],
+    "reconciliation": {
+     "naive_minor": 3958537,
+     "naive_display": "\u20b939,585.37",
+     "capped_minor": 280737,
+     "capped_display": "\u20b92,807.37",
+     "witness_minor": 144587,
+     "witness_display": "\u20b91,445.87",
+     "overstatement_minor": 3813950,
+     "overstatement_display": "\u20b938,139.50",
+     "capped_overstatement_minor": 136150,
+     "capped_overstatement_display": "\u20b91,361.50",
+     "by_cause": [
+      {
+       "cause": "OVER_REMAINING_BALANCE",
+       "minor": 3677800,
+       "display": "\u20b936,778",
+       "visible_per_line": true
+      },
+      {
+       "cause": "STRUCK_EXCLUSIVITY_GROUP",
+       "minor": 86150,
+       "display": "\u20b9861.50",
+       "visible_per_line": false
+      },
+      {
+       "cause": "BALANCE_ALREADY_CONSUMED",
+       "minor": 50000,
+       "display": "\u20b9500",
+       "visible_per_line": false
+      }
+     ],
+     "rows": [
+      {
+       "line_sku": "in_dining",
+       "line_description": "Dinner for four, Marina Bay",
+       "benefit_id": "hypo_dining_credit_monthly",
+       "benefit_label": "Monthly dining credit",
+       "benefit_kind": "credit",
+       "exclusivity_group": "hypo:dining_credit",
+       "naive_minor": 168400,
+       "capped_minor": 30000,
+       "realized_minor": 30000,
+       "shortfall_minor": 138400,
+       "cause": "OVER_REMAINING_BALANCE",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_dining",
+       "line_description": "Dinner for four, Marina Bay",
+       "benefit_id": "hypo_dining_credit_partner",
+       "benefit_label": "Partner restaurant credit",
+       "benefit_kind": "credit",
+       "exclusivity_group": "hypo:dining_credit",
+       "naive_minor": 168400,
+       "capped_minor": 20000,
+       "realized_minor": 0,
+       "shortfall_minor": 168400,
+       "cause": "STRUCK_EXCLUSIVITY_GROUP",
+       "struck_by": "hypo_dining_credit_monthly"
+      },
+      {
+       "line_sku": "in_hotel",
+       "line_description": "Marina Bay hotel, 3 nights, booked direct",
+       "benefit_id": "hypo_stay_credit",
+       "benefit_label": "Annual stay credit",
+       "benefit_kind": "credit",
+       "exclusivity_group": "hypo:stay_credit",
+       "naive_minor": 2840000,
+       "capped_minor": 50000,
+       "realized_minor": 50000,
+       "shortfall_minor": 2790000,
+       "cause": "OVER_REMAINING_BALANCE",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_hotel_transit",
+       "line_description": "Airport transit hotel, 1 night, booked direct",
+       "benefit_id": "hypo_stay_credit",
+       "benefit_label": "Annual stay credit",
+       "benefit_kind": "credit",
+       "exclusivity_group": "hypo:stay_credit",
+       "naive_minor": 620000,
+       "capped_minor": 50000,
+       "realized_minor": 0,
+       "shortfall_minor": 620000,
+       "cause": "BALANCE_ALREADY_CONSUMED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_hotel",
+       "line_description": "Marina Bay hotel, 3 nights, booked direct",
+       "benefit_id": "hypo_earn_travel",
+       "benefit_label": "Travel multiplier",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hypo:earn",
+       "naive_minor": 71000,
+       "capped_minor": 40000,
+       "realized_minor": 0,
+       "shortfall_minor": 71000,
+       "cause": "STRUCK_EXCLUSIVITY_GROUP",
+       "struck_by": "hypo_earn_base"
+      },
+      {
+       "line_sku": "in_hotel_transit",
+       "line_description": "Airport transit hotel, 1 night, booked direct",
+       "benefit_id": "hypo_earn_travel",
+       "benefit_label": "Travel multiplier",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hypo:earn",
+       "naive_minor": 15500,
+       "capped_minor": 15500,
+       "realized_minor": 0,
+       "shortfall_minor": 15500,
+       "cause": "STRUCK_EXCLUSIVITY_GROUP",
+       "struck_by": "hypo_earn_base"
+      },
+      {
+       "line_sku": "in_flight",
+       "line_description": "BLR\u2013SIN return, booked direct with the airline",
+       "benefit_id": "hypo_earn_travel",
+       "benefit_label": "Travel multiplier",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hypo:earn",
+       "naive_minor": 35500,
+       "capped_minor": 35500,
+       "realized_minor": 35500,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_hotel",
+       "line_description": "Marina Bay hotel, 3 nights, booked direct",
+       "benefit_id": "hypo_earn_base",
+       "benefit_label": "Base earn",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hypo:earn",
+       "naive_minor": 21300,
+       "capped_minor": 21300,
+       "realized_minor": 21300,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_hotel_transit",
+       "line_description": "Airport transit hotel, 1 night, booked direct",
+       "benefit_id": "hypo_earn_base",
+       "benefit_label": "Base earn",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hypo:earn",
+       "naive_minor": 4650,
+       "capped_minor": 4650,
+       "realized_minor": 4650,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_flight",
+       "line_description": "BLR\u2013SIN return, booked direct with the airline",
+       "benefit_id": "hypo_earn_base",
+       "benefit_label": "Base earn",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hypo:earn",
+       "naive_minor": 10650,
+       "capped_minor": 10650,
+       "realized_minor": 0,
+       "shortfall_minor": 10650,
+       "cause": "STRUCK_EXCLUSIVITY_GROUP",
+       "struck_by": "hypo_earn_travel"
+      },
+      {
+       "line_sku": "in_dining",
+       "line_description": "Dinner for four, Marina Bay",
+       "benefit_id": "hypo_earn_base",
+       "benefit_label": "Base earn",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hypo:earn",
+       "naive_minor": 1263,
+       "capped_minor": 1263,
+       "realized_minor": 1263,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_retail",
+       "line_description": "Noise-cancelling headphones",
+       "benefit_id": "hypo_earn_base",
+       "benefit_label": "Base earn",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hypo:earn",
+       "naive_minor": 1874,
+       "capped_minor": 1874,
+       "realized_minor": 1874,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      }
+     ]
+    },
+    "collisions": [
+     {
+      "line_sku": "in_dining",
+      "line_description": "Dinner for four, Marina Bay",
+      "line_amount": 168400,
+      "exclusivity_group": "hypo:dining_credit",
+      "winner": {
+       "benefit_id": "hypo_dining_credit_monthly",
+       "label": "Monthly dining credit",
+       "value_minor": 30000,
+       "value_display": "\u20b9300",
+       "capacity_minor": 30000
+      },
+      "struck": [
+       {
+        "benefit_id": "hypo_dining_credit_partner",
+        "label": "Partner restaurant credit",
+        "value_minor": 168400,
+        "value_display": "\u20b91,684",
+        "capacity_minor": 20000
+       }
+      ]
+     },
+     {
+      "line_sku": "in_flight",
+      "line_description": "BLR\u2013SIN return, booked direct with the airline",
+      "line_amount": 1420000,
+      "exclusivity_group": "hypo:earn",
+      "winner": {
+       "benefit_id": "hypo_earn_travel",
+       "label": "Travel multiplier",
+       "value_minor": 35500,
+       "value_display": "\u20b9355",
+       "capacity_minor": 40000
+      },
+      "struck": [
+       {
+        "benefit_id": "hypo_earn_base",
+        "label": "Base earn",
+        "value_minor": 10650,
+        "value_display": "\u20b9106.50",
+        "capacity_minor": null
+       }
+      ]
+     },
+     {
+      "line_sku": "in_hotel",
+      "line_description": "Marina Bay hotel, 3 nights, booked direct",
+      "line_amount": 2840000,
+      "exclusivity_group": "hypo:earn",
+      "winner": {
+       "benefit_id": "hypo_earn_base",
+       "label": "Base earn",
+       "value_minor": 21300,
+       "value_display": "\u20b9213",
+       "capacity_minor": null
+      },
+      "struck": [
+       {
+        "benefit_id": "hypo_earn_travel",
+        "label": "Travel multiplier",
+        "value_minor": 71000,
+        "value_display": "\u20b9710",
+        "capacity_minor": 40000
+       }
+      ]
+     },
+     {
+      "line_sku": "in_hotel_transit",
+      "line_description": "Airport transit hotel, 1 night, booked direct",
+      "line_amount": 620000,
+      "exclusivity_group": "hypo:earn",
+      "winner": {
+       "benefit_id": "hypo_earn_base",
+       "label": "Base earn",
+       "value_minor": 4650,
+       "value_display": "\u20b946.50",
+       "capacity_minor": null
+      },
+      "struck": [
+       {
+        "benefit_id": "hypo_earn_travel",
+        "label": "Travel multiplier",
+        "value_minor": 15500,
+        "value_display": "\u20b9155",
+        "capacity_minor": 40000
+       }
+      ]
+     }
+    ],
+    "unpriced": [
+     {
+      "benefit_id": "hypo_lounge",
+      "label": "Lounge access",
+      "note": "declared and considered, deliberately not scored \u2014 and invented, like everything else on this instrument"
+     }
+    ],
+    "allocator_stats": {
+     "considered": 12,
+     "assigned": 7,
+     "skipped_capacity": 3,
+     "skipped_exclusivity": 2
+    }
+   }
+  ],
+  "latency": {
+   "demo": {
+    "p50_ms": 0.08,
+    "p99_ms": 0.0859,
+    "min_ms": 0.0732,
+    "max_ms": 1.1703,
+    "runs": 3000,
+    "problem_size": "4 instruments \u00d7 6 lines \u00d7 30 benefits (the cart on screen)",
+    "method": "wall clock around plumbline.allocate for every instrument, warmed"
+   },
+   "demo_verify": {
+    "p50_ms": 0.0478,
+    "p99_ms": 0.051,
+    "min_ms": 0.0438,
+    "max_ms": 0.1364,
+    "runs": 3000,
+    "problem_size": "4 witnesses over the cart on screen",
+    "method": "wall clock around plumbline.witness.verify_witness, no solver"
+   },
+   "bench": {
+    "p50_ms": 1.7448,
+    "p99_ms": 1.8245,
+    "min_ms": 1.728,
+    "max_ms": 1.9983,
+    "runs": 800,
+    "problem_size": "8 instruments \u00d7 20 lines \u00d7 40 benefits",
+    "method": "wall clock around plumbline.allocate, warmed, same host as the row above"
+   },
+   "bench_verify": {
+    "p50_ms": 0.4499,
+    "p99_ms": 0.4705,
+    "min_ms": 0.4428,
+    "max_ms": 0.4882,
+    "runs": 800,
+    "problem_size": "8 witnesses \u00d7 20 lines \u00d7 40 benefits",
+    "method": "wall clock around plumbline.witness.verify_witness, no solver"
+   },
+   "solver": {
+    "lo_ms": 451,
+    "hi_ms": 2695,
+    "variance_x": 6,
+    "timeout_ms": 2000,
+    "problem_size": "8 instruments \u00d7 20 lines \u00d7 40 benefits",
+    "source": "adversarial panel benchmark of the MaxSMT formulation",
+    "measured_here": false,
+    "failure_mode": "on timeout the solver can report a lower bound above its upper bound, so an implementation that reads the bound signs an incoherent number"
+   },
+   "host": {
+    "python": "3.13.7",
+    "note": "figures are from one host and are reported, not extrapolated"
+   }
+  }
+ },
+ "receipt": {
+  "receipt_id": "rcp_ccd7a4e86276",
+  "issued_at": 1785110500,
+  "cart": {
+   "merchant": "m_travel_desk_in",
+   "currency": "INR",
+   "lines": [
+    {
+     "sku": "in_hotel",
+     "description": "Marina Bay hotel, 3 nights, booked direct",
+     "amount": 2840000,
+     "mcc": 7011,
+     "category": "overseas_spend",
+     "qty": 3
+    },
+    {
+     "sku": "in_hotel_transit",
+     "description": "Airport transit hotel, 1 night, booked direct",
+     "amount": 620000,
+     "mcc": 7011,
+     "category": "hotel_direct",
+     "qty": 1
+    },
+    {
+     "sku": "in_flight",
+     "description": "BLR\u2013SIN return, booked direct with the airline",
+     "amount": 1420000,
+     "mcc": 3000,
+     "category": "airfare",
+     "qty": 2
+    },
+    {
+     "sku": "in_dining",
+     "description": "Dinner for four, Marina Bay",
+     "amount": 168400,
+     "mcc": 5812,
+     "category": "overseas_spend",
+     "qty": 1
+    },
+    {
+     "sku": "in_fuel",
+     "description": "Fuel, full tank before the airport drive",
+     "amount": 480000,
+     "mcc": 5541,
+     "category": "fuel",
+     "qty": 1
+    },
+    {
+     "sku": "in_retail",
+     "description": "Noise-cancelling headphones",
+     "amount": 249900,
+     "mcc": 5732,
+     "category": "india_retail",
+     "qty": 1
+    }
+   ]
+  },
+  "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+  "policy": {
+   "policy_id": "pol_cardholder_max_value_v3",
+   "owner": "cardholder",
+   "criterion": "maximise witness-backed value on this cart; break ties by lower asserted value, then by instrument id",
+   "endorsed_by_issuer": false,
+   "note": "The valuation policy and the ranking belong to the cardholder. The issuer signs facts and never signs a comparison between instruments. HDFC Reward Points are priced at their SmartBuy travel redemption (\u20b91.00) and Amex India Membership Rewards at their Pay with Points rate (\u20b90.25). Both are published floors reachable without an award-availability assumption, and they are not equally generous. The ranking that follows is the cardholder's policy, recorded by hash and endorsed by no issuer.",
+   "policy_hash": "045775de71635bfcaf52e3b45d0280f5cececc138954dd428bc74fd4a3815ddf"
+  },
+  "criterion": "maximise witness-backed value on this cart; break ties by lower asserted value, then by instrument id",
+  "candidates": [
+   {
+    "instrument_id": "hdfc-infinia-metal-2026",
+    "issuer": "HDFC Bank",
+    "product": "Infinia Metal Edition",
+    "manifest_id": "hdfc-infinia-metal-2026",
+    "manifest_hash": "8e65617707e2cd21a4f16d1c69204c0597c65b4549d81eceaf3125024f05a5b4",
+    "manifest_source": "publicly published card terms as at 2026-07-27, modelled; remaining balances are SYNTHETIC member state, not live issuer data",
+    "issuer_signed": false,
+    "signature": null,
+    "key_id": null,
+    "asserted_minor": 176432,
+    "asserted_display": "\u20b91,764.32",
+    "witness": {
+     "manifest_id": "hdfc-infinia-metal-2026",
+     "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+     "assignments": [
+      {
+       "line_sku": "in_dining",
+       "benefit_id": "hdfc_infinia_earn_base",
+       "consumed_minor": 5607,
+       "value_minor": 5607
+      },
+      {
+       "line_sku": "in_flight",
+       "benefit_id": "hdfc_infinia_earn_base",
+       "consumed_minor": 47286,
+       "value_minor": 47286
+      },
+      {
+       "line_sku": "in_hotel",
+       "benefit_id": "hdfc_infinia_earn_base",
+       "consumed_minor": 94572,
+       "value_minor": 94572
+      },
+      {
+       "line_sku": "in_hotel_transit",
+       "benefit_id": "hdfc_infinia_earn_base",
+       "consumed_minor": 20646,
+       "value_minor": 20646
+      },
+      {
+       "line_sku": "in_retail",
+       "benefit_id": "hdfc_infinia_earn_base",
+       "consumed_minor": 8321,
+       "value_minor": 8321
+      }
+     ],
+     "realized_minor": 176432,
+     "realized_display": "\u20b91,764.32"
+    },
+    "witness_hash": "756d4e65a6a28b1346db8b86c9d844a46ebf925a0b241397698e4388c8530a5a",
+    "verification": {
+     "ok": true,
+     "supports_assertion": true,
+     "realized_minor": 176432,
+     "realized_display": "\u20b91,764.32",
+     "claimed_minor": 176432,
+     "claimed_display": "\u20b91,764.32",
+     "asserted_minor": 176432,
+     "asserted_display": "\u20b91,764.32",
+     "failures": []
+    },
+    "derivation": [
+     {
+      "line_sku": "in_dining",
+      "line_description": "Dinner for four, Marina Bay",
+      "line_amount": 168400,
+      "line_mcc": 5812,
+      "benefit_id": "hdfc_infinia_earn_base",
+      "benefit_label": "5 Reward Points per \u20b9150 of eligible retail spend",
+      "benefit_kind": "earn",
+      "rate_bp": 333,
+      "window": "none",
+      "exclusivity_group": "hdfc_infinia:earn",
+      "consumed_minor": 5607,
+      "value_minor": 5607,
+      "value_display": "\u20b956.07",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_flight",
+      "line_description": "BLR\u2013SIN return, booked direct with the airline",
+      "line_amount": 1420000,
+      "line_mcc": 3000,
+      "benefit_id": "hdfc_infinia_earn_base",
+      "benefit_label": "5 Reward Points per \u20b9150 of eligible retail spend",
+      "benefit_kind": "earn",
+      "rate_bp": 333,
+      "window": "none",
+      "exclusivity_group": "hdfc_infinia:earn",
+      "consumed_minor": 47286,
+      "value_minor": 47286,
+      "value_display": "\u20b9472.86",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_hotel",
+      "line_description": "Marina Bay hotel, 3 nights, booked direct",
+      "line_amount": 2840000,
+      "line_mcc": 7011,
+      "benefit_id": "hdfc_infinia_earn_base",
+      "benefit_label": "5 Reward Points per \u20b9150 of eligible retail spend",
+      "benefit_kind": "earn",
+      "rate_bp": 333,
+      "window": "none",
+      "exclusivity_group": "hdfc_infinia:earn",
+      "consumed_minor": 94572,
+      "value_minor": 94572,
+      "value_display": "\u20b9945.72",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_hotel_transit",
+      "line_description": "Airport transit hotel, 1 night, booked direct",
+      "line_amount": 620000,
+      "line_mcc": 7011,
+      "benefit_id": "hdfc_infinia_earn_base",
+      "benefit_label": "5 Reward Points per \u20b9150 of eligible retail spend",
+      "benefit_kind": "earn",
+      "rate_bp": 333,
+      "window": "none",
+      "exclusivity_group": "hdfc_infinia:earn",
+      "consumed_minor": 20646,
+      "value_minor": 20646,
+      "value_display": "\u20b9206.46",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_retail",
+      "line_description": "Noise-cancelling headphones",
+      "line_amount": 249900,
+      "line_mcc": 5732,
+      "benefit_id": "hdfc_infinia_earn_base",
+      "benefit_label": "5 Reward Points per \u20b9150 of eligible retail spend",
+      "benefit_kind": "earn",
+      "rate_bp": 333,
+      "window": "none",
+      "exclusivity_group": "hdfc_infinia:earn",
+      "consumed_minor": 8321,
+      "value_minor": 8321,
+      "value_display": "\u20b983.21",
+      "capacity_before": null,
+      "capacity_after": null
+     }
+    ],
+    "reconciliation": {
+     "naive_minor": 176432,
+     "naive_display": "\u20b91,764.32",
+     "capped_minor": 176432,
+     "capped_display": "\u20b91,764.32",
+     "witness_minor": 176432,
+     "witness_display": "\u20b91,764.32",
+     "overstatement_minor": 0,
+     "overstatement_display": "\u20b90",
+     "capped_overstatement_minor": 0,
+     "capped_overstatement_display": "\u20b90",
+     "by_cause": [
+      {
+       "cause": "OVER_REMAINING_BALANCE",
+       "minor": 0,
+       "display": "\u20b90",
+       "visible_per_line": true
+      },
+      {
+       "cause": "STRUCK_EXCLUSIVITY_GROUP",
+       "minor": 0,
+       "display": "\u20b90",
+       "visible_per_line": false
+      },
+      {
+       "cause": "BALANCE_ALREADY_CONSUMED",
+       "minor": 0,
+       "display": "\u20b90",
+       "visible_per_line": false
+      }
+     ],
+     "rows": [
+      {
+       "line_sku": "in_hotel",
+       "line_description": "Marina Bay hotel, 3 nights, booked direct",
+       "benefit_id": "hdfc_infinia_earn_base",
+       "benefit_label": "5 Reward Points per \u20b9150 of eligible retail spend",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hdfc_infinia:earn",
+       "naive_minor": 94572,
+       "capped_minor": 94572,
+       "realized_minor": 94572,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_hotel_transit",
+       "line_description": "Airport transit hotel, 1 night, booked direct",
+       "benefit_id": "hdfc_infinia_earn_base",
+       "benefit_label": "5 Reward Points per \u20b9150 of eligible retail spend",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hdfc_infinia:earn",
+       "naive_minor": 20646,
+       "capped_minor": 20646,
+       "realized_minor": 20646,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_flight",
+       "line_description": "BLR\u2013SIN return, booked direct with the airline",
+       "benefit_id": "hdfc_infinia_earn_base",
+       "benefit_label": "5 Reward Points per \u20b9150 of eligible retail spend",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hdfc_infinia:earn",
+       "naive_minor": 47286,
+       "capped_minor": 47286,
+       "realized_minor": 47286,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_dining",
+       "line_description": "Dinner for four, Marina Bay",
+       "benefit_id": "hdfc_infinia_earn_base",
+       "benefit_label": "5 Reward Points per \u20b9150 of eligible retail spend",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hdfc_infinia:earn",
+       "naive_minor": 5607,
+       "capped_minor": 5607,
+       "realized_minor": 5607,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_retail",
+       "line_description": "Noise-cancelling headphones",
+       "benefit_id": "hdfc_infinia_earn_base",
+       "benefit_label": "5 Reward Points per \u20b9150 of eligible retail spend",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hdfc_infinia:earn",
+       "naive_minor": 8321,
+       "capped_minor": 8321,
+       "realized_minor": 8321,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      }
+     ]
+    },
+    "collisions": [],
+    "unpriced": [
+     {
+      "benefit_id": "hdfc_infinia_lounge_access",
+      "label": "Unlimited domestic and international airport lounge access via Priority Pass, for the primary and add-on cardholders, with no spend condition",
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     },
+     {
+      "benefit_id": "hdfc_infinia_forex",
+      "label": "2% foreign currency markup",
+      "note": "declared and considered, deliberately not scored: a markup is a cost avoided relative to another card, not value this cart realizes, and netting it here would make the number a comparison rather than an allocation"
+     },
+     {
+      "benefit_id": "hdfc_infinia_fee_waiver",
+      "label": "Renewal fee waived at \u20b910 lakh of annual spend",
+      "note": "declared and considered, deliberately not scored: it turns on a full year of spend, and no allocation on one cart can realize it"
+     },
+     {
+      "benefit_id": "hdfc_infinia_service",
+      "label": "24x7 concierge and Club Marriott membership",
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     }
+    ],
+    "allocator_stats": {
+     "considered": 5,
+     "assigned": 5,
+     "skipped_capacity": 0,
+     "skipped_exclusivity": 0
+    },
+    "rank": 1
+   },
+   {
+    "instrument_id": "hypothetical-illustrative-reserve",
+    "issuer": "Hypothetical Bank",
+    "product": "Illustrative Reserve",
+    "manifest_id": "hypothetical-illustrative-reserve",
+    "manifest_hash": "11522317a4ce5e71da973e22cd4f572e79e1a22e88ddd7ec9c708de628933f45",
+    "manifest_source": "HYPOTHETICAL INSTRUMENT \u2014 invented for this demonstration. Not a real product, not modelled from any issuer's published terms, and signed by no one. It is in the candidate set because the published Indian catalogue carries no statement credits, so the case where two credits compete for one line cannot be shown from real Indian terms; attaching invented credits to a real issuer's product name is the one thing this system may never do.",
+    "issuer_signed": false,
+    "signature": null,
+    "key_id": null,
+    "asserted_minor": 144587,
+    "asserted_display": "\u20b91,445.87",
+    "witness": {
+     "manifest_id": "hypothetical-illustrative-reserve",
+     "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+     "assignments": [
+      {
+       "line_sku": "in_dining",
+       "benefit_id": "hypo_dining_credit_monthly",
+       "consumed_minor": 30000,
+       "value_minor": 30000
+      },
+      {
+       "line_sku": "in_dining",
+       "benefit_id": "hypo_earn_base",
+       "consumed_minor": 1263,
+       "value_minor": 1263
+      },
+      {
+       "line_sku": "in_flight",
+       "benefit_id": "hypo_earn_travel",
+       "consumed_minor": 35500,
+       "value_minor": 35500
+      },
+      {
+       "line_sku": "in_hotel",
+       "benefit_id": "hypo_earn_base",
+       "consumed_minor": 21300,
+       "value_minor": 21300
+      },
+      {
+       "line_sku": "in_hotel",
+       "benefit_id": "hypo_stay_credit",
+       "consumed_minor": 50000,
+       "value_minor": 50000
+      },
+      {
+       "line_sku": "in_hotel_transit",
+       "benefit_id": "hypo_earn_base",
+       "consumed_minor": 4650,
+       "value_minor": 4650
+      },
+      {
+       "line_sku": "in_retail",
+       "benefit_id": "hypo_earn_base",
+       "consumed_minor": 1874,
+       "value_minor": 1874
+      }
+     ],
+     "realized_minor": 144587,
+     "realized_display": "\u20b91,445.87"
+    },
+    "witness_hash": "a6846cafb547ac8e9e3d27068e9b6fce85cdcd352aa3c2822d8ec075ad4f49ad",
+    "verification": {
+     "ok": true,
+     "supports_assertion": true,
+     "realized_minor": 144587,
+     "realized_display": "\u20b91,445.87",
+     "claimed_minor": 144587,
+     "claimed_display": "\u20b91,445.87",
+     "asserted_minor": 144587,
+     "asserted_display": "\u20b91,445.87",
+     "failures": []
+    },
+    "derivation": [
+     {
+      "line_sku": "in_dining",
+      "line_description": "Dinner for four, Marina Bay",
+      "line_amount": 168400,
+      "line_mcc": 5812,
+      "benefit_id": "hypo_dining_credit_monthly",
+      "benefit_label": "Monthly dining credit",
+      "benefit_kind": "credit",
+      "rate_bp": 0,
+      "window": "monthly",
+      "exclusivity_group": "hypo:dining_credit",
+      "consumed_minor": 30000,
+      "value_minor": 30000,
+      "value_display": "\u20b9300",
+      "capacity_before": 30000,
+      "capacity_after": 0
+     },
+     {
+      "line_sku": "in_dining",
+      "line_description": "Dinner for four, Marina Bay",
+      "line_amount": 168400,
+      "line_mcc": 5812,
+      "benefit_id": "hypo_earn_base",
+      "benefit_label": "Base earn",
+      "benefit_kind": "earn",
+      "rate_bp": 75,
+      "window": "none",
+      "exclusivity_group": "hypo:earn",
+      "consumed_minor": 1263,
+      "value_minor": 1263,
+      "value_display": "\u20b912.63",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_flight",
+      "line_description": "BLR\u2013SIN return, booked direct with the airline",
+      "line_amount": 1420000,
+      "line_mcc": 3000,
+      "benefit_id": "hypo_earn_travel",
+      "benefit_label": "Travel multiplier",
+      "benefit_kind": "earn",
+      "rate_bp": 250,
+      "window": "annual",
+      "exclusivity_group": "hypo:earn",
+      "consumed_minor": 35500,
+      "value_minor": 35500,
+      "value_display": "\u20b9355",
+      "capacity_before": 40000,
+      "capacity_after": 4500
+     },
+     {
+      "line_sku": "in_hotel",
+      "line_description": "Marina Bay hotel, 3 nights, booked direct",
+      "line_amount": 2840000,
+      "line_mcc": 7011,
+      "benefit_id": "hypo_earn_base",
+      "benefit_label": "Base earn",
+      "benefit_kind": "earn",
+      "rate_bp": 75,
+      "window": "none",
+      "exclusivity_group": "hypo:earn",
+      "consumed_minor": 21300,
+      "value_minor": 21300,
+      "value_display": "\u20b9213",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_hotel",
+      "line_description": "Marina Bay hotel, 3 nights, booked direct",
+      "line_amount": 2840000,
+      "line_mcc": 7011,
+      "benefit_id": "hypo_stay_credit",
+      "benefit_label": "Annual stay credit",
+      "benefit_kind": "credit",
+      "rate_bp": 0,
+      "window": "annual",
+      "exclusivity_group": "hypo:stay_credit",
+      "consumed_minor": 50000,
+      "value_minor": 50000,
+      "value_display": "\u20b9500",
+      "capacity_before": 50000,
+      "capacity_after": 0
+     },
+     {
+      "line_sku": "in_hotel_transit",
+      "line_description": "Airport transit hotel, 1 night, booked direct",
+      "line_amount": 620000,
+      "line_mcc": 7011,
+      "benefit_id": "hypo_earn_base",
+      "benefit_label": "Base earn",
+      "benefit_kind": "earn",
+      "rate_bp": 75,
+      "window": "none",
+      "exclusivity_group": "hypo:earn",
+      "consumed_minor": 4650,
+      "value_minor": 4650,
+      "value_display": "\u20b946.50",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_retail",
+      "line_description": "Noise-cancelling headphones",
+      "line_amount": 249900,
+      "line_mcc": 5732,
+      "benefit_id": "hypo_earn_base",
+      "benefit_label": "Base earn",
+      "benefit_kind": "earn",
+      "rate_bp": 75,
+      "window": "none",
+      "exclusivity_group": "hypo:earn",
+      "consumed_minor": 1874,
+      "value_minor": 1874,
+      "value_display": "\u20b918.74",
+      "capacity_before": null,
+      "capacity_after": null
+     }
+    ],
+    "reconciliation": {
+     "naive_minor": 3958537,
+     "naive_display": "\u20b939,585.37",
+     "capped_minor": 280737,
+     "capped_display": "\u20b92,807.37",
+     "witness_minor": 144587,
+     "witness_display": "\u20b91,445.87",
+     "overstatement_minor": 3813950,
+     "overstatement_display": "\u20b938,139.50",
+     "capped_overstatement_minor": 136150,
+     "capped_overstatement_display": "\u20b91,361.50",
+     "by_cause": [
+      {
+       "cause": "OVER_REMAINING_BALANCE",
+       "minor": 3677800,
+       "display": "\u20b936,778",
+       "visible_per_line": true
+      },
+      {
+       "cause": "STRUCK_EXCLUSIVITY_GROUP",
+       "minor": 86150,
+       "display": "\u20b9861.50",
+       "visible_per_line": false
+      },
+      {
+       "cause": "BALANCE_ALREADY_CONSUMED",
+       "minor": 50000,
+       "display": "\u20b9500",
+       "visible_per_line": false
+      }
+     ],
+     "rows": [
+      {
+       "line_sku": "in_dining",
+       "line_description": "Dinner for four, Marina Bay",
+       "benefit_id": "hypo_dining_credit_monthly",
+       "benefit_label": "Monthly dining credit",
+       "benefit_kind": "credit",
+       "exclusivity_group": "hypo:dining_credit",
+       "naive_minor": 168400,
+       "capped_minor": 30000,
+       "realized_minor": 30000,
+       "shortfall_minor": 138400,
+       "cause": "OVER_REMAINING_BALANCE",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_dining",
+       "line_description": "Dinner for four, Marina Bay",
+       "benefit_id": "hypo_dining_credit_partner",
+       "benefit_label": "Partner restaurant credit",
+       "benefit_kind": "credit",
+       "exclusivity_group": "hypo:dining_credit",
+       "naive_minor": 168400,
+       "capped_minor": 20000,
+       "realized_minor": 0,
+       "shortfall_minor": 168400,
+       "cause": "STRUCK_EXCLUSIVITY_GROUP",
+       "struck_by": "hypo_dining_credit_monthly"
+      },
+      {
+       "line_sku": "in_hotel",
+       "line_description": "Marina Bay hotel, 3 nights, booked direct",
+       "benefit_id": "hypo_stay_credit",
+       "benefit_label": "Annual stay credit",
+       "benefit_kind": "credit",
+       "exclusivity_group": "hypo:stay_credit",
+       "naive_minor": 2840000,
+       "capped_minor": 50000,
+       "realized_minor": 50000,
+       "shortfall_minor": 2790000,
+       "cause": "OVER_REMAINING_BALANCE",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_hotel_transit",
+       "line_description": "Airport transit hotel, 1 night, booked direct",
+       "benefit_id": "hypo_stay_credit",
+       "benefit_label": "Annual stay credit",
+       "benefit_kind": "credit",
+       "exclusivity_group": "hypo:stay_credit",
+       "naive_minor": 620000,
+       "capped_minor": 50000,
+       "realized_minor": 0,
+       "shortfall_minor": 620000,
+       "cause": "BALANCE_ALREADY_CONSUMED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_hotel",
+       "line_description": "Marina Bay hotel, 3 nights, booked direct",
+       "benefit_id": "hypo_earn_travel",
+       "benefit_label": "Travel multiplier",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hypo:earn",
+       "naive_minor": 71000,
+       "capped_minor": 40000,
+       "realized_minor": 0,
+       "shortfall_minor": 71000,
+       "cause": "STRUCK_EXCLUSIVITY_GROUP",
+       "struck_by": "hypo_earn_base"
+      },
+      {
+       "line_sku": "in_hotel_transit",
+       "line_description": "Airport transit hotel, 1 night, booked direct",
+       "benefit_id": "hypo_earn_travel",
+       "benefit_label": "Travel multiplier",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hypo:earn",
+       "naive_minor": 15500,
+       "capped_minor": 15500,
+       "realized_minor": 0,
+       "shortfall_minor": 15500,
+       "cause": "STRUCK_EXCLUSIVITY_GROUP",
+       "struck_by": "hypo_earn_base"
+      },
+      {
+       "line_sku": "in_flight",
+       "line_description": "BLR\u2013SIN return, booked direct with the airline",
+       "benefit_id": "hypo_earn_travel",
+       "benefit_label": "Travel multiplier",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hypo:earn",
+       "naive_minor": 35500,
+       "capped_minor": 35500,
+       "realized_minor": 35500,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_hotel",
+       "line_description": "Marina Bay hotel, 3 nights, booked direct",
+       "benefit_id": "hypo_earn_base",
+       "benefit_label": "Base earn",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hypo:earn",
+       "naive_minor": 21300,
+       "capped_minor": 21300,
+       "realized_minor": 21300,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_hotel_transit",
+       "line_description": "Airport transit hotel, 1 night, booked direct",
+       "benefit_id": "hypo_earn_base",
+       "benefit_label": "Base earn",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hypo:earn",
+       "naive_minor": 4650,
+       "capped_minor": 4650,
+       "realized_minor": 4650,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_flight",
+       "line_description": "BLR\u2013SIN return, booked direct with the airline",
+       "benefit_id": "hypo_earn_base",
+       "benefit_label": "Base earn",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hypo:earn",
+       "naive_minor": 10650,
+       "capped_minor": 10650,
+       "realized_minor": 0,
+       "shortfall_minor": 10650,
+       "cause": "STRUCK_EXCLUSIVITY_GROUP",
+       "struck_by": "hypo_earn_travel"
+      },
+      {
+       "line_sku": "in_dining",
+       "line_description": "Dinner for four, Marina Bay",
+       "benefit_id": "hypo_earn_base",
+       "benefit_label": "Base earn",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hypo:earn",
+       "naive_minor": 1263,
+       "capped_minor": 1263,
+       "realized_minor": 1263,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_retail",
+       "line_description": "Noise-cancelling headphones",
+       "benefit_id": "hypo_earn_base",
+       "benefit_label": "Base earn",
+       "benefit_kind": "earn",
+       "exclusivity_group": "hypo:earn",
+       "naive_minor": 1874,
+       "capped_minor": 1874,
+       "realized_minor": 1874,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      }
+     ]
+    },
+    "collisions": [
+     {
+      "line_sku": "in_dining",
+      "line_description": "Dinner for four, Marina Bay",
+      "line_amount": 168400,
+      "exclusivity_group": "hypo:dining_credit",
+      "winner": {
+       "benefit_id": "hypo_dining_credit_monthly",
+       "label": "Monthly dining credit",
+       "value_minor": 30000,
+       "value_display": "\u20b9300",
+       "capacity_minor": 30000
+      },
+      "struck": [
+       {
+        "benefit_id": "hypo_dining_credit_partner",
+        "label": "Partner restaurant credit",
+        "value_minor": 168400,
+        "value_display": "\u20b91,684",
+        "capacity_minor": 20000
+       }
+      ]
+     },
+     {
+      "line_sku": "in_flight",
+      "line_description": "BLR\u2013SIN return, booked direct with the airline",
+      "line_amount": 1420000,
+      "exclusivity_group": "hypo:earn",
+      "winner": {
+       "benefit_id": "hypo_earn_travel",
+       "label": "Travel multiplier",
+       "value_minor": 35500,
+       "value_display": "\u20b9355",
+       "capacity_minor": 40000
+      },
+      "struck": [
+       {
+        "benefit_id": "hypo_earn_base",
+        "label": "Base earn",
+        "value_minor": 10650,
+        "value_display": "\u20b9106.50",
+        "capacity_minor": null
+       }
+      ]
+     },
+     {
+      "line_sku": "in_hotel",
+      "line_description": "Marina Bay hotel, 3 nights, booked direct",
+      "line_amount": 2840000,
+      "exclusivity_group": "hypo:earn",
+      "winner": {
+       "benefit_id": "hypo_earn_base",
+       "label": "Base earn",
+       "value_minor": 21300,
+       "value_display": "\u20b9213",
+       "capacity_minor": null
+      },
+      "struck": [
+       {
+        "benefit_id": "hypo_earn_travel",
+        "label": "Travel multiplier",
+        "value_minor": 71000,
+        "value_display": "\u20b9710",
+        "capacity_minor": 40000
+       }
+      ]
+     },
+     {
+      "line_sku": "in_hotel_transit",
+      "line_description": "Airport transit hotel, 1 night, booked direct",
+      "line_amount": 620000,
+      "exclusivity_group": "hypo:earn",
+      "winner": {
+       "benefit_id": "hypo_earn_base",
+       "label": "Base earn",
+       "value_minor": 4650,
+       "value_display": "\u20b946.50",
+       "capacity_minor": null
+      },
+      "struck": [
+       {
+        "benefit_id": "hypo_earn_travel",
+        "label": "Travel multiplier",
+        "value_minor": 15500,
+        "value_display": "\u20b9155",
+        "capacity_minor": 40000
+       }
+      ]
+     }
+    ],
+    "unpriced": [
+     {
+      "benefit_id": "hypo_lounge",
+      "label": "Lounge access",
+      "note": "declared and considered, deliberately not scored \u2014 and invented, like everything else on this instrument"
+     }
+    ],
+    "allocator_stats": {
+     "considered": 12,
+     "assigned": 7,
+     "skipped_capacity": 3,
+     "skipped_exclusivity": 2
+    },
+    "rank": 2
+   },
+   {
+    "instrument_id": "amex-platinum-charge-in-2026",
+    "issuer": "American Express",
+    "product": "The Platinum Card (India)",
+    "manifest_id": "amex-platinum-charge-in-2026",
+    "manifest_hash": "69e801c5acfb302d8fbc0861872cb5bbf591abf37c77b85bd6225f626c8b855a",
+    "manifest_source": "publicly published card terms as at 2026-07-27, modelled; remaining balances are SYNTHETIC member state, not live issuer data",
+    "issuer_signed": true,
+    "signature": "1abe4fdfc8966c4448ff1af45c3b3736db03c6c9ef7a5ca47a2570bb4241326e",
+    "key_id": "plumbline-console-issuer",
+    "asserted_minor": 76454,
+    "asserted_display": "\u20b9764.54",
+    "witness": {
+     "manifest_id": "amex-platinum-charge-in-2026",
+     "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+     "assignments": [
+      {
+       "line_sku": "in_dining",
+       "benefit_id": "amex_in_plat_earn_overseas_3x",
+       "consumed_minor": 3149,
+       "value_minor": 3149
+      },
+      {
+       "line_sku": "in_flight",
+       "benefit_id": "amex_in_plat_earn_base",
+       "consumed_minor": 8804,
+       "value_minor": 8804
+      },
+      {
+       "line_sku": "in_fuel",
+       "benefit_id": "amex_in_plat_earn_fuel",
+       "consumed_minor": 6000,
+       "value_minor": 6000
+      },
+      {
+       "line_sku": "in_hotel",
+       "benefit_id": "amex_in_plat_earn_overseas_3x",
+       "consumed_minor": 53108,
+       "value_minor": 53108
+      },
+      {
+       "line_sku": "in_hotel_transit",
+       "benefit_id": "amex_in_plat_earn_base",
+       "consumed_minor": 3844,
+       "value_minor": 3844
+      },
+      {
+       "line_sku": "in_retail",
+       "benefit_id": "amex_in_plat_earn_base",
+       "consumed_minor": 1549,
+       "value_minor": 1549
+      }
+     ],
+     "realized_minor": 76454,
+     "realized_display": "\u20b9764.54"
+    },
+    "witness_hash": "e9489e52dee85ade0f5f675435a862c2517be5641202abbcd5ec95bea4615dff",
+    "verification": {
+     "ok": true,
+     "supports_assertion": true,
+     "realized_minor": 76454,
+     "realized_display": "\u20b9764.54",
+     "claimed_minor": 76454,
+     "claimed_display": "\u20b9764.54",
+     "asserted_minor": 76454,
+     "asserted_display": "\u20b9764.54",
+     "failures": []
+    },
+    "derivation": [
+     {
+      "line_sku": "in_dining",
+      "line_description": "Dinner for four, Marina Bay",
+      "line_amount": 168400,
+      "line_mcc": 5812,
+      "benefit_id": "amex_in_plat_earn_overseas_3x",
+      "benefit_label": "3X Membership Rewards points on spend incurred abroad",
+      "benefit_kind": "earn",
+      "rate_bp": 187,
+      "window": "none",
+      "exclusivity_group": "amex_in_plat:earn",
+      "consumed_minor": 3149,
+      "value_minor": 3149,
+      "value_display": "\u20b931.49",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_flight",
+      "line_description": "BLR\u2013SIN return, booked direct with the airline",
+      "line_amount": 1420000,
+      "line_mcc": 3000,
+      "benefit_id": "amex_in_plat_earn_base",
+      "benefit_label": "1 Membership Rewards point for every \u20b940 spent",
+      "benefit_kind": "earn",
+      "rate_bp": 62,
+      "window": "none",
+      "exclusivity_group": "amex_in_plat:earn",
+      "consumed_minor": 8804,
+      "value_minor": 8804,
+      "value_display": "\u20b988.04",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_fuel",
+      "line_description": "Fuel, full tank before the airport drive",
+      "line_amount": 480000,
+      "line_mcc": 5541,
+      "benefit_id": "amex_in_plat_earn_fuel",
+      "benefit_label": "5 Membership Rewards points for every \u20b9100 spent on fuel",
+      "benefit_kind": "earn",
+      "rate_bp": 125,
+      "window": "monthly",
+      "exclusivity_group": "amex_in_plat:earn",
+      "consumed_minor": 6000,
+      "value_minor": 6000,
+      "value_display": "\u20b960",
+      "capacity_before": 75000,
+      "capacity_after": 69000
+     },
+     {
+      "line_sku": "in_hotel",
+      "line_description": "Marina Bay hotel, 3 nights, booked direct",
+      "line_amount": 2840000,
+      "line_mcc": 7011,
+      "benefit_id": "amex_in_plat_earn_overseas_3x",
+      "benefit_label": "3X Membership Rewards points on spend incurred abroad",
+      "benefit_kind": "earn",
+      "rate_bp": 187,
+      "window": "none",
+      "exclusivity_group": "amex_in_plat:earn",
+      "consumed_minor": 53108,
+      "value_minor": 53108,
+      "value_display": "\u20b9531.08",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_hotel_transit",
+      "line_description": "Airport transit hotel, 1 night, booked direct",
+      "line_amount": 620000,
+      "line_mcc": 7011,
+      "benefit_id": "amex_in_plat_earn_base",
+      "benefit_label": "1 Membership Rewards point for every \u20b940 spent",
+      "benefit_kind": "earn",
+      "rate_bp": 62,
+      "window": "none",
+      "exclusivity_group": "amex_in_plat:earn",
+      "consumed_minor": 3844,
+      "value_minor": 3844,
+      "value_display": "\u20b938.44",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_retail",
+      "line_description": "Noise-cancelling headphones",
+      "line_amount": 249900,
+      "line_mcc": 5732,
+      "benefit_id": "amex_in_plat_earn_base",
+      "benefit_label": "1 Membership Rewards point for every \u20b940 spent",
+      "benefit_kind": "earn",
+      "rate_bp": 62,
+      "window": "none",
+      "exclusivity_group": "amex_in_plat:earn",
+      "consumed_minor": 1549,
+      "value_minor": 1549,
+      "value_display": "\u20b915.49",
+      "capacity_before": null,
+      "capacity_after": null
+     }
+    ],
+    "reconciliation": {
+     "naive_minor": 95106,
+     "naive_display": "\u20b9951.06",
+     "capped_minor": 95106,
+     "capped_display": "\u20b9951.06",
+     "witness_minor": 76454,
+     "witness_display": "\u20b9764.54",
+     "overstatement_minor": 18652,
+     "overstatement_display": "\u20b9186.52",
+     "capped_overstatement_minor": 18652,
+     "capped_overstatement_display": "\u20b9186.52",
+     "by_cause": [
+      {
+       "cause": "OVER_REMAINING_BALANCE",
+       "minor": 0,
+       "display": "\u20b90",
+       "visible_per_line": true
+      },
+      {
+       "cause": "STRUCK_EXCLUSIVITY_GROUP",
+       "minor": 18652,
+       "display": "\u20b9186.52",
+       "visible_per_line": false
+      },
+      {
+       "cause": "BALANCE_ALREADY_CONSUMED",
+       "minor": 0,
+       "display": "\u20b90",
+       "visible_per_line": false
+      }
+     ],
+     "rows": [
+      {
+       "line_sku": "in_hotel",
+       "line_description": "Marina Bay hotel, 3 nights, booked direct",
+       "benefit_id": "amex_in_plat_earn_base",
+       "benefit_label": "1 Membership Rewards point for every \u20b940 spent",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_plat:earn",
+       "naive_minor": 17608,
+       "capped_minor": 17608,
+       "realized_minor": 0,
+       "shortfall_minor": 17608,
+       "cause": "STRUCK_EXCLUSIVITY_GROUP",
+       "struck_by": "amex_in_plat_earn_overseas_3x"
+      },
+      {
+       "line_sku": "in_hotel_transit",
+       "line_description": "Airport transit hotel, 1 night, booked direct",
+       "benefit_id": "amex_in_plat_earn_base",
+       "benefit_label": "1 Membership Rewards point for every \u20b940 spent",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_plat:earn",
+       "naive_minor": 3844,
+       "capped_minor": 3844,
+       "realized_minor": 3844,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_flight",
+       "line_description": "BLR\u2013SIN return, booked direct with the airline",
+       "benefit_id": "amex_in_plat_earn_base",
+       "benefit_label": "1 Membership Rewards point for every \u20b940 spent",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_plat:earn",
+       "naive_minor": 8804,
+       "capped_minor": 8804,
+       "realized_minor": 8804,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_dining",
+       "line_description": "Dinner for four, Marina Bay",
+       "benefit_id": "amex_in_plat_earn_base",
+       "benefit_label": "1 Membership Rewards point for every \u20b940 spent",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_plat:earn",
+       "naive_minor": 1044,
+       "capped_minor": 1044,
+       "realized_minor": 0,
+       "shortfall_minor": 1044,
+       "cause": "STRUCK_EXCLUSIVITY_GROUP",
+       "struck_by": "amex_in_plat_earn_overseas_3x"
+      },
+      {
+       "line_sku": "in_retail",
+       "line_description": "Noise-cancelling headphones",
+       "benefit_id": "amex_in_plat_earn_base",
+       "benefit_label": "1 Membership Rewards point for every \u20b940 spent",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_plat:earn",
+       "naive_minor": 1549,
+       "capped_minor": 1549,
+       "realized_minor": 1549,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_hotel",
+       "line_description": "Marina Bay hotel, 3 nights, booked direct",
+       "benefit_id": "amex_in_plat_earn_overseas_3x",
+       "benefit_label": "3X Membership Rewards points on spend incurred abroad",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_plat:earn",
+       "naive_minor": 53108,
+       "capped_minor": 53108,
+       "realized_minor": 53108,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_dining",
+       "line_description": "Dinner for four, Marina Bay",
+       "benefit_id": "amex_in_plat_earn_overseas_3x",
+       "benefit_label": "3X Membership Rewards points on spend incurred abroad",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_plat:earn",
+       "naive_minor": 3149,
+       "capped_minor": 3149,
+       "realized_minor": 3149,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_fuel",
+       "line_description": "Fuel, full tank before the airport drive",
+       "benefit_id": "amex_in_plat_earn_fuel",
+       "benefit_label": "5 Membership Rewards points for every \u20b9100 spent on fuel",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_plat:earn",
+       "naive_minor": 6000,
+       "capped_minor": 6000,
+       "realized_minor": 6000,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      }
+     ]
+    },
+    "collisions": [
+     {
+      "line_sku": "in_dining",
+      "line_description": "Dinner for four, Marina Bay",
+      "line_amount": 168400,
+      "exclusivity_group": "amex_in_plat:earn",
+      "winner": {
+       "benefit_id": "amex_in_plat_earn_overseas_3x",
+       "label": "3X Membership Rewards points on spend incurred abroad",
+       "value_minor": 3149,
+       "value_display": "\u20b931.49",
+       "capacity_minor": null
+      },
+      "struck": [
+       {
+        "benefit_id": "amex_in_plat_earn_base",
+        "label": "1 Membership Rewards point for every \u20b940 spent",
+        "value_minor": 1044,
+        "value_display": "\u20b910.44",
+        "capacity_minor": null
+       }
+      ]
+     },
+     {
+      "line_sku": "in_hotel",
+      "line_description": "Marina Bay hotel, 3 nights, booked direct",
+      "line_amount": 2840000,
+      "exclusivity_group": "amex_in_plat:earn",
+      "winner": {
+       "benefit_id": "amex_in_plat_earn_overseas_3x",
+       "label": "3X Membership Rewards points on spend incurred abroad",
+       "value_minor": 53108,
+       "value_display": "\u20b9531.08",
+       "capacity_minor": null
+      },
+      "struck": [
+       {
+        "benefit_id": "amex_in_plat_earn_base",
+        "label": "1 Membership Rewards point for every \u20b940 spent",
+        "value_minor": 17608,
+        "value_display": "\u20b9176.08",
+        "capacity_minor": null
+       }
+      ]
+     }
+    ],
+    "unpriced": [
+     {
+      "benefit_id": "amex_in_plat_taj_epicure",
+      "label": "Taj Epicure Plus membership",
+      "note": "declared and considered, deliberately not scored, and stated precisely because it is the term this card is most often misquoted on: Taj Epicure Plus is a MEMBERSHIP the Cardmember enrols into, not a rupee credit. It delivers percentage privileges \u2014 25% off food and beverage at participating Taj, SeleQtions, Vivanta, Gateway and Claridges hotels, 25% off Qmin delivery, 20% off Jiva Spa treatments. American Express publishes no rupee value for it, so this manifest asserts none"
+     },
+     {
+      "benefit_id": "amex_in_plat_district_dining_offer",
+      "label": "25% off dining on District by Zomato, Wednesdays",
+      "note": "declared and considered, deliberately not scored: the published offer is 25% off up to \u20b95,000 per transaction and \u20b910,000 per calendar month, but it requires a coupon code, runs only on one weekday and is time-boxed to a promo window. This manifest's vocabulary can express none of those three conditions, and a benefit priced without the conditions that gate it would overstate"
+     },
+     {
+      "benefit_id": "amex_in_plat_lounge_access",
+      "label": "1,550+ airport lounges worldwide, including The Centurion Lounge, Delta Sky Club and Priority Pass",
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     },
+     {
+      "benefit_id": "amex_in_plat_hotel_programmes",
+      "label": "Fine Hotels + Resorts, The Hotel Collection, Taj and Oberoi partner rates, and Marriott Bonvoy and Hilton Honors Gold status",
+      "note": "declared and considered, deliberately not scored: the published figures are either an average value across stays or a discount off a rate this cart does not carry, and neither is an amount an allocation on this cart could realize"
+     },
+     {
+      "benefit_id": "amex_in_plat_milestones",
+      "label": "Welcome gift on \u20b950,000 of net spend in the first two months, and renewal vouchers up to \u20b935,000 on \u20b920 lakh of spend in the membership year",
+      "note": "declared and considered, deliberately not scored: both turn on a spend total over a membership period, and no allocation on one cart can realize them"
+     },
+     {
+      "benefit_id": "amex_in_plat_rewards_xcelerator",
+      "label": "Rewards Xcelerator, up to 20X Membership Rewards at partner brands",
+      "note": "declared and considered, deliberately not scored: member-targeted and enrollment-gated, and we model no live Offers feed and claim no access to one"
+     },
+     {
+      "benefit_id": "amex_in_plat_protections",
+      "label": "Air accident cover, purchase protection, overseas medical and emergency assistance cover",
+      "note": "declared and considered, deliberately not scored: pricing contingent cover needs a claims-probability assumption this system does not have and will not invent"
+     },
+     {
+      "benefit_id": "amex_in_plat_offers",
+      "label": "Amex Offers",
+      "note": "declared and considered, deliberately not scored: member-targeted and enrollment-gated, and we model no live Offers feed and claim no access to one"
+     }
+    ],
+    "allocator_stats": {
+     "considered": 8,
+     "assigned": 6,
+     "skipped_capacity": 0,
+     "skipped_exclusivity": 2
+    },
+    "rank": 3
+   },
+   {
+    "instrument_id": "amex-platinum-travel-in-2026",
+    "issuer": "American Express",
+    "product": "Platinum Travel Credit Card (India)",
+    "manifest_id": "amex-platinum-travel-in-2026",
+    "manifest_hash": "594ca438f97479cecb4cf389e64208f7bde3ae80408c3d820fafe126921036aa",
+    "manifest_source": "publicly published card terms as at 2026-07-27, modelled; remaining balances are SYNTHETIC member state, not live issuer data",
+    "issuer_signed": true,
+    "signature": "962b6c53a1d07617f8a7a13dfff311f085495c43601c640ce2e5b17d982d0b93",
+    "key_id": "plumbline-console-issuer",
+    "asserted_minor": 26491,
+    "asserted_display": "\u20b9264.91",
+    "witness": {
+     "manifest_id": "amex-platinum-travel-in-2026",
+     "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+     "assignments": [
+      {
+       "line_sku": "in_dining",
+       "benefit_id": "amex_in_travel_earn_base",
+       "consumed_minor": 842,
+       "value_minor": 842
+      },
+      {
+       "line_sku": "in_flight",
+       "benefit_id": "amex_in_travel_earn_base",
+       "consumed_minor": 7100,
+       "value_minor": 7100
+      },
+      {
+       "line_sku": "in_hotel",
+       "benefit_id": "amex_in_travel_earn_base",
+       "consumed_minor": 14200,
+       "value_minor": 14200
+      },
+      {
+       "line_sku": "in_hotel_transit",
+       "benefit_id": "amex_in_travel_earn_base",
+       "consumed_minor": 3100,
+       "value_minor": 3100
+      },
+      {
+       "line_sku": "in_retail",
+       "benefit_id": "amex_in_travel_earn_base",
+       "consumed_minor": 1249,
+       "value_minor": 1249
+      }
+     ],
+     "realized_minor": 26491,
+     "realized_display": "\u20b9264.91"
+    },
+    "witness_hash": "88c12622ab89b09744bd6b954dd1fbc4f601c0f7158c6c60f642d2a931516821",
+    "verification": {
+     "ok": true,
+     "supports_assertion": true,
+     "realized_minor": 26491,
+     "realized_display": "\u20b9264.91",
+     "claimed_minor": 26491,
+     "claimed_display": "\u20b9264.91",
+     "asserted_minor": 26491,
+     "asserted_display": "\u20b9264.91",
+     "failures": []
+    },
+    "derivation": [
+     {
+      "line_sku": "in_dining",
+      "line_description": "Dinner for four, Marina Bay",
+      "line_amount": 168400,
+      "line_mcc": 5812,
+      "benefit_id": "amex_in_travel_earn_base",
+      "benefit_label": "1 Membership Rewards point for every \u20b950 spent",
+      "benefit_kind": "earn",
+      "rate_bp": 50,
+      "window": "none",
+      "exclusivity_group": "amex_in_travel:earn",
+      "consumed_minor": 842,
+      "value_minor": 842,
+      "value_display": "\u20b98.42",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_flight",
+      "line_description": "BLR\u2013SIN return, booked direct with the airline",
+      "line_amount": 1420000,
+      "line_mcc": 3000,
+      "benefit_id": "amex_in_travel_earn_base",
+      "benefit_label": "1 Membership Rewards point for every \u20b950 spent",
+      "benefit_kind": "earn",
+      "rate_bp": 50,
+      "window": "none",
+      "exclusivity_group": "amex_in_travel:earn",
+      "consumed_minor": 7100,
+      "value_minor": 7100,
+      "value_display": "\u20b971",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_hotel",
+      "line_description": "Marina Bay hotel, 3 nights, booked direct",
+      "line_amount": 2840000,
+      "line_mcc": 7011,
+      "benefit_id": "amex_in_travel_earn_base",
+      "benefit_label": "1 Membership Rewards point for every \u20b950 spent",
+      "benefit_kind": "earn",
+      "rate_bp": 50,
+      "window": "none",
+      "exclusivity_group": "amex_in_travel:earn",
+      "consumed_minor": 14200,
+      "value_minor": 14200,
+      "value_display": "\u20b9142",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_hotel_transit",
+      "line_description": "Airport transit hotel, 1 night, booked direct",
+      "line_amount": 620000,
+      "line_mcc": 7011,
+      "benefit_id": "amex_in_travel_earn_base",
+      "benefit_label": "1 Membership Rewards point for every \u20b950 spent",
+      "benefit_kind": "earn",
+      "rate_bp": 50,
+      "window": "none",
+      "exclusivity_group": "amex_in_travel:earn",
+      "consumed_minor": 3100,
+      "value_minor": 3100,
+      "value_display": "\u20b931",
+      "capacity_before": null,
+      "capacity_after": null
+     },
+     {
+      "line_sku": "in_retail",
+      "line_description": "Noise-cancelling headphones",
+      "line_amount": 249900,
+      "line_mcc": 5732,
+      "benefit_id": "amex_in_travel_earn_base",
+      "benefit_label": "1 Membership Rewards point for every \u20b950 spent",
+      "benefit_kind": "earn",
+      "rate_bp": 50,
+      "window": "none",
+      "exclusivity_group": "amex_in_travel:earn",
+      "consumed_minor": 1249,
+      "value_minor": 1249,
+      "value_display": "\u20b912.49",
+      "capacity_before": null,
+      "capacity_after": null
+     }
+    ],
+    "reconciliation": {
+     "naive_minor": 26491,
+     "naive_display": "\u20b9264.91",
+     "capped_minor": 26491,
+     "capped_display": "\u20b9264.91",
+     "witness_minor": 26491,
+     "witness_display": "\u20b9264.91",
+     "overstatement_minor": 0,
+     "overstatement_display": "\u20b90",
+     "capped_overstatement_minor": 0,
+     "capped_overstatement_display": "\u20b90",
+     "by_cause": [
+      {
+       "cause": "OVER_REMAINING_BALANCE",
+       "minor": 0,
+       "display": "\u20b90",
+       "visible_per_line": true
+      },
+      {
+       "cause": "STRUCK_EXCLUSIVITY_GROUP",
+       "minor": 0,
+       "display": "\u20b90",
+       "visible_per_line": false
+      },
+      {
+       "cause": "BALANCE_ALREADY_CONSUMED",
+       "minor": 0,
+       "display": "\u20b90",
+       "visible_per_line": false
+      }
+     ],
+     "rows": [
+      {
+       "line_sku": "in_hotel",
+       "line_description": "Marina Bay hotel, 3 nights, booked direct",
+       "benefit_id": "amex_in_travel_earn_base",
+       "benefit_label": "1 Membership Rewards point for every \u20b950 spent",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_travel:earn",
+       "naive_minor": 14200,
+       "capped_minor": 14200,
+       "realized_minor": 14200,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_hotel_transit",
+       "line_description": "Airport transit hotel, 1 night, booked direct",
+       "benefit_id": "amex_in_travel_earn_base",
+       "benefit_label": "1 Membership Rewards point for every \u20b950 spent",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_travel:earn",
+       "naive_minor": 3100,
+       "capped_minor": 3100,
+       "realized_minor": 3100,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_flight",
+       "line_description": "BLR\u2013SIN return, booked direct with the airline",
+       "benefit_id": "amex_in_travel_earn_base",
+       "benefit_label": "1 Membership Rewards point for every \u20b950 spent",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_travel:earn",
+       "naive_minor": 7100,
+       "capped_minor": 7100,
+       "realized_minor": 7100,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_dining",
+       "line_description": "Dinner for four, Marina Bay",
+       "benefit_id": "amex_in_travel_earn_base",
+       "benefit_label": "1 Membership Rewards point for every \u20b950 spent",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_travel:earn",
+       "naive_minor": 842,
+       "capped_minor": 842,
+       "realized_minor": 842,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      },
+      {
+       "line_sku": "in_retail",
+       "line_description": "Noise-cancelling headphones",
+       "benefit_id": "amex_in_travel_earn_base",
+       "benefit_label": "1 Membership Rewards point for every \u20b950 spent",
+       "benefit_kind": "earn",
+       "exclusivity_group": "amex_in_travel:earn",
+       "naive_minor": 1249,
+       "capped_minor": 1249,
+       "realized_minor": 1249,
+       "shortfall_minor": 0,
+       "cause": "ASSIGNED",
+       "struck_by": null
+      }
+     ]
+    },
+    "collisions": [],
+    "unpriced": [
+     {
+      "benefit_id": "amex_in_travel_milestones",
+      "label": "7,500 bonus Membership Rewards Points at \u20b91.9 lakh of spend, 10,000 at \u20b94 lakh, and 22,500 plus a Taj e-gift card worth \u20b910,000 at \u20b97 lakh",
+      "note": "declared and considered, deliberately not scored: every threshold is measured over a membership year, and no allocation on one cart can realize any of them. This is the largest published number on the card and pricing it against a single cart would be the clearest possible way to overstate"
+     },
+     {
+      "benefit_id": "amex_in_travel_welcome",
+      "label": "Welcome gift of 10,000 Membership Rewards Points on \u20b915,000 of spend in the first 90 days",
+      "note": "declared and considered, deliberately not scored: it is a one-time event over an enrolment window, not value this cart realizes"
+     },
+     {
+      "benefit_id": "amex_in_travel_lounge_access",
+      "label": "8 complimentary domestic lounge visits a year, limited to two per quarter, plus a complimentary Priority Pass membership",
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     },
+     {
+      "benefit_id": "amex_in_travel_protections",
+      "label": "Travel and purchase protections",
+      "note": "declared and considered, deliberately not scored: pricing contingent cover needs a claims-probability assumption this system does not have and will not invent"
+     },
+     {
+      "benefit_id": "amex_in_travel_offers",
+      "label": "Amex Offers",
+      "note": "declared and considered, deliberately not scored: member-targeted and enrollment-gated, and we model no live Offers feed and claim no access to one"
+     }
+    ],
+    "allocator_stats": {
+     "considered": 5,
+     "assigned": 5,
+     "skipped_capacity": 0,
+     "skipped_exclusivity": 0
+    },
+    "rank": 4
+   }
+  ],
+  "selected": "hdfc-infinia-metal-2026",
+  "ledger_seq": 6,
+  "entry_hash": "ccd7a4e8627649bb129533ed779dd6559286e82c4b541ba53642af148f42a551",
+  "leaf_hash": "4edafc636bb2554f6307be08c16e47311741e43fbf98887426818850ffa94719",
+  "inclusion_proof": {
+   "index": 6,
+   "leaf_hash": "4edafc636bb2554f6307be08c16e47311741e43fbf98887426818850ffa94719",
+   "root": "cdad693e317108cfcac6d1d1eaee583649ce70c71cec66353515d7db99b98616",
+   "tree_size": 9,
+   "path": [
+    {
+     "side": "right",
+     "hash": "007806a99533224839875e4f8cb1628c909e475439945761173bb731502fbad6"
+    },
+    {
+     "side": "left",
+     "hash": "ffb0b748f7f8307c1fe6f4e54e879662cfe0ae2d6e8192659f80b2684b804e1d"
+    },
+    {
+     "side": "left",
+     "hash": "a7e3a94e18788100cdb7827104880b6e69bf0fee300327ea28aa14012ebe9701"
+    },
+    {
+     "side": "right",
+     "hash": "a46b7eacc112b2f42072c6aaf37cd7fed878e31d9a26daf65506ac5bec1d0c1b"
+    }
+   ]
+  },
+  "ledger_root": "cdad693e317108cfcac6d1d1eaee583649ce70c71cec66353515d7db99b98616",
+  "ledger_size": 9
+ },
+ "refusals": [
+  {
+   "case_id": "refusal_rate",
+   "label": "The published rate does not yield that much",
+   "narrative": "The agent claims \u20b93,000 of fuel earn on a \u20b94,800 fill. The published rate is 5 Membership Rewards Points per \u20b9100, and only \u20b9750 of the monthly cap is left on this account. The witness names the benefit, so the verifier recomputes the figure off the manifest instead of accepting it, and the arithmetic does not close.",
+   "asserted_minor": 370454,
+   "asserted_display": "\u20b93,704.54",
+   "supported_minor": 76454,
+   "supported_display": "\u20b9764.54",
+   "witness": {
+    "manifest_id": "amex-platinum-charge-in-2026",
+    "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+    "assignments": [
+     {
+      "line_sku": "in_dining",
+      "benefit_id": "amex_in_plat_earn_overseas_3x",
+      "consumed_minor": 3149,
+      "value_minor": 3149
+     },
+     {
+      "line_sku": "in_flight",
+      "benefit_id": "amex_in_plat_earn_base",
+      "consumed_minor": 8804,
+      "value_minor": 8804
+     },
+     {
+      "line_sku": "in_hotel",
+      "benefit_id": "amex_in_plat_earn_overseas_3x",
+      "consumed_minor": 53108,
+      "value_minor": 53108
+     },
+     {
+      "line_sku": "in_hotel_transit",
+      "benefit_id": "amex_in_plat_earn_base",
+      "consumed_minor": 3844,
+      "value_minor": 3844
+     },
+     {
+      "line_sku": "in_retail",
+      "benefit_id": "amex_in_plat_earn_base",
+      "consumed_minor": 1549,
+      "value_minor": 1549
+     },
+     {
+      "line_sku": "in_fuel",
+      "benefit_id": "amex_in_plat_earn_fuel",
+      "consumed_minor": 300000,
+      "value_minor": 300000
+     }
+    ],
+    "realized_minor": 370454,
+    "realized_display": "\u20b93,704.54"
+   },
+   "witness_hash": "1e2434c627e36e6f372da29b2b52bba136be65b2ea1323be2d24c4e6606d1a82",
+   "verification": {
+    "ok": false,
+    "supports_assertion": false,
+    "realized_minor": 70454,
+    "realized_display": "\u20b9704.54",
+    "claimed_minor": 370454,
+    "claimed_display": "\u20b93,704.54",
+    "asserted_minor": 370454,
+    "asserted_display": "\u20b93,704.54",
+    "failures": [
+     {
+      "code": "WITNESS_VALUE_MISMATCH",
+      "detail": "amex_in_plat_earn_fuel on in_fuel claims \u20b93,000, manifest yields \u20b960"
+     }
+    ]
+   },
+   "reason_code": "VALUATION_REFUSED_NO_SUPPORTING_WITNESS",
+   "ledger_seq": 7,
+   "entry_hash": "99fa702c236f8a64712ef60c8c8fd9d642d33584c52d00186591bc4f47646cfe",
+   "leaf_hash": "007806a99533224839875e4f8cb1628c909e475439945761173bb731502fbad6",
+   "inclusion_proof": {
+    "index": 7,
+    "leaf_hash": "007806a99533224839875e4f8cb1628c909e475439945761173bb731502fbad6",
+    "root": "cdad693e317108cfcac6d1d1eaee583649ce70c71cec66353515d7db99b98616",
+    "tree_size": 9,
+    "path": [
+     {
+      "side": "left",
+      "hash": "4edafc636bb2554f6307be08c16e47311741e43fbf98887426818850ffa94719"
+     },
+     {
+      "side": "left",
+      "hash": "ffb0b748f7f8307c1fe6f4e54e879662cfe0ae2d6e8192659f80b2684b804e1d"
+     },
+     {
+      "side": "left",
+      "hash": "a7e3a94e18788100cdb7827104880b6e69bf0fee300327ea28aa14012ebe9701"
+     },
+     {
+      "side": "right",
+      "hash": "a46b7eacc112b2f42072c6aaf37cd7fed878e31d9a26daf65506ac5bec1d0c1b"
+     }
+    ]
+   },
+   "ledger_root": "cdad693e317108cfcac6d1d1eaee583649ce70c71cec66353515d7db99b98616",
+   "ledger_size": 9
+  },
+  {
+   "case_id": "refusal_exclusivity",
+   "label": "The 3X replaces the 1X; it is not added to it",
+   "narrative": "The agent adds the base rate to the overseas rate on the same line. Both sit in the exclusivity group 'amex_in_plat:earn' that the manifest declares, so the verifier rejects the pair by name rather than by judgement.",
+   "asserted_minor": 94062,
+   "asserted_display": "\u20b9940.62",
+   "supported_minor": 76454,
+   "supported_display": "\u20b9764.54",
+   "witness": {
+    "manifest_id": "amex-platinum-charge-in-2026",
+    "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+    "assignments": [
+     {
+      "line_sku": "in_dining",
+      "benefit_id": "amex_in_plat_earn_overseas_3x",
+      "consumed_minor": 3149,
+      "value_minor": 3149
+     },
+     {
+      "line_sku": "in_flight",
+      "benefit_id": "amex_in_plat_earn_base",
+      "consumed_minor": 8804,
+      "value_minor": 8804
+     },
+     {
+      "line_sku": "in_fuel",
+      "benefit_id": "amex_in_plat_earn_fuel",
+      "consumed_minor": 6000,
+      "value_minor": 6000
+     },
+     {
+      "line_sku": "in_hotel",
+      "benefit_id": "amex_in_plat_earn_overseas_3x",
+      "consumed_minor": 53108,
+      "value_minor": 53108
+     },
+     {
+      "line_sku": "in_hotel_transit",
+      "benefit_id": "amex_in_plat_earn_base",
+      "consumed_minor": 3844,
+      "value_minor": 3844
+     },
+     {
+      "line_sku": "in_retail",
+      "benefit_id": "amex_in_plat_earn_base",
+      "consumed_minor": 1549,
+      "value_minor": 1549
+     },
+     {
+      "line_sku": "in_hotel",
+      "benefit_id": "amex_in_plat_earn_base",
+      "consumed_minor": 17608,
+      "value_minor": 17608
+     }
+    ],
+    "realized_minor": 94062,
+    "realized_display": "\u20b9940.62"
+   },
+   "witness_hash": "b721953e20ba96d711f063fa7b21180c80b93eb50a90d9e4c38121eb03922713",
+   "verification": {
+    "ok": false,
+    "supports_assertion": false,
+    "realized_minor": 76454,
+    "realized_display": "\u20b9764.54",
+    "claimed_minor": 94062,
+    "claimed_display": "\u20b9940.62",
+    "asserted_minor": 94062,
+    "asserted_display": "\u20b9940.62",
+    "failures": [
+     {
+      "code": "WITNESS_EXCLUSIVITY_VIOLATED",
+      "detail": "amex_in_plat_earn_overseas_3x and amex_in_plat_earn_base both claim in_hotel in group 'amex_in_plat:earn'"
+     }
+    ]
+   },
+   "reason_code": "VALUATION_REFUSED_NO_SUPPORTING_WITNESS",
+   "ledger_seq": 8,
+   "entry_hash": "5c630162e0bc03b39a1f56288fa4da90cb4124b063e6912f8310dfa60076df5c",
+   "leaf_hash": "a46b7eacc112b2f42072c6aaf37cd7fed878e31d9a26daf65506ac5bec1d0c1b",
+   "inclusion_proof": {
+    "index": 8,
+    "leaf_hash": "a46b7eacc112b2f42072c6aaf37cd7fed878e31d9a26daf65506ac5bec1d0c1b",
+    "root": "cdad693e317108cfcac6d1d1eaee583649ce70c71cec66353515d7db99b98616",
+    "tree_size": 9,
+    "path": [
+     {
+      "side": "left",
+      "hash": "920c2b211fddb9025ef75e56b8996a9b13e5fe704f35cff8b218066aa9a60eaa"
+     }
+    ]
+   },
+   "ledger_root": "cdad693e317108cfcac6d1d1eaee583649ce70c71cec66353515d7db99b98616",
+   "ledger_size": 9
+  }
+ ],
+ "omission": {
+  "narrative": "A platform shows the issuer one log and the cardholder another. To drop an instrument from a candidate set it has to rewrite an entry that is already under a published head \u2014 and a rewritten entry is a different leaf.",
+  "omitted_instrument": {
+   "instrument_id": "amex-platinum-charge-in-2026",
+   "issuer": "American Express",
+   "product": "The Platinum Card (India)",
+   "asserted_minor": 76454,
+   "asserted_display": "\u20b9764.54"
+  },
+  "head_a": {
+   "tree_size": 9,
+   "root_hash": "cdad693e317108cfcac6d1d1eaee583649ce70c71cec66353515d7db99b98616",
+   "signed_at": 1785110700,
+   "key_id": "plumbline-console-log",
+   "signature": "f52c93cad6ce27359ad03f12b1eed0572cac94b678e32504a1d11e2499a467c2"
+  },
+  "head_b": {
+   "tree_size": 14,
+   "root_hash": "eeb8d8742d7f4f2192457b4bc28606af40deaca806ccd94890961de97793a420",
+   "signed_at": 1785110900,
+   "key_id": "plumbline-console-log",
+   "signature": "b780cfa2013698c29ec8392f0da7ea9d2a4ccaf5797426a1a31e74698de2d23d"
+  },
+  "head_b_edited": {
+   "tree_size": 14,
+   "root_hash": "0d4b33e87d2eaaf6a5fbd1077a2b0a5c8e8060c913cd652594745cd9da5337f7",
+   "signed_at": 1785110900,
+   "key_id": "plumbline-console-log",
+   "signature": "8ef028eee2edb724980e464895a29522ade0ac7daaea2d6963eff71d73a4f3f2"
+  },
+  "consistency_honest": {
+   "first_size": 9,
+   "second_size": 14,
+   "first_root": "cdad693e317108cfcac6d1d1eaee583649ce70c71cec66353515d7db99b98616",
+   "second_root": "eeb8d8742d7f4f2192457b4bc28606af40deaca806ccd94890961de97793a420",
+   "path": [
+    "a46b7eacc112b2f42072c6aaf37cd7fed878e31d9a26daf65506ac5bec1d0c1b",
+    "0a1c4c346a723ae22e13b8b9150860aa037e3cb6d7ad8c7c1dad42a9ad398600",
+    "9f9716a1519e5a0685f1b92a9861992a93653335815b49330fa6e58384bb7b3d",
+    "1e5503590146d25666381ac3f32d4fddf2dac9e8b1dcb17384d2c21059f82c6b",
+    "920c2b211fddb9025ef75e56b8996a9b13e5fe704f35cff8b218066aa9a60eaa"
+   ]
+  },
+  "consistency_edited": {
+   "first_size": 9,
+   "second_size": 14,
+   "first_root": "cdad693e317108cfcac6d1d1eaee583649ce70c71cec66353515d7db99b98616",
+   "second_root": "0d4b33e87d2eaaf6a5fbd1077a2b0a5c8e8060c913cd652594745cd9da5337f7",
+   "path": [
+    "2a82b543eac8e6e75d6a644f540e5d7b64508c2403fb85a0ef041031154d71d2",
+    "d4c1d65a55ddffc761654d501ed13d610c3d350f3be220eb7ca97ab5b7bc611f",
+    "7da88a795aff49b80c1122e1a79a34b12d36b4dc70d79dd27d82aebd00fa2a0f",
+    "3c7a684f0cc00c068479ed6ac6b3237273dbce2dd559f9dbdd611308a6acefcd",
+    "769e34be43399b82a73f877aa4a83f8e0e2026fd57fdb67232600c2f7de3a7cc"
+   ]
+  },
+  "receipt_seq": 6,
+  "candidates_published": [
+   "hdfc-infinia-metal-2026",
+   "hypothetical-illustrative-reserve",
+   "amex-platinum-charge-in-2026",
+   "amex-platinum-travel-in-2026"
+  ],
+  "candidates_served": [
+   "hdfc-infinia-metal-2026",
+   "hypothetical-illustrative-reserve",
+   "amex-platinum-travel-in-2026"
+  ],
+  "vectors": [
+   {
+    "first_size": 3,
+    "second_size": 4,
+    "first_root": "af623f39efb1cb750a1a1a33c5d1f8bc330c90890d20f4740da2c0046ecfda29",
+    "second_root": "ec2816a970d1bedcdbc5c409d834eae93cedb8826beda2ea4d4d62999be67165",
+    "path": [
+     "b46e36b61dc565b613e823b14eae68de0b59f2ac3a0abdfc230b60eef6af4f7e",
+     "91f2e487b1dec33f09195f2d57c46768e128ea96a01fcd42f7ba43c2c4be207f",
+     "05ea65c37074806d8011a629bd5ef57858832fefa853de9129e484f5094c38b5"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 1,
+    "second_size": 5,
+    "first_root": "af3d164aa218a2f786cb937f1625ae17c06c961abb3fe59f3d9d2d6d14edcbec",
+    "second_root": "c95e1bd678b810cd2e2d5b5cd09bbf6b27e97dedccec08b4ef4503d0999bf990",
+    "path": [
+     "5867f95dfa620d5a3c4ff5a571de35d3785c545ea8659d3d4a2f34f5c565e1f1",
+     "7b28275ba3875ce2c8adfabf6f030bb8289f481a10c36e871458b6b0660c38ec",
+     "5967f48fdaf850a69ddef4d5db14985c8dff7f0763ddad230fd4ad488bd379ba"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 6,
+    "second_size": 8,
+    "first_root": "0711e64ce2b684d19ed004e8062ab3ed417d9dc69441baa10ecc1383e42df413",
+    "second_root": "9711ccaff388840190ea606e4b6f16d3bb0e4282dfe56e3f7c349cff6f2afac7",
+    "path": [
+     "959d5b393af6d214e36ae192cbd08218b8c16ffc74d73935972a524929fc2ad2",
+     "9819d0e6531ef412489c51326d20a9521851589f6c61dff88c0c02f38ff21df3",
+     "ec2816a970d1bedcdbc5c409d834eae93cedb8826beda2ea4d4d62999be67165"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 4,
+    "second_size": 9,
+    "first_root": "ec2816a970d1bedcdbc5c409d834eae93cedb8826beda2ea4d4d62999be67165",
+    "second_root": "e2b598f21cf2e9df84c3139a152564f2c92b6ca9b97362339bcb09ebae7c28d7",
+    "path": [
+     "f3d76b2a7d74720f768500468aa51bcb96e46c37c1b9bfdcd964ee3573bf49d8",
+     "f9af5ae5b549b152bc3f0f6ce5bf23a63ce9b93c5268378e3422de0cc549480d"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 2,
+    "second_size": 10,
+    "first_root": "05ea65c37074806d8011a629bd5ef57858832fefa853de9129e484f5094c38b5",
+    "second_root": "dd447616aac7675f96484fe29f147cb60aeafc6708712e904679ff9631c42d28",
+    "path": [
+     "7b28275ba3875ce2c8adfabf6f030bb8289f481a10c36e871458b6b0660c38ec",
+     "f3d76b2a7d74720f768500468aa51bcb96e46c37c1b9bfdcd964ee3573bf49d8",
+     "c4508ff54210ee130fcfc38c4bb999ec2a0812a9bd0fa7f7ce88d3bfde28b9ea"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 11,
+    "second_size": 11,
+    "first_root": "2099327e3f2eb9f5a9cfc395478ffa86968f94eafc9b284e03be1c4a2fd56f51",
+    "second_root": "2099327e3f2eb9f5a9cfc395478ffa86968f94eafc9b284e03be1c4a2fd56f51",
+    "path": [],
+    "expect_ok": true
+   },
+   {
+    "first_size": 9,
+    "second_size": 12,
+    "first_root": "e2b598f21cf2e9df84c3139a152564f2c92b6ca9b97362339bcb09ebae7c28d7",
+    "second_root": "33e335ce26f141e1ab3dbb94cdf83e87203f528999d83cac5e0b4ec116513ab0",
+    "path": [
+     "f9af5ae5b549b152bc3f0f6ce5bf23a63ce9b93c5268378e3422de0cc549480d",
+     "eadaa74f688344bb6be371abe698dfa2b19c15bf5d6ae134c23d1f507874b338",
+     "e2cf560db8b40fe6cf19e01ee6068649d545765e7f016789ce9fd1601ac5bfaf",
+     "9711ccaff388840190ea606e4b6f16d3bb0e4282dfe56e3f7c349cff6f2afac7"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 7,
+    "second_size": 13,
+    "first_root": "818fd5e463b036e8d999369a080f702e44365cd46cd027268c39c00c95e24692",
+    "second_root": "a0caee0c57323a98ba02ec622aacdbba7f734c155c5c5f155af09a9266bda269",
+    "path": [
+     "08ffa0b78c1d055cccd1afcb02da22a1c21e7ddd1c7b2d6181e82e5395f200c1",
+     "1191e658f5207320931a323b0ed617c5a3fa29455580ef5e1adca0e35b4eaa28",
+     "959d5b393af6d214e36ae192cbd08218b8c16ffc74d73935972a524929fc2ad2",
+     "ec2816a970d1bedcdbc5c409d834eae93cedb8826beda2ea4d4d62999be67165",
+     "116b600b52af0ae2d101f0684e5e5a18dbf64aed2346cc8451112deca8573c6d"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 5,
+    "second_size": 14,
+    "first_root": "c95e1bd678b810cd2e2d5b5cd09bbf6b27e97dedccec08b4ef4503d0999bf990",
+    "second_root": "07470bdb5f9156c631d3c0f24414c19225c7e51e08c673af3c18df7ccf52dff7",
+    "path": [
+     "5967f48fdaf850a69ddef4d5db14985c8dff7f0763ddad230fd4ad488bd379ba",
+     "489de8bc6a3b3ceb34ef1ada40610df8cb6433433d1750389d67addabcf81a11",
+     "9819d0e6531ef412489c51326d20a9521851589f6c61dff88c0c02f38ff21df3",
+     "ec2816a970d1bedcdbc5c409d834eae93cedb8826beda2ea4d4d62999be67165",
+     "1c4ed07fcdd74208e7ef7d4c97b302a673292199ae8f7daa6800b107131e3aae"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 3,
+    "second_size": 15,
+    "first_root": "af623f39efb1cb750a1a1a33c5d1f8bc330c90890d20f4740da2c0046ecfda29",
+    "second_root": "57493545656d27b37e78f2c9a18e955372bb6248314159b4c1ebcb6d1a9bd13e",
+    "path": [
+     "b46e36b61dc565b613e823b14eae68de0b59f2ac3a0abdfc230b60eef6af4f7e",
+     "91f2e487b1dec33f09195f2d57c46768e128ea96a01fcd42f7ba43c2c4be207f",
+     "05ea65c37074806d8011a629bd5ef57858832fefa853de9129e484f5094c38b5",
+     "f3d76b2a7d74720f768500468aa51bcb96e46c37c1b9bfdcd964ee3573bf49d8",
+     "d9f6463c0ddf7993f00388c1f4dcc15486dffe2d105e82137a2aae941057cd83"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 14,
+    "second_size": 15,
+    "first_root": "07470bdb5f9156c631d3c0f24414c19225c7e51e08c673af3c18df7ccf52dff7",
+    "second_root": "57493545656d27b37e78f2c9a18e955372bb6248314159b4c1ebcb6d1a9bd13e",
+    "path": [
+     "2d8f975bf6b21bb0cab5d5f8b2bd9f6e840d17077dc00145ef00e42f30547230",
+     "a28be7ee89fc84455ce8f6d5b959ba093208284a67492fef1ca29caf09dbd102",
+     "bfa288c85517a8565a8976345e177c4dd434452df9bf041f01f025741159b4df",
+     "9711ccaff388840190ea606e4b6f16d3bb0e4282dfe56e3f7c349cff6f2afac7"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 1,
+    "second_size": 16,
+    "first_root": "af3d164aa218a2f786cb937f1625ae17c06c961abb3fe59f3d9d2d6d14edcbec",
+    "second_root": "9c6e239273f1a261876b2b5c60de888d111d2202092643937f42b28cb1aa3b71",
+    "path": [
+     "5867f95dfa620d5a3c4ff5a571de35d3785c545ea8659d3d4a2f34f5c565e1f1",
+     "7b28275ba3875ce2c8adfabf6f030bb8289f481a10c36e871458b6b0660c38ec",
+     "f3d76b2a7d74720f768500468aa51bcb96e46c37c1b9bfdcd964ee3573bf49d8",
+     "c9f0658ddd4f9a3b315fe10ccffc2c6d91f683c0f023eda0b047890573b3e2b5"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 12,
+    "second_size": 16,
+    "first_root": "33e335ce26f141e1ab3dbb94cdf83e87203f528999d83cac5e0b4ec116513ab0",
+    "second_root": "9c6e239273f1a261876b2b5c60de888d111d2202092643937f42b28cb1aa3b71",
+    "path": [
+     "bfa288c85517a8565a8976345e177c4dd434452df9bf041f01f025741159b4df",
+     "37cf49d1744b025024388194fe4b49b9678b91b7821de6f075c1740022692ead",
+     "9711ccaff388840190ea606e4b6f16d3bb0e4282dfe56e3f7c349cff6f2afac7"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 10,
+    "second_size": 17,
+    "first_root": "dd447616aac7675f96484fe29f147cb60aeafc6708712e904679ff9631c42d28",
+    "second_root": "8a15797cb98d0d4f151e21b421229902808fbb53940c5408a2b82c24a57cb9e1",
+    "path": [
+     "c4508ff54210ee130fcfc38c4bb999ec2a0812a9bd0fa7f7ce88d3bfde28b9ea",
+     "e2cf560db8b40fe6cf19e01ee6068649d545765e7f016789ce9fd1601ac5bfaf",
+     "37cf49d1744b025024388194fe4b49b9678b91b7821de6f075c1740022692ead",
+     "9711ccaff388840190ea606e4b6f16d3bb0e4282dfe56e3f7c349cff6f2afac7",
+     "34824ae2fbe5e29d02df0bf439dd6ae99bc18d35e6bfecf6ec624cebdcf6bd92"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 8,
+    "second_size": 18,
+    "first_root": "9711ccaff388840190ea606e4b6f16d3bb0e4282dfe56e3f7c349cff6f2afac7",
+    "second_root": "7d37d8426f9475c06491a044a1e63d0c35e3bdcbf5831ac35a1d6e0ce3ba47e1",
+    "path": [
+     "c9f0658ddd4f9a3b315fe10ccffc2c6d91f683c0f023eda0b047890573b3e2b5",
+     "cfc5a42aab04a6eec9e2620147f6b7cdc0cb1e47e5a08cf6c7d50b3494077dbd"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 6,
+    "second_size": 19,
+    "first_root": "0711e64ce2b684d19ed004e8062ab3ed417d9dc69441baa10ecc1383e42df413",
+    "second_root": "7873892590019441e6ab6deed394878ca44696ca6a55b7c6f0ca6d52e9fd62d5",
+    "path": [
+     "959d5b393af6d214e36ae192cbd08218b8c16ffc74d73935972a524929fc2ad2",
+     "9819d0e6531ef412489c51326d20a9521851589f6c61dff88c0c02f38ff21df3",
+     "ec2816a970d1bedcdbc5c409d834eae93cedb8826beda2ea4d4d62999be67165",
+     "c9f0658ddd4f9a3b315fe10ccffc2c6d91f683c0f023eda0b047890573b3e2b5",
+     "d840c48663630920ff536495cfe456709767a773793af451468e4333292633c6"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 17,
+    "second_size": 19,
+    "first_root": "8a15797cb98d0d4f151e21b421229902808fbb53940c5408a2b82c24a57cb9e1",
+    "second_root": "7873892590019441e6ab6deed394878ca44696ca6a55b7c6f0ca6d52e9fd62d5",
+    "path": [
+     "34824ae2fbe5e29d02df0bf439dd6ae99bc18d35e6bfecf6ec624cebdcf6bd92",
+     "ed7bf0cd02f91fc85e5f2eac19973127f9612d6984c073dcee1659329eec9290",
+     "b406ba0daac6e0b4203f1c7fc27ba62aa90b3dd3a9cfca21e7752ac743a220dc",
+     "9c6e239273f1a261876b2b5c60de888d111d2202092643937f42b28cb1aa3b71"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 4,
+    "second_size": 20,
+    "first_root": "ec2816a970d1bedcdbc5c409d834eae93cedb8826beda2ea4d4d62999be67165",
+    "second_root": "1da2ab0f261954b2c5569269c600110992a4156bb5f3f26e7555804de414f8ed",
+    "path": [
+     "f3d76b2a7d74720f768500468aa51bcb96e46c37c1b9bfdcd964ee3573bf49d8",
+     "c9f0658ddd4f9a3b315fe10ccffc2c6d91f683c0f023eda0b047890573b3e2b5",
+     "0ed6888846aff77c968068a3feca82fa66e2f172b6f75344019b978b169e5f71"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 15,
+    "second_size": 20,
+    "first_root": "57493545656d27b37e78f2c9a18e955372bb6248314159b4c1ebcb6d1a9bd13e",
+    "second_root": "1da2ab0f261954b2c5569269c600110992a4156bb5f3f26e7555804de414f8ed",
+    "path": [
+     "a28be7ee89fc84455ce8f6d5b959ba093208284a67492fef1ca29caf09dbd102",
+     "1a909eca3289ef5eabb41db458a44a3893523259ae6738833c1fc01f95e1b727",
+     "2d8f975bf6b21bb0cab5d5f8b2bd9f6e840d17077dc00145ef00e42f30547230",
+     "bfa288c85517a8565a8976345e177c4dd434452df9bf041f01f025741159b4df",
+     "9711ccaff388840190ea606e4b6f16d3bb0e4282dfe56e3f7c349cff6f2afac7",
+     "0ed6888846aff77c968068a3feca82fa66e2f172b6f75344019b978b169e5f71"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 2,
+    "second_size": 21,
+    "first_root": "05ea65c37074806d8011a629bd5ef57858832fefa853de9129e484f5094c38b5",
+    "second_root": "2d8e7c6bcec4d9c4e3c2a6e9e2eef133343bc36225d9e6b1a2cf1899f6e47e7b",
+    "path": [
+     "7b28275ba3875ce2c8adfabf6f030bb8289f481a10c36e871458b6b0660c38ec",
+     "f3d76b2a7d74720f768500468aa51bcb96e46c37c1b9bfdcd964ee3573bf49d8",
+     "c9f0658ddd4f9a3b315fe10ccffc2c6d91f683c0f023eda0b047890573b3e2b5",
+     "9026d4993e3924fd6d2f3ea524dbc251176025515234e3e304d2731011196015"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 13,
+    "second_size": 21,
+    "first_root": "a0caee0c57323a98ba02ec622aacdbba7f734c155c5c5f155af09a9266bda269",
+    "second_root": "2d8e7c6bcec4d9c4e3c2a6e9e2eef133343bc36225d9e6b1a2cf1899f6e47e7b",
+    "path": [
+     "7dde67dc3662855f7d9d87d8ec63877091822a0fa4df192949aef35f1df401b5",
+     "0b661fd52fca5dc2edc4965530906cfd6a3c0e38f46f26ac9e928baa99212412",
+     "09e40d3550f6d8703677414a28e47e0bb197e7d491e2a87cd4e18f312b483f88",
+     "bfa288c85517a8565a8976345e177c4dd434452df9bf041f01f025741159b4df",
+     "9711ccaff388840190ea606e4b6f16d3bb0e4282dfe56e3f7c349cff6f2afac7",
+     "9026d4993e3924fd6d2f3ea524dbc251176025515234e3e304d2731011196015"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 11,
+    "second_size": 22,
+    "first_root": "2099327e3f2eb9f5a9cfc395478ffa86968f94eafc9b284e03be1c4a2fd56f51",
+    "second_root": "aea62effe252fc873c9c20ac2fd39f2ae75f29e6def180d3b3227447fc1c0ffa",
+    "path": [
+     "1eeba3740697e7ec05d97f26cfcb4bec6c8896d7980712eb427a54565d2f80bf",
+     "e3f71dd2408514cd8e8df204b35590425e559e8d0e4ebae3521a30008dbd1aec",
+     "c4508ff54210ee130fcfc38c4bb999ec2a0812a9bd0fa7f7ce88d3bfde28b9ea",
+     "37cf49d1744b025024388194fe4b49b9678b91b7821de6f075c1740022692ead",
+     "9711ccaff388840190ea606e4b6f16d3bb0e4282dfe56e3f7c349cff6f2afac7",
+     "f7a0b148206702eafa6a15f9c3d1422adafac7de7bcf236404021dadb3b218a5"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 22,
+    "second_size": 22,
+    "first_root": "aea62effe252fc873c9c20ac2fd39f2ae75f29e6def180d3b3227447fc1c0ffa",
+    "second_root": "aea62effe252fc873c9c20ac2fd39f2ae75f29e6def180d3b3227447fc1c0ffa",
+    "path": [],
+    "expect_ok": true
+   },
+   {
+    "first_size": 9,
+    "second_size": 23,
+    "first_root": "e2b598f21cf2e9df84c3139a152564f2c92b6ca9b97362339bcb09ebae7c28d7",
+    "second_root": "3fb8fd371ef384a19715b5090eaab775a30609c524dd092e9024c9f06ede3132",
+    "path": [
+     "f9af5ae5b549b152bc3f0f6ce5bf23a63ce9b93c5268378e3422de0cc549480d",
+     "eadaa74f688344bb6be371abe698dfa2b19c15bf5d6ae134c23d1f507874b338",
+     "e2cf560db8b40fe6cf19e01ee6068649d545765e7f016789ce9fd1601ac5bfaf",
+     "37cf49d1744b025024388194fe4b49b9678b91b7821de6f075c1740022692ead",
+     "9711ccaff388840190ea606e4b6f16d3bb0e4282dfe56e3f7c349cff6f2afac7",
+     "2be7491bb5efcd83ff31453faf4226d3f09ad0890c31527a4d1242ae85066667"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 20,
+    "second_size": 23,
+    "first_root": "1da2ab0f261954b2c5569269c600110992a4156bb5f3f26e7555804de414f8ed",
+    "second_root": "3fb8fd371ef384a19715b5090eaab775a30609c524dd092e9024c9f06ede3132",
+    "path": [
+     "0ed6888846aff77c968068a3feca82fa66e2f172b6f75344019b978b169e5f71",
+     "8cf31679d90d7385044c0477574b7f274d49a42d76074501e94bf04dad3b9a86",
+     "9c6e239273f1a261876b2b5c60de888d111d2202092643937f42b28cb1aa3b71"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 7,
+    "second_size": 24,
+    "first_root": "818fd5e463b036e8d999369a080f702e44365cd46cd027268c39c00c95e24692",
+    "second_root": "ffeee805509325505855d502247c60ca799997e157407dcc251c80e0d3375750",
+    "path": [
+     "08ffa0b78c1d055cccd1afcb02da22a1c21e7ddd1c7b2d6181e82e5395f200c1",
+     "1191e658f5207320931a323b0ed617c5a3fa29455580ef5e1adca0e35b4eaa28",
+     "959d5b393af6d214e36ae192cbd08218b8c16ffc74d73935972a524929fc2ad2",
+     "ec2816a970d1bedcdbc5c409d834eae93cedb8826beda2ea4d4d62999be67165",
+     "c9f0658ddd4f9a3b315fe10ccffc2c6d91f683c0f023eda0b047890573b3e2b5",
+     "58134285856ceec62abb877711b4b3f3a343d682afdd74765503fbc44201e2ec"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 18,
+    "second_size": 24,
+    "first_root": "7d37d8426f9475c06491a044a1e63d0c35e3bdcbf5831ac35a1d6e0ce3ba47e1",
+    "second_root": "ffeee805509325505855d502247c60ca799997e157407dcc251c80e0d3375750",
+    "path": [
+     "cfc5a42aab04a6eec9e2620147f6b7cdc0cb1e47e5a08cf6c7d50b3494077dbd",
+     "3d9be32bae2868907492f80bd235bd6d5d62591a69abbd6acbcab465f5593df8",
+     "480cea59a0ba3a9b7545833b2828e1790430cf08c58cb4a1f62f1c6f8d32f1be",
+     "9c6e239273f1a261876b2b5c60de888d111d2202092643937f42b28cb1aa3b71"
+    ],
+    "expect_ok": true
+   },
+   {
+    "first_size": 5,
+    "second_size": 17,
+    "first_root": "c95e1bd678b810cd2e2d5b5cd09bbf6b27e97dedccec08b4ef4503d0999bf990",
+    "second_root": "fa15797cb98d0d4f151e21b421229902808fbb53940c5408a2b82c24a57cb9e1",
+    "path": [
+     "5967f48fdaf850a69ddef4d5db14985c8dff7f0763ddad230fd4ad488bd379ba",
+     "489de8bc6a3b3ceb34ef1ada40610df8cb6433433d1750389d67addabcf81a11",
+     "9819d0e6531ef412489c51326d20a9521851589f6c61dff88c0c02f38ff21df3",
+     "ec2816a970d1bedcdbc5c409d834eae93cedb8826beda2ea4d4d62999be67165",
+     "c9f0658ddd4f9a3b315fe10ccffc2c6d91f683c0f023eda0b047890573b3e2b5",
+     "34824ae2fbe5e29d02df0bf439dd6ae99bc18d35e6bfecf6ec624cebdcf6bd92"
+    ],
+    "expect_ok": false
+   },
+   {
+    "first_size": 5,
+    "second_size": 17,
+    "first_root": "c95e1bd678b810cd2e2d5b5cd09bbf6b27e97dedccec08b4ef4503d0999bf990",
+    "second_root": "8a15797cb98d0d4f151e21b421229902808fbb53940c5408a2b82c24a57cb9e1",
+    "path": [
+     "5967f48fdaf850a69ddef4d5db14985c8dff7f0763ddad230fd4ad488bd379ba",
+     "489de8bc6a3b3ceb34ef1ada40610df8cb6433433d1750389d67addabcf81a11",
+     "9819d0e6531ef412489c51326d20a9521851589f6c61dff88c0c02f38ff21df3",
+     "ec2816a970d1bedcdbc5c409d834eae93cedb8826beda2ea4d4d62999be67165",
+     "c9f0658ddd4f9a3b315fe10ccffc2c6d91f683c0f023eda0b047890573b3e2b5"
+    ],
+    "expect_ok": false
+   }
+  ]
+ },
+ "attribution": {
+  "as_of": 1785110400,
+  "corpus_size": 180,
+  "method": "per receipt, delete one benefit from its manifest, re-run the allocator, and re-apply the stated criterion; decisive means the selected instrument changes",
+  "cost_source": "modelled annual programme cost per benefit \u2014 an input, not a measurement",
+  "thresholds": {
+   "high_cost_minor": 1000000,
+   "high_cost_display": "\u20b910,000",
+   "decisive_bp": 1000
+  },
+  "caveat": "This measures selection influence at the moment of choice. It does not measure retention, incremental spend, or renewal. A benefit that never appears in a winning derivation may still be why the card was taken out \u2014 most of what this card is held for is declared as considered-but-unpriced and is not on this chart at all.",
+  "wins": [
+   {
+    "manifest_id": "amex-platinum-charge-in-2026",
+    "wins": 32
+   },
+   {
+    "manifest_id": "amex-platinum-travel-in-2026",
+    "wins": 0
+   },
+   {
+    "manifest_id": "hdfc-infinia-metal-2026",
+    "wins": 78
+   },
+   {
+    "manifest_id": "hypothetical-illustrative-reserve",
+    "wins": 70
+   }
+  ],
+  "benefits": [
+   {
+    "benefit_id": "amex_in_plat_earn_fuel",
+    "label": "5 Membership Rewards points for every \u20b9100 spent on fuel",
+    "kind": "earn",
+    "issuer": "American Express",
+    "product": "The Platinum Card (India)",
+    "manifest_id": "amex-platinum-charge-in-2026",
+    "in_candidate_set": 62,
+    "in_winning_derivation": 32,
+    "decisive": 32,
+    "value_delivered_minor": 225668,
+    "annual_cost_minor": 1500000,
+    "decisive_bp": 5161,
+    "high_cost": true,
+    "often_decisive": true,
+    "quadrant": "LOAD_BEARING",
+    "value_delivered_display": "\u20b92,256.68",
+    "annual_cost_display": "\u20b915,000"
+   },
+   {
+    "benefit_id": "amex_in_plat_earn_overseas_3x",
+    "label": "3X Membership Rewards points on spend incurred abroad",
+    "kind": "earn",
+    "issuer": "American Express",
+    "product": "The Platinum Card (India)",
+    "manifest_id": "amex-platinum-charge-in-2026",
+    "in_candidate_set": 51,
+    "in_winning_derivation": 14,
+    "decisive": 10,
+    "value_delivered_minor": 95900,
+    "annual_cost_minor": 375000,
+    "decisive_bp": 1960,
+    "high_cost": false,
+    "often_decisive": true,
+    "quadrant": "OPTION",
+    "value_delivered_display": "\u20b9959",
+    "annual_cost_display": "\u20b93,750"
+   },
+   {
+    "benefit_id": "amex_in_plat_earn_base",
+    "label": "1 Membership Rewards point for every \u20b940 spent",
+    "kind": "earn",
+    "issuer": "American Express",
+    "product": "The Platinum Card (India)",
+    "manifest_id": "amex-platinum-charge-in-2026",
+    "in_candidate_set": 159,
+    "in_winning_derivation": 1,
+    "decisive": 0,
+    "value_delivered_minor": 457,
+    "annual_cost_minor": 1250000,
+    "decisive_bp": 0,
+    "high_cost": true,
+    "often_decisive": false,
+    "quadrant": "DEAD_WEIGHT",
+    "value_delivered_display": "\u20b94.57",
+    "annual_cost_display": "\u20b912,500"
+   },
+   {
+    "benefit_id": "amex_in_travel_earn_base",
+    "label": "1 Membership Rewards point for every \u20b950 spent",
+    "kind": "earn",
+    "issuer": "American Express",
+    "product": "Platinum Travel Credit Card (India)",
+    "manifest_id": "amex-platinum-travel-in-2026",
+    "in_candidate_set": 159,
+    "in_winning_derivation": 0,
+    "decisive": 0,
+    "value_delivered_minor": 0,
+    "annual_cost_minor": 250000,
+    "decisive_bp": 0,
+    "high_cost": false,
+    "often_decisive": false,
+    "quadrant": "NOISE",
+    "value_delivered_display": "\u20b90",
+    "annual_cost_display": "\u20b92,500"
+   }
+  ]
+ }
+}

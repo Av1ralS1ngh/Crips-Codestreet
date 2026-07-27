@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.smoke.tsbuildinfo",
+    "types": ["vite/client", "node", "jsdom"],
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "resolveJsonModule": true
+  },
+  "include": ["scripts", "src"]
+}

@@ -1,0 +1,2323 @@
+{
+ "name": "graceful_degrade",
+ "title": "Observe by default, enforce by election",
+ "headline": "Four passes: 3 proceed, 1 deny. The only denial is the one the Card Member elected, and it denies against their own mandate, not against the platform.",
+ "clock": 1785110400,
+ "notes": [
+  "Absence of a counterpart receipt is logged as an unattested selection, never as a decline. A corpus with no record of its own holes cannot be used to reason about coverage.",
+  "No receipt, no Agent Purchase Protection coverage. Coverage is conditioned on evidence; authorization is not.",
+  "The receipt obligation is a caveat on the mandate the Card Member issues to their own agent, not a condition imposed on a platform.",
+  "Three of these four passes are a signed record that the ranking was performed faithfully, which is what makes the receipt something a platform would display."
+ ],
+ "data": {
+  "cart": {
+   "merchant": "m_travel_desk",
+   "currency": "USD",
+   "lines": [
+    {
+     "sku": "usd_air",
+     "description": "United round trip SFO-BOS, booked direct",
+     "amount": 74200,
+     "mcc": 3000,
+     "category": "airfare",
+     "qty": 1
+    },
+    {
+     "sku": "usd_hotel",
+     "description": "Hotel, 3 nights, booked direct with the property",
+     "amount": 91800,
+     "mcc": 7011,
+     "category": "hotel_direct",
+     "qty": 1
+    },
+    {
+     "sku": "usd_dining",
+     "description": "Dinner for four",
+     "amount": 28400,
+     "mcc": 5812,
+     "category": "dining",
+     "qty": 1
+    },
+    {
+     "sku": "usd_grocery",
+     "description": "Weekly groceries",
+     "amount": 19600,
+     "mcc": 5411,
+     "category": "us_supermarket",
+     "qty": 1
+    },
+    {
+     "sku": "usd_bags",
+     "description": "United checked bags and seat selection",
+     "amount": 14800,
+     "mcc": 3000,
+     "category": "airline_incidental",
+     "qty": 1
+    }
+   ]
+  },
+  "cart_total_minor": 228800,
+  "cart_total_display": "$2,288",
+  "mandate": {
+   "mandate_id": "mnd_plumbline_demo_wallet",
+   "authorized_instrument_ids": [
+    "amex-gold-us-2026",
+    "amex-platinum-us-2026",
+    "chase-sapphire-reserve-2026"
+   ],
+   "disclosure_caveat": true
+  },
+  "chosen_instrument_id": "chase-sapphire-reserve-2026",
+  "passes": [
+   {
+    "posture": "observe_only",
+    "counterpart_receipt": true,
+    "proceeds": true,
+    "reason_code": "SELECTION_ATTESTED",
+    "detail": "receipt rcpt_graceful_degrade discharges the disclosure caveat on mandate mnd_plumbline_demo_wallet",
+    "coverage_eligible": true,
+    "log_seq": 3,
+    "assessment": {
+     "posture": "observe_only",
+     "proceeds": true,
+     "reason_code": "SELECTION_ATTESTED",
+     "detail": "receipt rcpt_graceful_degrade discharges the disclosure caveat on mandate mnd_plumbline_demo_wallet",
+     "coverage_eligible": true,
+     "record": {
+      "session_hash": "3083628df99ca73716055cdb0f2db6da501510b44258b8a5429d5667a53ff3ea",
+      "cart_hash": "37343845043ef7f640a0e291c7f9df54e363f8982eff0d4981dcd3eaf214b478",
+      "mandate_id": "mnd_plumbline_demo_wallet",
+      "receipt_id": "rcpt_graceful_degrade",
+      "receipt_hash": "224865a61330cdf1bb65e256ee2fee2f68041cac0ff02115bdcdcacec92d8eee",
+      "assessed_at": 1785110430,
+      "reason_code": "SELECTION_ATTESTED"
+     }
+    }
+   },
+   {
+    "posture": "observe_only",
+    "counterpart_receipt": false,
+    "proceeds": true,
+    "reason_code": "UNATTESTED_SELECTION",
+    "detail": "no counterpart receipt; the transaction proceeds and the selection is recorded as unattested. Agent Purchase Protection coverage is conditioned on evidence; authorization is not.",
+    "coverage_eligible": false,
+    "log_seq": 4,
+    "assessment": {
+     "posture": "observe_only",
+     "proceeds": true,
+     "reason_code": "UNATTESTED_SELECTION",
+     "detail": "no counterpart receipt; the transaction proceeds and the selection is recorded as unattested. Agent Purchase Protection coverage is conditioned on evidence; authorization is not.",
+     "coverage_eligible": false,
+     "record": {
+      "session_hash": "3083628df99ca73716055cdb0f2db6da501510b44258b8a5429d5667a53ff3ea",
+      "cart_hash": "37343845043ef7f640a0e291c7f9df54e363f8982eff0d4981dcd3eaf214b478",
+      "mandate_id": "mnd_plumbline_demo_wallet",
+      "merchant": "m_travel_desk",
+      "amount_minor": 228800,
+      "assessed_at": 1785110460,
+      "reason_code": "UNATTESTED_SELECTION",
+      "note": "no counterpart receipt was produced for this selection; the gap is recorded, not penalised"
+     }
+    }
+   },
+   {
+    "posture": "enforce",
+    "counterpart_receipt": true,
+    "proceeds": true,
+    "reason_code": "SELECTION_ATTESTED",
+    "detail": "receipt rcpt_graceful_degrade discharges the disclosure caveat on mandate mnd_plumbline_demo_wallet",
+    "coverage_eligible": true,
+    "log_seq": 5,
+    "assessment": {
+     "posture": "enforce",
+     "proceeds": true,
+     "reason_code": "SELECTION_ATTESTED",
+     "detail": "receipt rcpt_graceful_degrade discharges the disclosure caveat on mandate mnd_plumbline_demo_wallet",
+     "coverage_eligible": true,
+     "record": {
+      "session_hash": "3083628df99ca73716055cdb0f2db6da501510b44258b8a5429d5667a53ff3ea",
+      "cart_hash": "37343845043ef7f640a0e291c7f9df54e363f8982eff0d4981dcd3eaf214b478",
+      "mandate_id": "mnd_plumbline_demo_wallet",
+      "receipt_id": "rcpt_graceful_degrade",
+      "receipt_hash": "224865a61330cdf1bb65e256ee2fee2f68041cac0ff02115bdcdcacec92d8eee",
+      "assessed_at": 1785110490,
+      "reason_code": "SELECTION_ATTESTED"
+     }
+    }
+   },
+   {
+    "posture": "enforce",
+    "counterpart_receipt": false,
+    "proceeds": false,
+    "reason_code": "DISCLOSURE_CAVEAT_UNDISCHARGED",
+    "detail": "the Card Member elected enforcement on mandate mnd_plumbline_demo_wallet. Their agent could not produce the disclosure its own delegated authority requires, so the delegation does not discharge.",
+    "coverage_eligible": false,
+    "log_seq": 6,
+    "assessment": {
+     "posture": "enforce",
+     "proceeds": false,
+     "reason_code": "DISCLOSURE_CAVEAT_UNDISCHARGED",
+     "detail": "the Card Member elected enforcement on mandate mnd_plumbline_demo_wallet. Their agent could not produce the disclosure its own delegated authority requires, so the delegation does not discharge.",
+     "coverage_eligible": false,
+     "record": {
+      "session_hash": "3083628df99ca73716055cdb0f2db6da501510b44258b8a5429d5667a53ff3ea",
+      "cart_hash": "37343845043ef7f640a0e291c7f9df54e363f8982eff0d4981dcd3eaf214b478",
+      "mandate_id": "mnd_plumbline_demo_wallet",
+      "merchant": "m_travel_desk",
+      "amount_minor": 228800,
+      "assessed_at": 1785110520,
+      "reason_code": "DISCLOSURE_CAVEAT_UNDISCHARGED",
+      "note": "no counterpart receipt was produced for this selection; the gap is recorded, not penalised"
+     }
+    }
+   }
+  ],
+  "log_entry_kinds": {
+   "decision_receipt": 2,
+   "manifest_published": 3,
+   "unattested_selection": 2
+  },
+  "reason_code_counts": {
+   "DISCLOSURE_CAVEAT_UNDISCHARGED": 1,
+   "SELECTION_ATTESTED": 2,
+   "UNATTESTED_SELECTION": 1
+  },
+  "signed_tree_head": {
+   "version": "plumbline/sth/1",
+   "log_id": "plumbline-demo-log",
+   "tree_size": 7,
+   "root_hash": "47cc34e2de583bf172631a72a014f30e7fa9c7a3594c9696b5d01006e242d6c5",
+   "timestamp": 1785110520,
+   "signature": {
+    "alg": "HMAC-SHA256",
+    "key_id": "aa9cd3b7558d6adb",
+    "value": "d2b30257c1bed597883d51477aeb6e4e7a428bd78ac1268efc55eea158e5af13"
+   }
+  },
+  "receipt": {
+   "receipt": {
+    "version": "plumbline/receipt/1",
+    "receipt_id": "rcpt_graceful_degrade",
+    "issued_at": 1785110400,
+    "posture": "observe_only",
+    "session": {
+     "session_id": "sess_plumbline_demo",
+     "merchant": "m_travel_desk",
+     "currency": "USD",
+     "cart_hash": "37343845043ef7f640a0e291c7f9df54e363f8982eff0d4981dcd3eaf214b478",
+     "cart_total_minor": 228800,
+     "initiated_at": 1785110400,
+     "session_hash": "3083628df99ca73716055cdb0f2db6da501510b44258b8a5429d5667a53ff3ea",
+     "cart_total_display": "$2,288"
+    },
+    "mandate": {
+     "mandate_id": "mnd_plumbline_demo_wallet",
+     "authorized_instrument_ids": [
+      "amex-gold-us-2026",
+      "amex-platinum-us-2026",
+      "chase-sapphire-reserve-2026"
+     ],
+     "disclosure_caveat": true
+    },
+    "identities": {
+     "agent": {
+      "kind": "agent",
+      "identifier": "agent_plumbline_demo",
+      "name": "the Card Member's shopping agent",
+      "key_id": ""
+     },
+     "platform": {
+      "kind": "platform",
+      "identifier": "platform_third_party_checkout",
+      "name": "a third-party agentic checkout",
+      "key_id": ""
+     }
+    },
+    "candidate_set": {
+     "size": 3,
+     "instrument_ids": [
+      "amex-gold-us-2026",
+      "amex-platinum-us-2026",
+      "chase-sapphire-reserve-2026"
+     ],
+     "digest": "6d531d25bb54a2f039c5add0522a6576c14a0722e3d7a2c91e584752fc487f4b",
+     "candidates": [
+      {
+       "instrument_id": "amex-gold-us-2026",
+       "manifest_id": "amex-gold-us-2026",
+       "issuer": "American Express",
+       "product": "American Express Gold Card (US)",
+       "manifest_content_hash": "c6a5a4d5301359c10d8451f127ed4a481847456f52e08803707d484c90e1cdd1",
+       "issuer_signature": {
+        "alg": "HMAC-SHA256",
+        "key_id": "plumbline-demo-issuer",
+        "value": "e70c8d24f98ebda4f9cdb625761fe5b76c8fc544ca2896d2d7d9879269e7a9bb",
+        "covers": "the manifest body only \u2014 facts, never a comparison"
+       },
+       "status": "ATTESTED",
+       "witness_status": "WITNESS_VERIFIED",
+       "asserted_value_minor": 5212,
+       "asserted_value_display": "$52.12",
+       "protection_value_minor": 0,
+       "witness_hash": "3e63897ac0350adfc11a7d9ca6da71cc9f49b16166469a8756706e62edfb0ecd",
+       "realized_minor": 5212,
+       "attestable_hash": "118442cedf8b4641341ad8d07505c7ee6bd840dba3bc8e4f10f3b0e5b3426bf1",
+       "failure_codes": [],
+       "refusal_codes": [],
+       "unpriced_benefit_ids": [
+        "amex_gold_no_lounge_access",
+        "amex_gold_service",
+        "amex_gold_protections",
+        "amex_gold_offers"
+       ],
+       "note": ""
+      },
+      {
+       "instrument_id": "amex-platinum-us-2026",
+       "manifest_id": "amex-platinum-us-2026",
+       "issuer": "American Express",
+       "product": "The Platinum Card (US)",
+       "manifest_content_hash": "a0da51856acf689caa5fb6631afa4580ab602e9a4300f77e2ad7cd5f3f3a80cb",
+       "issuer_signature": {
+        "alg": "HMAC-SHA256",
+        "key_id": "plumbline-demo-issuer",
+        "value": "5f1b8aa95dbc7dea5ebb01e454dcca1cd2bcb643aa4471f7eb2003af80c67116",
+        "covers": "the manifest body only \u2014 facts, never a comparison"
+       },
+       "status": "ATTESTED",
+       "witness_status": "WITNESS_VERIFIED",
+       "asserted_value_minor": 20056,
+       "asserted_value_display": "$200.56",
+       "protection_value_minor": 0,
+       "witness_hash": "d9f1cd76cae8b85cee694bc0631d6d788f8d339c1284689e7202424b4c5dc021",
+       "realized_minor": 20056,
+       "attestable_hash": "112939a8c6f7759d2f642c0807dd6af5ae7bb7d7949cf89493aa15fcc05e22b8",
+       "failure_codes": [],
+       "refusal_codes": [],
+       "unpriced_benefit_ids": [
+        "amex_plat_lounge_access",
+        "amex_plat_hotel_status",
+        "amex_plat_service",
+        "amex_plat_protections",
+        "amex_plat_offers"
+       ],
+       "note": ""
+      },
+      {
+       "instrument_id": "chase-sapphire-reserve-2026",
+       "manifest_id": "chase-sapphire-reserve-2026",
+       "issuer": "JPMorgan Chase",
+       "product": "Chase Sapphire Reserve",
+       "manifest_content_hash": "267592ffdc14f8a747a6da39c50bce5458e5beb94bdbd1f8ff21ff3159432bde",
+       "issuer_signature": {
+        "alg": "HMAC-SHA256",
+        "key_id": "plumbline-demo-issuer",
+        "value": "d1e6ef84ab8ebd07fd61decea58e6e3a5a931612378296efd965b6a7d6478acc",
+        "covers": "the manifest body only \u2014 facts, never a comparison"
+       },
+       "status": "ATTESTED",
+       "witness_status": "WITNESS_VERIFIED",
+       "asserted_value_minor": 37836,
+       "asserted_value_display": "$378.36",
+       "protection_value_minor": 0,
+       "witness_hash": "97e31fb452f17bb2a2505263d20569e1ef498280ce101fd9d839e70736409a1c",
+       "realized_minor": 37836,
+       "attestable_hash": "a167e704d9e30c3e60bf499d9dd2e6a2656be0ca95e6621c398280a903fbbba6",
+       "failure_codes": [],
+       "refusal_codes": [],
+       "unpriced_benefit_ids": [
+        "csr_lounge_access",
+        "csr_hotel_status",
+        "csr_exclusive_tables_access",
+        "csr_protections",
+        "csr_global_entry_credit"
+       ],
+       "note": ""
+      }
+     ]
+    },
+    "considered_but_unpriced": [
+     {
+      "instrument_id": "amex-gold-us-2026",
+      "benefit_id": "amex_gold_no_lounge_access",
+      "label": "No airport lounge access",
+      "note": "declared so the comparison is honest: the Gold Card carries no lounge benefit, and a candidate set that silently omitted the absence would flatter it"
+     },
+     {
+      "instrument_id": "amex-gold-us-2026",
+      "benefit_id": "amex_gold_service",
+      "label": "Global Dining Access by Resy and Amex Experiences presale access",
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     },
+     {
+      "instrument_id": "amex-gold-us-2026",
+      "benefit_id": "amex_gold_protections",
+      "label": "Purchase protection, extended warranty, return protection, baggage insurance and trip delay insurance",
+      "note": "declared and considered, deliberately not scored: pricing contingent cover needs a claims-probability assumption this system does not have and will not invent"
+     },
+     {
+      "instrument_id": "amex-gold-us-2026",
+      "benefit_id": "amex_gold_offers",
+      "label": "Amex Offers",
+      "note": "declared and considered, deliberately not scored: member-targeted and enrollment-gated, and we model no live Offers feed and claim no access to one"
+     },
+     {
+      "instrument_id": "amex-platinum-us-2026",
+      "benefit_id": "amex_plat_lounge_access",
+      "label": "Centurion Lounge, Priority Pass Select and Delta Sky Club access",
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     },
+     {
+      "instrument_id": "amex-platinum-us-2026",
+      "benefit_id": "amex_plat_hotel_status",
+      "label": "Hilton Honors Gold and Marriott Bonvoy Gold status",
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     },
+     {
+      "instrument_id": "amex-platinum-us-2026",
+      "benefit_id": "amex_plat_service",
+      "label": "Platinum Concierge, Global Dining Access by Resy, Fine Hotels + Resorts room upgrade, daily breakfast for two and late checkout",
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     },
+     {
+      "instrument_id": "amex-platinum-us-2026",
+      "benefit_id": "amex_plat_protections",
+      "label": "Purchase protection, extended warranty, return protection, trip cancellation and interruption insurance, trip delay insurance, baggage insurance and cell phone protection",
+      "note": "declared and considered, deliberately not scored: pricing contingent cover needs a claims-probability assumption this system does not have and will not invent"
+     },
+     {
+      "instrument_id": "amex-platinum-us-2026",
+      "benefit_id": "amex_plat_offers",
+      "label": "Amex Offers",
+      "note": "declared and considered, deliberately not scored: member-targeted and enrollment-gated, and we model no live Offers feed and claim no access to one"
+     },
+     {
+      "instrument_id": "chase-sapphire-reserve-2026",
+      "benefit_id": "csr_lounge_access",
+      "label": "Priority Pass Select and Chase Sapphire Lounge by The Club access",
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     },
+     {
+      "instrument_id": "chase-sapphire-reserve-2026",
+      "benefit_id": "csr_hotel_status",
+      "label": "IHG One Rewards Platinum Elite status",
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     },
+     {
+      "instrument_id": "chase-sapphire-reserve-2026",
+      "benefit_id": "csr_exclusive_tables_access",
+      "label": "Sapphire Reserve Exclusive Tables peak-hour reservation access",
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     },
+     {
+      "instrument_id": "chase-sapphire-reserve-2026",
+      "benefit_id": "csr_protections",
+      "label": "Trip cancellation and interruption insurance, trip delay reimbursement, primary auto rental collision damage waiver, purchase protection and extended warranty",
+      "note": "declared and considered, deliberately not scored: pricing contingent cover needs a claims-probability assumption this system does not have and will not invent"
+     },
+     {
+      "instrument_id": "chase-sapphire-reserve-2026",
+      "benefit_id": "csr_global_entry_credit",
+      "label": "Global Entry, TSA PreCheck or NEXUS application fee credit",
+      "note": "declared and considered, deliberately not scored: the published credit runs on a four-year window, and amortising it into a single cart would put a number on this receipt that no allocation on this cart could realize"
+     }
+    ],
+    "ranking": {
+     "policy_id": "plumbline/demo/cardholder-policy/1",
+     "policy_hash": "00ea97a85ff4b7af949639bce57ec6fd18a5db1e0c81a6f00c81af52edeed8af",
+     "criterion": "max_asserted_value",
+     "baseline_minor": 0,
+     "entries": [
+      {
+       "rank": 1,
+       "manifest_id": "chase-sapphire-reserve-2026",
+       "asserted_minor": 37836,
+       "asserted_display": "$378.36",
+       "baseline_minor": 0,
+       "incremental_minor": 37836,
+       "incremental_display": "$378.36",
+       "protection_value_minor": 0,
+       "margin_over_next_minor": 17780
+      },
+      {
+       "rank": 2,
+       "manifest_id": "amex-platinum-us-2026",
+       "asserted_minor": 20056,
+       "asserted_display": "$200.56",
+       "baseline_minor": 0,
+       "incremental_minor": 20056,
+       "incremental_display": "$200.56",
+       "protection_value_minor": 0,
+       "margin_over_next_minor": 14844
+      },
+      {
+       "rank": 3,
+       "manifest_id": "amex-gold-us-2026",
+       "asserted_minor": 5212,
+       "asserted_display": "$52.12",
+       "baseline_minor": 0,
+       "incremental_minor": 5212,
+       "incremental_display": "$52.12",
+       "protection_value_minor": 0,
+       "margin_over_next_minor": null
+      }
+     ],
+     "chosen_manifest_id": "chase-sapphire-reserve-2026",
+     "margin_minor": 17780,
+     "issuer_endorsed": false,
+     "note": "Ranking is produced by the cardholder's or the agent's valuation policy. No issuer signs it, and no issuer-signed artifact asserts that one instrument beat another on this cart."
+    },
+    "ranked_instrument_ids": [
+     "chase-sapphire-reserve-2026",
+     "amex-platinum-us-2026",
+     "amex-gold-us-2026"
+    ],
+    "selection": {
+     "instrument_id": "chase-sapphire-reserve-2026",
+     "manifest_id": "chase-sapphire-reserve-2026",
+     "criterion": "max_asserted_value"
+    },
+    "chosen_manifest_id": "chase-sapphire-reserve-2026",
+    "valuation_policy": {
+     "policy_id": "plumbline/demo/cardholder-policy/1",
+     "criterion": "max_asserted_value",
+     "author": "cardholder",
+     "baseline_earn_bp": 0,
+     "require_signed_manifest": true,
+     "max_manifest_age_s": null,
+     "min_value_to_rank_minor": 0,
+     "policy_hash": "00ea97a85ff4b7af949639bce57ec6fd18a5db1e0c81a6f00c81af52edeed8af",
+     "issuer_endorsement": "none \u2014 the issuer signs facts only. The ranking and the valuation policy are the Card Member's or their agent's, recorded here by hash and endorsed by no issuer."
+    },
+    "manifest_hashes": {
+     "amex-gold-us-2026": "c6a5a4d5301359c10d8451f127ed4a481847456f52e08803707d484c90e1cdd1",
+     "amex-platinum-us-2026": "a0da51856acf689caa5fb6631afa4580ab602e9a4300f77e2ad7cd5f3f3a80cb",
+     "chase-sapphire-reserve-2026": "267592ffdc14f8a747a6da39c50bce5458e5beb94bdbd1f8ff21ff3159432bde"
+    },
+    "evaluation": {
+     "version": "plumbline/evaluation/1",
+     "cart": {
+      "merchant": "m_travel_desk",
+      "currency": "USD",
+      "lines": [
+       {
+        "sku": "usd_air",
+        "description": "United round trip SFO-BOS, booked direct",
+        "amount": 74200,
+        "mcc": 3000,
+        "category": "airfare",
+        "qty": 1
+       },
+       {
+        "sku": "usd_hotel",
+        "description": "Hotel, 3 nights, booked direct with the property",
+        "amount": 91800,
+        "mcc": 7011,
+        "category": "hotel_direct",
+        "qty": 1
+       },
+       {
+        "sku": "usd_dining",
+        "description": "Dinner for four",
+        "amount": 28400,
+        "mcc": 5812,
+        "category": "dining",
+        "qty": 1
+       },
+       {
+        "sku": "usd_grocery",
+        "description": "Weekly groceries",
+        "amount": 19600,
+        "mcc": 5411,
+        "category": "us_supermarket",
+        "qty": 1
+       },
+       {
+        "sku": "usd_bags",
+        "description": "United checked bags and seat selection",
+        "amount": 14800,
+        "mcc": 3000,
+        "category": "airline_incidental",
+        "qty": 1
+       }
+      ]
+     },
+     "cart_hash": "37343845043ef7f640a0e291c7f9df54e363f8982eff0d4981dcd3eaf214b478",
+     "cart_total_minor": 228800,
+     "evaluated_at": 1785110400,
+     "protocol": null,
+     "policy": {
+      "policy_id": "plumbline/demo/cardholder-policy/1",
+      "criterion": "max_asserted_value",
+      "author": "cardholder",
+      "baseline_earn_bp": 0,
+      "require_signed_manifest": true,
+      "max_manifest_age_s": null,
+      "min_value_to_rank_minor": 0,
+      "policy_hash": "00ea97a85ff4b7af949639bce57ec6fd18a5db1e0c81a6f00c81af52edeed8af"
+     },
+     "candidates": [
+      {
+       "version": "plumbline/evaluation/1",
+       "manifest_id": "amex-gold-us-2026",
+       "manifest_hash": "c6a5a4d5301359c10d8451f127ed4a481847456f52e08803707d484c90e1cdd1",
+       "issuer": "American Express",
+       "product": "American Express Gold Card (US)",
+       "currency": "USD",
+       "cart_hash": "37343845043ef7f640a0e291c7f9df54e363f8982eff0d4981dcd3eaf214b478",
+       "status": "ATTESTED",
+       "asserted_minor": 5212,
+       "witness": {
+        "manifest_id": "amex-gold-us-2026",
+        "cart_hash": "37343845043ef7f640a0e291c7f9df54e363f8982eff0d4981dcd3eaf214b478",
+        "assignments": [
+         {
+          "line_sku": "usd_air",
+          "benefit_id": "amex_gold_earn_flights_3x",
+          "consumed_minor": 2226,
+          "value_minor": 2226
+         },
+         {
+          "line_sku": "usd_bags",
+          "benefit_id": "amex_gold_earn_base_1x",
+          "consumed_minor": 148,
+          "value_minor": 148
+         },
+         {
+          "line_sku": "usd_dining",
+          "benefit_id": "amex_gold_earn_restaurants_4x",
+          "consumed_minor": 1136,
+          "value_minor": 1136
+         },
+         {
+          "line_sku": "usd_grocery",
+          "benefit_id": "amex_gold_earn_supermarkets_4x",
+          "consumed_minor": 784,
+          "value_minor": 784
+         },
+         {
+          "line_sku": "usd_hotel",
+          "benefit_id": "amex_gold_earn_base_1x",
+          "consumed_minor": 918,
+          "value_minor": 918
+         }
+        ],
+        "realized_minor": 5212,
+        "realized_display": "$52.12"
+       },
+       "witness_verified": true,
+       "derivation": {
+        "node_id": "instrument:amex-gold-us-2026",
+        "kind": "instrument",
+        "label": "American Express American Express Gold Card (US)",
+        "value_minor": 5212,
+        "value_display": "$52.12",
+        "status": "",
+        "detail": "",
+        "facts": {
+         "manifest_id": "amex-gold-us-2026",
+         "issuer": "American Express",
+         "product": "American Express Gold Card (US)",
+         "currency": "USD",
+         "cart_hash": "37343845043ef7f640a0e291c7f9df54e363f8982eff0d4981dcd3eaf214b478"
+        },
+        "children": [
+         {
+          "node_id": "benefit:amex_gold_earn_restaurants_4x",
+          "kind": "benefit",
+          "label": "4x Membership Rewards at restaurants worldwide",
+          "value_minor": 1136,
+          "value_display": "$11.36",
+          "status": "APPLIED",
+          "detail": "",
+          "facts": {
+           "benefit_id": "amex_gold_earn_restaurants_4x",
+           "benefit_kind": "earn",
+           "rate_bp": 400,
+           "flat_minor": 0,
+           "capacity_minor": 74400,
+           "exclusivity_group": "amex_gold:earn",
+           "window": "annual",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 1
+          },
+          "children": [
+           {
+            "node_id": "assignment:amex_gold_earn_restaurants_4x:usd_dining",
+            "kind": "assignment",
+            "label": "4x Membership Rewards at restaurants worldwide at 4% on Dinner for four",
+            "value_minor": 1136,
+            "value_display": "$11.36",
+            "status": "APPLIED",
+            "detail": "",
+            "facts": {
+             "line_sku": "usd_dining",
+             "benefit_id": "amex_gold_earn_restaurants_4x",
+             "consumed_minor": 1136,
+             "line_amount_minor": 28400
+            },
+            "children": []
+           }
+          ]
+         },
+         {
+          "node_id": "benefit:amex_gold_earn_supermarkets_4x",
+          "kind": "benefit",
+          "label": "4x Membership Rewards at US supermarkets",
+          "value_minor": 784,
+          "value_display": "$7.84",
+          "status": "APPLIED",
+          "detail": "",
+          "facts": {
+           "benefit_id": "amex_gold_earn_supermarkets_4x",
+           "benefit_kind": "earn",
+           "rate_bp": 400,
+           "flat_minor": 0,
+           "capacity_minor": 61200,
+           "exclusivity_group": "amex_gold:earn",
+           "window": "annual",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 1
+          },
+          "children": [
+           {
+            "node_id": "assignment:amex_gold_earn_supermarkets_4x:usd_grocery",
+            "kind": "assignment",
+            "label": "4x Membership Rewards at US supermarkets at 4% on Weekly groceries",
+            "value_minor": 784,
+            "value_display": "$7.84",
+            "status": "APPLIED",
+            "detail": "",
+            "facts": {
+             "line_sku": "usd_grocery",
+             "benefit_id": "amex_gold_earn_supermarkets_4x",
+             "consumed_minor": 784,
+             "line_amount_minor": 19600
+            },
+            "children": []
+           }
+          ]
+         },
+         {
+          "node_id": "benefit:amex_gold_earn_hotels_5x",
+          "kind": "benefit",
+          "label": "5x Membership Rewards on prepaid hotels booked on amextravel.com",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "INELIGIBLE",
+          "detail": "admits no line of this cart",
+          "facts": {
+           "benefit_id": "amex_gold_earn_hotels_5x",
+           "benefit_kind": "earn",
+           "rate_bp": 500,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": "amex_gold:earn",
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_gold_earn_flights_3x",
+          "kind": "benefit",
+          "label": "3x Membership Rewards on flights booked direct or on amextravel.com",
+          "value_minor": 2226,
+          "value_display": "$22.26",
+          "status": "APPLIED",
+          "detail": "",
+          "facts": {
+           "benefit_id": "amex_gold_earn_flights_3x",
+           "benefit_kind": "earn",
+           "rate_bp": 300,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": "amex_gold:earn",
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 1
+          },
+          "children": [
+           {
+            "node_id": "assignment:amex_gold_earn_flights_3x:usd_air",
+            "kind": "assignment",
+            "label": "3x Membership Rewards on flights booked direct or on amextravel.com at 3% on United round trip SFO-BOS, booked direct",
+            "value_minor": 2226,
+            "value_display": "$22.26",
+            "status": "APPLIED",
+            "detail": "",
+            "facts": {
+             "line_sku": "usd_air",
+             "benefit_id": "amex_gold_earn_flights_3x",
+             "consumed_minor": 2226,
+             "line_amount_minor": 74200
+            },
+            "children": []
+           }
+          ]
+         },
+         {
+          "node_id": "benefit:amex_gold_earn_base_1x",
+          "kind": "benefit",
+          "label": "1x Membership Rewards on all other purchases",
+          "value_minor": 1066,
+          "value_display": "$10.66",
+          "status": "APPLIED",
+          "detail": "",
+          "facts": {
+           "benefit_id": "amex_gold_earn_base_1x",
+           "benefit_kind": "earn",
+           "rate_bp": 100,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": "amex_gold:earn",
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 5
+          },
+          "children": [
+           {
+            "node_id": "assignment:amex_gold_earn_base_1x:usd_bags",
+            "kind": "assignment",
+            "label": "1x Membership Rewards on all other purchases at 1% on United checked bags and seat selection",
+            "value_minor": 148,
+            "value_display": "$1.48",
+            "status": "APPLIED",
+            "detail": "",
+            "facts": {
+             "line_sku": "usd_bags",
+             "benefit_id": "amex_gold_earn_base_1x",
+             "consumed_minor": 148,
+             "line_amount_minor": 14800
+            },
+            "children": []
+           },
+           {
+            "node_id": "assignment:amex_gold_earn_base_1x:usd_hotel",
+            "kind": "assignment",
+            "label": "1x Membership Rewards on all other purchases at 1% on Hotel, 3 nights, booked direct with the property",
+            "value_minor": 918,
+            "value_display": "$9.18",
+            "status": "APPLIED",
+            "detail": "",
+            "facts": {
+             "line_sku": "usd_hotel",
+             "benefit_id": "amex_gold_earn_base_1x",
+             "consumed_minor": 918,
+             "line_amount_minor": 91800
+            },
+            "children": []
+           }
+          ]
+         },
+         {
+          "node_id": "benefit:amex_gold_credit_dining",
+          "kind": "benefit",
+          "label": "$10 monthly dining credit at Grubhub, Five Guys, Cheesecake Factory, Buffalo Wild Wings and Wonder",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "INELIGIBLE",
+          "detail": "admits no line of this cart",
+          "facts": {
+           "benefit_id": "amex_gold_credit_dining",
+           "benefit_kind": "credit",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": 1000,
+           "exclusivity_group": null,
+           "window": "monthly",
+           "requires_enrollment": true,
+           "enrolled": true,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_gold_credit_uber_cash",
+          "kind": "benefit",
+          "label": "$10 monthly Uber Cash",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "INELIGIBLE",
+          "detail": "admits no line of this cart",
+          "facts": {
+           "benefit_id": "amex_gold_credit_uber_cash",
+           "benefit_kind": "credit",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": 1000,
+           "exclusivity_group": null,
+           "window": "monthly",
+           "requires_enrollment": true,
+           "enrolled": true,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_gold_credit_resy",
+          "kind": "benefit",
+          "label": "$50 semi-annual Resy credit",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "INELIGIBLE",
+          "detail": "admits no line of this cart",
+          "facts": {
+           "benefit_id": "amex_gold_credit_resy",
+           "benefit_kind": "credit",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": 5000,
+           "exclusivity_group": null,
+           "window": "semiannual",
+           "requires_enrollment": true,
+           "enrolled": true,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_gold_credit_dunkin",
+          "kind": "benefit",
+          "label": "$7 monthly Dunkin' credit",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "INELIGIBLE",
+          "detail": "admits no line of this cart",
+          "facts": {
+           "benefit_id": "amex_gold_credit_dunkin",
+           "benefit_kind": "credit",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": 700,
+           "exclusivity_group": null,
+           "window": "monthly",
+           "requires_enrollment": true,
+           "enrolled": true,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_gold_the_hotel_collection_credit",
+          "kind": "benefit",
+          "label": "$100 The Hotel Collection experience credit",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "INELIGIBLE",
+          "detail": "admits no line of this cart",
+          "facts": {
+           "benefit_id": "amex_gold_the_hotel_collection_credit",
+           "benefit_kind": "protection",
+           "rate_bp": 0,
+           "flat_minor": 10000,
+           "capacity_minor": 10000,
+           "exclusivity_group": null,
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_gold_no_lounge_access",
+          "kind": "benefit",
+          "label": "No airport lounge access",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "CONSIDERED_BUT_UNPRICED",
+          "detail": "declared so the comparison is honest: the Gold Card carries no lounge benefit, and a candidate set that silently omitted the absence would flatter it",
+          "facts": {
+           "benefit_id": "amex_gold_no_lounge_access",
+           "benefit_kind": "unpriced",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": null,
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_gold_service",
+          "kind": "benefit",
+          "label": "Global Dining Access by Resy and Amex Experiences presale access",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "CONSIDERED_BUT_UNPRICED",
+          "detail": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture",
+          "facts": {
+           "benefit_id": "amex_gold_service",
+           "benefit_kind": "unpriced",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": null,
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_gold_protections",
+          "kind": "benefit",
+          "label": "Purchase protection, extended warranty, return protection, baggage insurance and trip delay insurance",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "CONSIDERED_BUT_UNPRICED",
+          "detail": "declared and considered, deliberately not scored: pricing contingent cover needs a claims-probability assumption this system does not have and will not invent",
+          "facts": {
+           "benefit_id": "amex_gold_protections",
+           "benefit_kind": "unpriced",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": null,
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_gold_offers",
+          "kind": "benefit",
+          "label": "Amex Offers",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "CONSIDERED_BUT_UNPRICED",
+          "detail": "declared and considered, deliberately not scored: member-targeted and enrollment-gated, and we model no live Offers feed and claim no access to one",
+          "facts": {
+           "benefit_id": "amex_gold_offers",
+           "benefit_kind": "unpriced",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": null,
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true
+          },
+          "children": []
+         }
+        ]
+       },
+       "refusals": [],
+       "disclosures": [
+        {
+         "code": "PLUMBLINE_DISCLOSE_ALLOCATION_NOT_PROVEN_OPTIMAL",
+         "detail": "the exhibited allocation is produced by a deterministic greedy allocator. It is achievable, so the asserted value cannot exceed the true optimum, but it is not proven optimal; the offline oracle measures the gap",
+         "direction": "understates"
+        },
+        {
+         "code": "PLUMBLINE_DISCLOSE_CONSIDERED_BUT_UNPRICED",
+         "detail": "4 declared benefit(s) are carried as considered-but-unpriced (Amex Offers, Global Dining Access by Resy and Amex Experiences presale access, No airport lounge access, Purchase protection, extended warranty, return protection, baggage insurance and trip delay insurance); the integer above does not claim to be the whole worth of this card",
+         "direction": "understates"
+        }
+       ],
+       "unpriced_labels": [
+        "No airport lounge access",
+        "Global Dining Access by Resy and Amex Experiences presale access",
+        "Purchase protection, extended warranty, return protection, baggage insurance and trip delay insurance",
+        "Amex Offers"
+       ],
+       "asserted_display": "$52.12",
+       "naive_sum_minor": 6434,
+       "naive_sum_display": "$64.34",
+       "overstatement_avoided_minor": 1222,
+       "protection_value_minor": 0,
+       "verification": {
+        "ok": true,
+        "supports_assertion": true,
+        "realized_minor": 5212,
+        "realized_display": "$52.12",
+        "claimed_minor": 5212,
+        "claimed_display": "$52.12",
+        "asserted_minor": 5212,
+        "asserted_display": "$52.12",
+        "failures": []
+       },
+       "claimed_minor": null,
+       "considered_benefits": 14,
+       "applied_benefits": 4,
+       "attestable_hash": "118442cedf8b4641341ad8d07505c7ee6bd840dba3bc8e4f10f3b0e5b3426bf1"
+      },
+      {
+       "version": "plumbline/evaluation/1",
+       "manifest_id": "amex-platinum-us-2026",
+       "manifest_hash": "a0da51856acf689caa5fb6631afa4580ab602e9a4300f77e2ad7cd5f3f3a80cb",
+       "issuer": "American Express",
+       "product": "The Platinum Card (US)",
+       "currency": "USD",
+       "cart_hash": "37343845043ef7f640a0e291c7f9df54e363f8982eff0d4981dcd3eaf214b478",
+       "status": "ATTESTED",
+       "asserted_minor": 20056,
+       "witness": {
+        "manifest_id": "amex-platinum-us-2026",
+        "cart_hash": "37343845043ef7f640a0e291c7f9df54e363f8982eff0d4981dcd3eaf214b478",
+        "assignments": [
+         {
+          "line_sku": "usd_air",
+          "benefit_id": "amex_plat_earn_flights_5x",
+          "consumed_minor": 3710,
+          "value_minor": 3710
+         },
+         {
+          "line_sku": "usd_bags",
+          "benefit_id": "amex_plat_credit_airline_fee",
+          "consumed_minor": 14800,
+          "value_minor": 14800
+         },
+         {
+          "line_sku": "usd_bags",
+          "benefit_id": "amex_plat_earn_base_1x",
+          "consumed_minor": 148,
+          "value_minor": 148
+         },
+         {
+          "line_sku": "usd_dining",
+          "benefit_id": "amex_plat_earn_base_1x",
+          "consumed_minor": 284,
+          "value_minor": 284
+         },
+         {
+          "line_sku": "usd_grocery",
+          "benefit_id": "amex_plat_earn_base_1x",
+          "consumed_minor": 196,
+          "value_minor": 196
+         },
+         {
+          "line_sku": "usd_hotel",
+          "benefit_id": "amex_plat_earn_base_1x",
+          "consumed_minor": 918,
+          "value_minor": 918
+         }
+        ],
+        "realized_minor": 20056,
+        "realized_display": "$200.56"
+       },
+       "witness_verified": true,
+       "derivation": {
+        "node_id": "instrument:amex-platinum-us-2026",
+        "kind": "instrument",
+        "label": "American Express The Platinum Card (US)",
+        "value_minor": 20056,
+        "value_display": "$200.56",
+        "status": "",
+        "detail": "",
+        "facts": {
+         "manifest_id": "amex-platinum-us-2026",
+         "issuer": "American Express",
+         "product": "The Platinum Card (US)",
+         "currency": "USD",
+         "cart_hash": "37343845043ef7f640a0e291c7f9df54e363f8982eff0d4981dcd3eaf214b478"
+        },
+        "children": [
+         {
+          "node_id": "benefit:amex_plat_earn_flights_5x",
+          "kind": "benefit",
+          "label": "5x Membership Rewards on flights booked direct or on amextravel.com",
+          "value_minor": 3710,
+          "value_display": "$37.10",
+          "status": "APPLIED",
+          "detail": "",
+          "facts": {
+           "benefit_id": "amex_plat_earn_flights_5x",
+           "benefit_kind": "earn",
+           "rate_bp": 500,
+           "flat_minor": 0,
+           "capacity_minor": 2500000,
+           "exclusivity_group": "amex_plat:earn",
+           "window": "annual",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 1
+          },
+          "children": [
+           {
+            "node_id": "assignment:amex_plat_earn_flights_5x:usd_air",
+            "kind": "assignment",
+            "label": "5x Membership Rewards on flights booked direct or on amextravel.com at 5% on United round trip SFO-BOS, booked direct",
+            "value_minor": 3710,
+            "value_display": "$37.10",
+            "status": "APPLIED",
+            "detail": "",
+            "facts": {
+             "line_sku": "usd_air",
+             "benefit_id": "amex_plat_earn_flights_5x",
+             "consumed_minor": 3710,
+             "line_amount_minor": 74200
+            },
+            "children": []
+           }
+          ]
+         },
+         {
+          "node_id": "benefit:amex_plat_earn_hotels_5x",
+          "kind": "benefit",
+          "label": "5x Membership Rewards on prepaid hotels booked on amextravel.com",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "INELIGIBLE",
+          "detail": "admits no line of this cart",
+          "facts": {
+           "benefit_id": "amex_plat_earn_hotels_5x",
+           "benefit_kind": "earn",
+           "rate_bp": 500,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": "amex_plat:earn",
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_plat_earn_base_1x",
+          "kind": "benefit",
+          "label": "1x Membership Rewards on all other purchases",
+          "value_minor": 1546,
+          "value_display": "$15.46",
+          "status": "APPLIED",
+          "detail": "",
+          "facts": {
+           "benefit_id": "amex_plat_earn_base_1x",
+           "benefit_kind": "earn",
+           "rate_bp": 100,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": "amex_plat:earn",
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 5
+          },
+          "children": [
+           {
+            "node_id": "assignment:amex_plat_earn_base_1x:usd_bags",
+            "kind": "assignment",
+            "label": "1x Membership Rewards on all other purchases at 1% on United checked bags and seat selection",
+            "value_minor": 148,
+            "value_display": "$1.48",
+            "status": "APPLIED",
+            "detail": "",
+            "facts": {
+             "line_sku": "usd_bags",
+             "benefit_id": "amex_plat_earn_base_1x",
+             "consumed_minor": 148,
+             "line_amount_minor": 14800
+            },
+            "children": []
+           },
+           {
+            "node_id": "assignment:amex_plat_earn_base_1x:usd_dining",
+            "kind": "assignment",
+            "label": "1x Membership Rewards on all other purchases at 1% on Dinner for four",
+            "value_minor": 284,
+            "value_display": "$2.84",
+            "status": "APPLIED",
+            "detail": "",
+            "facts": {
+             "line_sku": "usd_dining",
+             "benefit_id": "amex_plat_earn_base_1x",
+             "consumed_minor": 284,
+             "line_amount_minor": 28400
+            },
+            "children": []
+           },
+           {
+            "node_id": "assignment:amex_plat_earn_base_1x:usd_grocery",
+            "kind": "assignment",
+            "label": "1x Membership Rewards on all other purchases at 1% on Weekly groceries",
+            "value_minor": 196,
+            "value_display": "$1.96",
+            "status": "APPLIED",
+            "detail": "",
+            "facts": {
+             "line_sku": "usd_grocery",
+             "benefit_id": "amex_plat_earn_base_1x",
+             "consumed_minor": 196,
+             "line_amount_minor": 19600
+            },
+            "children": []
+           },
+           {
+            "node_id": "assignment:amex_plat_earn_base_1x:usd_hotel",
+            "kind": "assignment",
+            "label": "1x Membership Rewards on all other purchases at 1% on Hotel, 3 nights, booked direct with the property",
+            "value_minor": 918,
+            "value_display": "$9.18",
+            "status": "APPLIED",
+            "detail": "",
+            "facts": {
+             "line_sku": "usd_hotel",
+             "benefit_id": "amex_plat_earn_base_1x",
+             "consumed_minor": 918,
+             "line_amount_minor": 91800
+            },
+            "children": []
+           }
+          ]
+         },
+         {
+          "node_id": "benefit:amex_plat_credit_hotel_h1",
+          "kind": "benefit",
+          "label": "$300 prepaid hotel credit, January\u2013June",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "EXHAUSTED",
+          "detail": "declared balance is exhausted for this window",
+          "facts": {
+           "benefit_id": "amex_plat_credit_hotel_h1",
+           "benefit_kind": "credit",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": 0,
+           "exclusivity_group": "amex_plat:hotel_credit",
+           "window": "semiannual",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_plat_credit_hotel_h2",
+          "kind": "benefit",
+          "label": "$300 prepaid hotel credit, July\u2013December",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "INELIGIBLE",
+          "detail": "admits no line of this cart",
+          "facts": {
+           "benefit_id": "amex_plat_credit_hotel_h2",
+           "benefit_kind": "credit",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": 30000,
+           "exclusivity_group": "amex_plat:hotel_credit",
+           "window": "semiannual",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_plat_credit_resy_q2",
+          "kind": "benefit",
+          "label": "$100 Resy credit, April\u2013June quarter",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "EXHAUSTED",
+          "detail": "declared balance is exhausted for this window",
+          "facts": {
+           "benefit_id": "amex_plat_credit_resy_q2",
+           "benefit_kind": "credit",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": 0,
+           "exclusivity_group": "amex_plat:resy_credit",
+           "window": "quarterly",
+           "requires_enrollment": true,
+           "enrolled": true,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_plat_credit_resy_q3",
+          "kind": "benefit",
+          "label": "$100 Resy credit, July\u2013September quarter",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "INELIGIBLE",
+          "detail": "admits no line of this cart",
+          "facts": {
+           "benefit_id": "amex_plat_credit_resy_q3",
+           "benefit_kind": "credit",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": 10000,
+           "exclusivity_group": "amex_plat:resy_credit",
+           "window": "quarterly",
+           "requires_enrollment": true,
+           "enrolled": true,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_plat_credit_airline_fee",
+          "kind": "benefit",
+          "label": "$200 airline fee credit on the selected airline",
+          "value_minor": 14800,
+          "value_display": "$148",
+          "status": "APPLIED",
+          "detail": "",
+          "facts": {
+           "benefit_id": "amex_plat_credit_airline_fee",
+           "benefit_kind": "credit",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": 20000,
+           "exclusivity_group": null,
+           "window": "annual",
+           "requires_enrollment": true,
+           "enrolled": true,
+           "eligible_lines": 1
+          },
+          "children": [
+           {
+            "node_id": "assignment:amex_plat_credit_airline_fee:usd_bags",
+            "kind": "assignment",
+            "label": "$200 airline fee credit on the selected airline offsetting United checked bags and seat selection",
+            "value_minor": 14800,
+            "value_display": "$148",
+            "status": "APPLIED",
+            "detail": "",
+            "facts": {
+             "line_sku": "usd_bags",
+             "benefit_id": "amex_plat_credit_airline_fee",
+             "consumed_minor": 14800,
+             "line_amount_minor": 14800
+            },
+            "children": []
+           }
+          ]
+         },
+         {
+          "node_id": "benefit:amex_plat_credit_digital_entertainment",
+          "kind": "benefit",
+          "label": "$25 monthly digital entertainment credit",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "INELIGIBLE",
+          "detail": "admits no line of this cart",
+          "facts": {
+           "benefit_id": "amex_plat_credit_digital_entertainment",
+           "benefit_kind": "credit",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": 2500,
+           "exclusivity_group": null,
+           "window": "monthly",
+           "requires_enrollment": true,
+           "enrolled": true,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_plat_credit_uber_cash",
+          "kind": "benefit",
+          "label": "$15 monthly Uber Cash",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "INELIGIBLE",
+          "detail": "admits no line of this cart",
+          "facts": {
+           "benefit_id": "amex_plat_credit_uber_cash",
+           "benefit_kind": "credit",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": 1500,
+           "exclusivity_group": null,
+           "window": "monthly",
+           "requires_enrollment": true,
+           "enrolled": true,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_plat_credit_lululemon",
+          "kind": "benefit",
+          "label": "$75 quarterly lululemon credit",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "NOT_ENROLLED",
+          "detail": "enrollment-gated and not enrolled",
+          "facts": {
+           "benefit_id": "amex_plat_credit_lululemon",
+           "benefit_kind": "credit",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": 7500,
+           "exclusivity_group": null,
+           "window": "quarterly",
+           "requires_enrollment": true,
+           "enrolled": false,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_plat_fhr_property_credit",
+          "kind": "benefit",
+          "label": "$100 Fine Hotels + Resorts property credit",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "INELIGIBLE",
+          "detail": "admits no line of this cart",
+          "facts": {
+           "benefit_id": "amex_plat_fhr_property_credit",
+           "benefit_kind": "protection",
+           "rate_bp": 0,
+           "flat_minor": 10000,
+           "capacity_minor": 10000,
+           "exclusivity_group": null,
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_plat_lounge_access",
+          "kind": "benefit",
+          "label": "Centurion Lounge, Priority Pass Select and Delta Sky Club access",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "CONSIDERED_BUT_UNPRICED",
+          "detail": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture",
+          "facts": {
+           "benefit_id": "amex_plat_lounge_access",
+           "benefit_kind": "unpriced",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": null,
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_plat_hotel_status",
+          "kind": "benefit",
+          "label": "Hilton Honors Gold and Marriott Bonvoy Gold status",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "CONSIDERED_BUT_UNPRICED",
+          "detail": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture",
+          "facts": {
+           "benefit_id": "amex_plat_hotel_status",
+           "benefit_kind": "unpriced",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": null,
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_plat_service",
+          "kind": "benefit",
+          "label": "Platinum Concierge, Global Dining Access by Resy, Fine Hotels + Resorts room upgrade, daily breakfast for two and late checkout",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "CONSIDERED_BUT_UNPRICED",
+          "detail": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture",
+          "facts": {
+           "benefit_id": "amex_plat_service",
+           "benefit_kind": "unpriced",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": null,
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_plat_protections",
+          "kind": "benefit",
+          "label": "Purchase protection, extended warranty, return protection, trip cancellation and interruption insurance, trip delay insurance, baggage insurance and cell phone protection",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "CONSIDERED_BUT_UNPRICED",
+          "detail": "declared and considered, deliberately not scored: pricing contingent cover needs a claims-probability assumption this system does not have and will not invent",
+          "facts": {
+           "benefit_id": "amex_plat_protections",
+           "benefit_kind": "unpriced",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": null,
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:amex_plat_offers",
+          "kind": "benefit",
+          "label": "Amex Offers",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "CONSIDERED_BUT_UNPRICED",
+          "detail": "declared and considered, deliberately not scored: member-targeted and enrollment-gated, and we model no live Offers feed and claim no access to one",
+          "facts": {
+           "benefit_id": "amex_plat_offers",
+           "benefit_kind": "unpriced",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": null,
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true
+          },
+          "children": []
+         }
+        ]
+       },
+       "refusals": [],
+       "disclosures": [
+        {
+         "code": "PLUMBLINE_DISCLOSE_ALLOCATION_NOT_PROVEN_OPTIMAL",
+         "detail": "the exhibited allocation is produced by a deterministic greedy allocator. It is achievable, so the asserted value cannot exceed the true optimum, but it is not proven optimal; the offline oracle measures the gap",
+         "direction": "understates"
+        },
+        {
+         "code": "PLUMBLINE_DISCLOSE_ENROLLMENT_GATED_BENEFIT",
+         "detail": "1 declared benefit(s) are enrollment-gated and not enrolled ($75 quarterly lululemon credit), so they contribute nothing here",
+         "direction": "understates"
+        },
+        {
+         "code": "PLUMBLINE_DISCLOSE_BENEFIT_EXHAUSTED",
+         "detail": "2 declared benefit(s) have no balance left in the current window ($100 Resy credit, April\u2013June quarter, $300 prepaid hotel credit, January\u2013June)",
+         "direction": "neutral"
+        },
+        {
+         "code": "PLUMBLINE_DISCLOSE_CONSIDERED_BUT_UNPRICED",
+         "detail": "5 declared benefit(s) are carried as considered-but-unpriced (Amex Offers, Centurion Lounge, Priority Pass Select and Delta Sky Club access, Hilton Honors Gold and Marriott Bonvoy Gold status, Platinum Concierge, Global Dining Access by Resy, Fine Hotels + Resorts room upgrade, daily breakfast for two and late checkout, Purchase protection, extended warranty, return protection, trip cancellation and interruption insurance, trip delay insurance, baggage insurance and cell phone protection); the integer above does not claim to be the whole worth of this card",
+         "direction": "understates"
+        }
+       ],
+       "unpriced_labels": [
+        "Centurion Lounge, Priority Pass Select and Delta Sky Club access",
+        "Hilton Honors Gold and Marriott Bonvoy Gold status",
+        "Platinum Concierge, Global Dining Access by Resy, Fine Hotels + Resorts room upgrade, daily breakfast for two and late checkout",
+        "Purchase protection, extended warranty, return protection, trip cancellation and interruption insurance, trip delay insurance, baggage insurance and cell phone protection",
+        "Amex Offers"
+       ],
+       "asserted_display": "$200.56",
+       "naive_sum_minor": 20798,
+       "naive_sum_display": "$207.98",
+       "overstatement_avoided_minor": 742,
+       "protection_value_minor": 0,
+       "verification": {
+        "ok": true,
+        "supports_assertion": true,
+        "realized_minor": 20056,
+        "realized_display": "$200.56",
+        "claimed_minor": 20056,
+        "claimed_display": "$200.56",
+        "asserted_minor": 20056,
+        "asserted_display": "$200.56",
+        "failures": []
+       },
+       "claimed_minor": null,
+       "considered_benefits": 17,
+       "applied_benefits": 3,
+       "attestable_hash": "112939a8c6f7759d2f642c0807dd6af5ae7bb7d7949cf89493aa15fcc05e22b8"
+      },
+      {
+       "version": "plumbline/evaluation/1",
+       "manifest_id": "chase-sapphire-reserve-2026",
+       "manifest_hash": "267592ffdc14f8a747a6da39c50bce5458e5beb94bdbd1f8ff21ff3159432bde",
+       "issuer": "JPMorgan Chase",
+       "product": "Chase Sapphire Reserve",
+       "currency": "USD",
+       "cart_hash": "37343845043ef7f640a0e291c7f9df54e363f8982eff0d4981dcd3eaf214b478",
+       "status": "ATTESTED",
+       "asserted_minor": 37836,
+       "witness": {
+        "manifest_id": "chase-sapphire-reserve-2026",
+        "cart_hash": "37343845043ef7f640a0e291c7f9df54e363f8982eff0d4981dcd3eaf214b478",
+        "assignments": [
+         {
+          "line_sku": "usd_air",
+          "benefit_id": "csr_credit_travel",
+          "consumed_minor": 30000,
+          "value_minor": 30000
+         },
+         {
+          "line_sku": "usd_air",
+          "benefit_id": "csr_earn_flights_direct_4x",
+          "consumed_minor": 2968,
+          "value_minor": 2968
+         },
+         {
+          "line_sku": "usd_bags",
+          "benefit_id": "csr_earn_base_1x",
+          "consumed_minor": 148,
+          "value_minor": 148
+         },
+         {
+          "line_sku": "usd_dining",
+          "benefit_id": "csr_earn_dining_3x",
+          "consumed_minor": 852,
+          "value_minor": 852
+         },
+         {
+          "line_sku": "usd_grocery",
+          "benefit_id": "csr_earn_base_1x",
+          "consumed_minor": 196,
+          "value_minor": 196
+         },
+         {
+          "line_sku": "usd_hotel",
+          "benefit_id": "csr_earn_hotels_direct_4x",
+          "consumed_minor": 3672,
+          "value_minor": 3672
+         }
+        ],
+        "realized_minor": 37836,
+        "realized_display": "$378.36"
+       },
+       "witness_verified": true,
+       "derivation": {
+        "node_id": "instrument:chase-sapphire-reserve-2026",
+        "kind": "instrument",
+        "label": "JPMorgan Chase Chase Sapphire Reserve",
+        "value_minor": 37836,
+        "value_display": "$378.36",
+        "status": "",
+        "detail": "",
+        "facts": {
+         "manifest_id": "chase-sapphire-reserve-2026",
+         "issuer": "JPMorgan Chase",
+         "product": "Chase Sapphire Reserve",
+         "currency": "USD",
+         "cart_hash": "37343845043ef7f640a0e291c7f9df54e363f8982eff0d4981dcd3eaf214b478"
+        },
+        "children": [
+         {
+          "node_id": "benefit:csr_earn_chase_travel_8x",
+          "kind": "benefit",
+          "label": "8x Ultimate Rewards on Chase Travel purchases",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "INELIGIBLE",
+          "detail": "admits no line of this cart",
+          "facts": {
+           "benefit_id": "csr_earn_chase_travel_8x",
+           "benefit_kind": "earn",
+           "rate_bp": 800,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": "csr:earn",
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:csr_earn_flights_direct_4x",
+          "kind": "benefit",
+          "label": "4x Ultimate Rewards on flights booked direct with the airline",
+          "value_minor": 2968,
+          "value_display": "$29.68",
+          "status": "APPLIED",
+          "detail": "",
+          "facts": {
+           "benefit_id": "csr_earn_flights_direct_4x",
+           "benefit_kind": "earn",
+           "rate_bp": 400,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": "csr:earn",
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 1
+          },
+          "children": [
+           {
+            "node_id": "assignment:csr_earn_flights_direct_4x:usd_air",
+            "kind": "assignment",
+            "label": "4x Ultimate Rewards on flights booked direct with the airline at 4% on United round trip SFO-BOS, booked direct",
+            "value_minor": 2968,
+            "value_display": "$29.68",
+            "status": "APPLIED",
+            "detail": "",
+            "facts": {
+             "line_sku": "usd_air",
+             "benefit_id": "csr_earn_flights_direct_4x",
+             "consumed_minor": 2968,
+             "line_amount_minor": 74200
+            },
+            "children": []
+           }
+          ]
+         },
+         {
+          "node_id": "benefit:csr_earn_hotels_direct_4x",
+          "kind": "benefit",
+          "label": "4x Ultimate Rewards on hotels booked direct with the property",
+          "value_minor": 3672,
+          "value_display": "$36.72",
+          "status": "APPLIED",
+          "detail": "",
+          "facts": {
+           "benefit_id": "csr_earn_hotels_direct_4x",
+           "benefit_kind": "earn",
+           "rate_bp": 400,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": "csr:earn",
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 1
+          },
+          "children": [
+           {
+            "node_id": "assignment:csr_earn_hotels_direct_4x:usd_hotel",
+            "kind": "assignment",
+            "label": "4x Ultimate Rewards on hotels booked direct with the property at 4% on Hotel, 3 nights, booked direct with the property",
+            "value_minor": 3672,
+            "value_display": "$36.72",
+            "status": "APPLIED",
+            "detail": "",
+            "facts": {
+             "line_sku": "usd_hotel",
+             "benefit_id": "csr_earn_hotels_direct_4x",
+             "consumed_minor": 3672,
+             "line_amount_minor": 91800
+            },
+            "children": []
+           }
+          ]
+         },
+         {
+          "node_id": "benefit:csr_earn_lyft_5x",
+          "kind": "benefit",
+          "label": "5x Ultimate Rewards on Lyft rides",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "INELIGIBLE",
+          "detail": "admits no line of this cart",
+          "facts": {
+           "benefit_id": "csr_earn_lyft_5x",
+           "benefit_kind": "earn",
+           "rate_bp": 500,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": "csr:earn",
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:csr_earn_dining_3x",
+          "kind": "benefit",
+          "label": "3x Ultimate Rewards on dining worldwide",
+          "value_minor": 852,
+          "value_display": "$8.52",
+          "status": "APPLIED",
+          "detail": "",
+          "facts": {
+           "benefit_id": "csr_earn_dining_3x",
+           "benefit_kind": "earn",
+           "rate_bp": 300,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": "csr:earn",
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 1
+          },
+          "children": [
+           {
+            "node_id": "assignment:csr_earn_dining_3x:usd_dining",
+            "kind": "assignment",
+            "label": "3x Ultimate Rewards on dining worldwide at 3% on Dinner for four",
+            "value_minor": 852,
+            "value_display": "$8.52",
+            "status": "APPLIED",
+            "detail": "",
+            "facts": {
+             "line_sku": "usd_dining",
+             "benefit_id": "csr_earn_dining_3x",
+             "consumed_minor": 852,
+             "line_amount_minor": 28400
+            },
+            "children": []
+           }
+          ]
+         },
+         {
+          "node_id": "benefit:csr_earn_base_1x",
+          "kind": "benefit",
+          "label": "1x Ultimate Rewards on all other purchases",
+          "value_minor": 344,
+          "value_display": "$3.44",
+          "status": "APPLIED",
+          "detail": "",
+          "facts": {
+           "benefit_id": "csr_earn_base_1x",
+           "benefit_kind": "earn",
+           "rate_bp": 100,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": "csr:earn",
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 5
+          },
+          "children": [
+           {
+            "node_id": "assignment:csr_earn_base_1x:usd_bags",
+            "kind": "assignment",
+            "label": "1x Ultimate Rewards on all other purchases at 1% on United checked bags and seat selection",
+            "value_minor": 148,
+            "value_display": "$1.48",
+            "status": "APPLIED",
+            "detail": "",
+            "facts": {
+             "line_sku": "usd_bags",
+             "benefit_id": "csr_earn_base_1x",
+             "consumed_minor": 148,
+             "line_amount_minor": 14800
+            },
+            "children": []
+           },
+           {
+            "node_id": "assignment:csr_earn_base_1x:usd_grocery",
+            "kind": "assignment",
+            "label": "1x Ultimate Rewards on all other purchases at 1% on Weekly groceries",
+            "value_minor": 196,
+            "value_display": "$1.96",
+            "status": "APPLIED",
+            "detail": "",
+            "facts": {
+             "line_sku": "usd_grocery",
+             "benefit_id": "csr_earn_base_1x",
+             "consumed_minor": 196,
+             "line_amount_minor": 19600
+            },
+            "children": []
+           }
+          ]
+         },
+         {
+          "node_id": "benefit:csr_credit_travel",
+          "kind": "benefit",
+          "label": "$300 annual travel credit",
+          "value_minor": 30000,
+          "value_display": "$300",
+          "status": "APPLIED",
+          "detail": "",
+          "facts": {
+           "benefit_id": "csr_credit_travel",
+           "benefit_kind": "credit",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": 30000,
+           "exclusivity_group": "csr:travel_credit",
+           "window": "annual",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 3
+          },
+          "children": [
+           {
+            "node_id": "assignment:csr_credit_travel:usd_air",
+            "kind": "assignment",
+            "label": "$300 annual travel credit offsetting United round trip SFO-BOS, booked direct",
+            "value_minor": 30000,
+            "value_display": "$300",
+            "status": "APPLIED",
+            "detail": "",
+            "facts": {
+             "line_sku": "usd_air",
+             "benefit_id": "csr_credit_travel",
+             "consumed_minor": 30000,
+             "line_amount_minor": 74200
+            },
+            "children": []
+           }
+          ]
+         },
+         {
+          "node_id": "benefit:csr_credit_the_edit_1",
+          "kind": "benefit",
+          "label": "$250 The Edit hotel credit, first eligible booking",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "INELIGIBLE",
+          "detail": "admits no line of this cart",
+          "facts": {
+           "benefit_id": "csr_credit_the_edit_1",
+           "benefit_kind": "credit",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": 25000,
+           "exclusivity_group": "csr:travel_credit",
+           "window": "annual",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:csr_credit_the_edit_2",
+          "kind": "benefit",
+          "label": "$250 The Edit hotel credit, second eligible booking",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "INELIGIBLE",
+          "detail": "admits no line of this cart",
+          "facts": {
+           "benefit_id": "csr_credit_the_edit_2",
+           "benefit_kind": "credit",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": 25000,
+           "exclusivity_group": "csr:travel_credit",
+           "window": "annual",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:csr_credit_dining_h1",
+          "kind": "benefit",
+          "label": "$150 dining credit at Sapphire Reserve Exclusive Tables, January\u2013June",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "EXHAUSTED",
+          "detail": "declared balance is exhausted for this window",
+          "facts": {
+           "benefit_id": "csr_credit_dining_h1",
+           "benefit_kind": "credit",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": 0,
+           "exclusivity_group": "csr:dining_credit",
+           "window": "semiannual",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:csr_credit_dining_h2",
+          "kind": "benefit",
+          "label": "$150 dining credit at Sapphire Reserve Exclusive Tables, July\u2013December",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "INELIGIBLE",
+          "detail": "admits no line of this cart",
+          "facts": {
+           "benefit_id": "csr_credit_dining_h2",
+           "benefit_kind": "credit",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": 15000,
+           "exclusivity_group": "csr:dining_credit",
+           "window": "semiannual",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:csr_credit_lyft",
+          "kind": "benefit",
+          "label": "$10 monthly Lyft in-app credit",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "INELIGIBLE",
+          "detail": "admits no line of this cart",
+          "facts": {
+           "benefit_id": "csr_credit_lyft",
+           "benefit_kind": "credit",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": 1000,
+           "exclusivity_group": null,
+           "window": "monthly",
+           "requires_enrollment": false,
+           "enrolled": true,
+           "eligible_lines": 0
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:csr_lounge_access",
+          "kind": "benefit",
+          "label": "Priority Pass Select and Chase Sapphire Lounge by The Club access",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "CONSIDERED_BUT_UNPRICED",
+          "detail": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture",
+          "facts": {
+           "benefit_id": "csr_lounge_access",
+           "benefit_kind": "unpriced",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": null,
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:csr_hotel_status",
+          "kind": "benefit",
+          "label": "IHG One Rewards Platinum Elite status",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "CONSIDERED_BUT_UNPRICED",
+          "detail": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture",
+          "facts": {
+           "benefit_id": "csr_hotel_status",
+           "benefit_kind": "unpriced",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": null,
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:csr_exclusive_tables_access",
+          "kind": "benefit",
+          "label": "Sapphire Reserve Exclusive Tables peak-hour reservation access",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "CONSIDERED_BUT_UNPRICED",
+          "detail": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture",
+          "facts": {
+           "benefit_id": "csr_exclusive_tables_access",
+           "benefit_kind": "unpriced",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": null,
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:csr_protections",
+          "kind": "benefit",
+          "label": "Trip cancellation and interruption insurance, trip delay reimbursement, primary auto rental collision damage waiver, purchase protection and extended warranty",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "CONSIDERED_BUT_UNPRICED",
+          "detail": "declared and considered, deliberately not scored: pricing contingent cover needs a claims-probability assumption this system does not have and will not invent",
+          "facts": {
+           "benefit_id": "csr_protections",
+           "benefit_kind": "unpriced",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": null,
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true
+          },
+          "children": []
+         },
+         {
+          "node_id": "benefit:csr_global_entry_credit",
+          "kind": "benefit",
+          "label": "Global Entry, TSA PreCheck or NEXUS application fee credit",
+          "value_minor": 0,
+          "value_display": "$0",
+          "status": "CONSIDERED_BUT_UNPRICED",
+          "detail": "declared and considered, deliberately not scored: the published credit runs on a four-year window, and amortising it into a single cart would put a number on this receipt that no allocation on this cart could realize",
+          "facts": {
+           "benefit_id": "csr_global_entry_credit",
+           "benefit_kind": "unpriced",
+           "rate_bp": 0,
+           "flat_minor": 0,
+           "capacity_minor": null,
+           "exclusivity_group": null,
+           "window": "none",
+           "requires_enrollment": false,
+           "enrolled": true
+          },
+          "children": []
+         }
+        ]
+       },
+       "refusals": [],
+       "disclosures": [
+        {
+         "code": "PLUMBLINE_DISCLOSE_ALLOCATION_NOT_PROVEN_OPTIMAL",
+         "detail": "the exhibited allocation is produced by a deterministic greedy allocator. It is achievable, so the asserted value cannot exceed the true optimum, but it is not proven optimal; the offline oracle measures the gap",
+         "direction": "understates"
+        },
+        {
+         "code": "PLUMBLINE_DISCLOSE_BENEFIT_EXHAUSTED",
+         "detail": "1 declared benefit(s) have no balance left in the current window ($150 dining credit at Sapphire Reserve Exclusive Tables, January\u2013June)",
+         "direction": "neutral"
+        },
+        {
+         "code": "PLUMBLINE_DISCLOSE_CONSIDERED_BUT_UNPRICED",
+         "detail": "5 declared benefit(s) are carried as considered-but-unpriced (Global Entry, TSA PreCheck or NEXUS application fee credit, IHG One Rewards Platinum Elite status, Priority Pass Select and Chase Sapphire Lounge by The Club access, Sapphire Reserve Exclusive Tables peak-hour reservation access, Trip cancellation and interruption insurance, trip delay reimbursement, primary auto rental collision damage waiver, purchase protection and extended warranty); the integer above does not claim to be the whole worth of this card",
+         "direction": "understates"
+        }
+       ],
+       "unpriced_labels": [
+        "Priority Pass Select and Chase Sapphire Lounge by The Club access",
+        "IHG One Rewards Platinum Elite status",
+        "Sapphire Reserve Exclusive Tables peak-hour reservation access",
+        "Trip cancellation and interruption insurance, trip delay reimbursement, primary auto rental collision damage waiver, purchase protection and extended warranty",
+        "Global Entry, TSA PreCheck or NEXUS application fee credit"
+       ],
+       "asserted_display": "$378.36",
+       "naive_sum_minor": 190580,
+       "naive_sum_display": "$1,905.80",
+       "overstatement_avoided_minor": 152744,
+       "protection_value_minor": 0,
+       "verification": {
+        "ok": true,
+        "supports_assertion": true,
+        "realized_minor": 37836,
+        "realized_display": "$378.36",
+        "claimed_minor": 37836,
+        "claimed_display": "$378.36",
+        "asserted_minor": 37836,
+        "asserted_display": "$378.36",
+        "failures": []
+       },
+       "claimed_minor": null,
+       "considered_benefits": 17,
+       "applied_benefits": 5,
+       "attestable_hash": "a167e704d9e30c3e60bf499d9dd2e6a2656be0ca95e6621c398280a903fbbba6"
+      }
+     ],
+     "ranking": {
+      "policy_id": "plumbline/demo/cardholder-policy/1",
+      "policy_hash": "00ea97a85ff4b7af949639bce57ec6fd18a5db1e0c81a6f00c81af52edeed8af",
+      "criterion": "max_asserted_value",
+      "baseline_minor": 0,
+      "entries": [
+       {
+        "rank": 1,
+        "manifest_id": "chase-sapphire-reserve-2026",
+        "asserted_minor": 37836,
+        "asserted_display": "$378.36",
+        "baseline_minor": 0,
+        "incremental_minor": 37836,
+        "incremental_display": "$378.36",
+        "protection_value_minor": 0,
+        "margin_over_next_minor": 17780
+       },
+       {
+        "rank": 2,
+        "manifest_id": "amex-platinum-us-2026",
+        "asserted_minor": 20056,
+        "asserted_display": "$200.56",
+        "baseline_minor": 0,
+        "incremental_minor": 20056,
+        "incremental_display": "$200.56",
+        "protection_value_minor": 0,
+        "margin_over_next_minor": 14844
+       },
+       {
+        "rank": 3,
+        "manifest_id": "amex-gold-us-2026",
+        "asserted_minor": 5212,
+        "asserted_display": "$52.12",
+        "baseline_minor": 0,
+        "incremental_minor": 5212,
+        "incremental_display": "$52.12",
+        "protection_value_minor": 0,
+        "margin_over_next_minor": null
+       }
+      ],
+      "chosen_manifest_id": "chase-sapphire-reserve-2026",
+      "margin_minor": 17780,
+      "issuer_endorsed": false,
+      "note": "Ranking is produced by the cardholder's or the agent's valuation policy. No issuer signs it, and no issuer-signed artifact asserts that one instrument beat another on this cart."
+     },
+     "refusals": [],
+     "disclosures": [],
+     "signable": true,
+     "attested_count": 3,
+     "refused_count": 0
+    },
+    "attestation": {
+     "outcome": "RANKING_FAITHFUL",
+     "faithful": true,
+     "findings": [
+      {
+       "code": "RANKING_FAITHFUL",
+       "detail": "all 3 instrument(s) the mandate authorised were considered, and 'chase-sapphire-reserve-2026' is exactly what max_asserted_value selects over the recorded candidate set"
+      }
+     ],
+     "expected_order": [
+      "chase-sapphire-reserve-2026",
+      "amex-platinum-us-2026",
+      "amex-gold-us-2026"
+     ],
+     "expected_choice": "chase-sapphire-reserve-2026",
+     "checked_against_mandate": true
+    },
+    "disclosures": [
+     "The asserted value is an integer over priced benefits only. Entries under considered_but_unpriced were seen and deliberately not scored; the integer does not claim to be the whole worth of any instrument.",
+     "The issuer signs the benefit manifests only. The ranking and the valuation policy are the Card Member's; their hashes are recorded and are not issuer-endorsed.",
+     "Each asserted value is backed by a concrete allocation whose content hash appears above. Verification is arithmetic over that allocation and requires no solver.",
+     "The allocator is conservative by construction and not optimal. The gap to optimal is measured offline and quoted separately; nothing here claims optimality.",
+     "Signatures are HMAC-SHA256 under prototype keys. A production deployment signs with the issuer's HSM key and the agent's own key; canonicalisation is unchanged.",
+     "Manifests model publicly published card terms. No live offers feed is claimed."
+    ]
+   },
+   "signature": {
+    "alg": "HMAC-SHA256",
+    "key_id": "5b2aeaa887d0b6af",
+    "role": "agent",
+    "value": "b76d864c1db2c25866a90a2e304f4dedca83d22e1feac24c91a343e3839c3695",
+    "covers": "the whole receipt body, including the ranking. Signed by the agent or the Card Member \u2014 no issuer key covers this document."
+   }
+  }
+ }
+}

@@ -1,0 +1,26 @@
+# CAVEAT VALOREM — Python dependencies, pinned to the versions the numbers were measured on.
+#
+#   python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+#
+# Transitive dependencies are deliberately not pinned here: this file names what the code
+# imports, so a reader can see the dependency surface rather than a resolver's output.
+
+# Governance kernel.
+pymacaroons==0.13.0        # macaroon mandates that can only narrow
+z3-solver==5.0.0.0         # entailment at every delegation hop; OFFLINE oracle only
+
+# API surface.
+fastapi==0.140.0           # caveat.api, including the WebSocket console feed
+uvicorn[standard]==0.51.0  # the ASGI server scripts/demo.sh starts
+httpx==0.28.1              # starlette's TestClient transport, used by the API tests
+
+# The evaluator over MCP stdio, for an agent that derives instead of guesses.
+mcp==1.28.1
+
+# Tests.
+pytest==9.1.1
+
+# OPTIONAL — the live agent paths only. Every agent in this repo has a replay mode that
+# needs no key and no network, which is what scripts/demo.sh uses; install this only to run
+# `--live`, which additionally requires ANTHROPIC_API_KEY.
+anthropic==0.120.0

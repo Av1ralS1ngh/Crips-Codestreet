@@ -1,0 +1,269 @@
+{
+  "terms_id": "meridian_vantage",
+  "model": "claude-opus-5",
+  "provenance": "authored (not a live transcript)",
+  "issued_at": 1753600000,
+  "note": "Authored replay trace. The drafts are hand-written to exercise the validator's four most load-bearing checks — value-denominated earn caps, exclusivity groups, unpriceable protections and provenance — and every recorded verdict was produced by running that draft through plumbline.authoring.validate_draft for real. Replay re-validates rather than trusting these verdicts. Overwrite with a genuine claude-opus-5 transcript via `python -m agent.author --terms meridian_vantage --live --record`.",
+  "narration": [
+    "Reading the terms. Sections 2.1 and 2.2 are earn multipliers, 3.1-3.3 are statement credits with stated remaining balances, 5.1-5.2 are protections and 6.1 is a service. Section 2.3 gives the point value, so I can convert the multipliers to basis points.",
+    "Drafting: 4 points per dollar at 1 cent each is 400 bp, 3 points per dollar is 300 bp. Submitting.",
+    "Rejected, and the codes are fair. The $50,000 dining cap is a SPEND figure and I put it in the value slot, which would have overstated that benefit by 25x. Section 3.4 says the dining credit and the restaurant week credit cannot both apply to one transaction, so both belong in the exclusivity group, not just one. Trip delay states no amount, so it cannot be a priced protection. And I left a provenance placeholder on the streaming credit.",
+    "Revised: capacity 200000 ($50,000 of qualifying spend at 400 bp), both dining credits in dining_line, trip delay declared unpriced, streaming provenance cited. Resubmitting.",
+    "Accepted. The Meridian Vantage Card manifest declares 8 benefits, 5 of them priced."
+  ],
+  "attempts": [
+    {
+      "tool": "submit_draft",
+      "input": {
+        "draft": {
+          "version": "plumbline/manifest-draft/1",
+          "manifest_id": "meridian-vantage-2026",
+          "issuer": "Meridian Bank",
+          "product": "Vantage Card",
+          "currency": "USD",
+          "issued_at": 1753600000,
+          "source": "Meridian Bank Vantage Card — Summary of Rewards and Benefits, effective 15 January 2026",
+          "benefits": [
+            {
+              "benefit_id": "earn_dining",
+              "kind": "earn",
+              "label": "4x points at restaurants",
+              "provenance": "Section 2.1, dining multiplier; 4 points/$ at 1c per point (s2.3)",
+              "eligibility": {
+                "mccs": [
+                  5812,
+                  5814
+                ],
+                "categories": [
+                  "dining"
+                ]
+              },
+              "rate_bp": 400,
+              "cap_qualifying_spend_minor": 5000000,
+              "capacity_minor": 5000000,
+              "window": "annual"
+            },
+            {
+              "benefit_id": "earn_airfare",
+              "kind": "earn",
+              "label": "3x points on airfare booked with airlines",
+              "provenance": "Section 2.2, travel multiplier; 3 points/$ at 1c per point (s2.3)",
+              "eligibility": {
+                "mccs": [
+                  4511
+                ],
+                "categories": [
+                  "airfare"
+                ]
+              },
+              "rate_bp": 300
+            },
+            {
+              "benefit_id": "credit_dining_monthly",
+              "kind": "credit",
+              "label": "Monthly dining statement credit",
+              "provenance": "Section 3.1, dining credit; $10.00 remaining this statement",
+              "eligibility": {
+                "mccs": [
+                  5812
+                ]
+              },
+              "capacity_minor": 1000,
+              "window": "monthly",
+              "exclusivity_group": "dining_line"
+            },
+            {
+              "benefit_id": "credit_restaurant_week",
+              "kind": "credit",
+              "label": "Quarterly restaurant week credit",
+              "provenance": "Section 3.3, restaurant week credit; $25.00 remaining this quarter",
+              "eligibility": {
+                "mccs": [
+                  5812,
+                  5814
+                ]
+              },
+              "capacity_minor": 2500,
+              "window": "quarterly"
+            },
+            {
+              "benefit_id": "credit_streaming",
+              "kind": "credit",
+              "label": "Monthly digital entertainment credit",
+              "provenance": "TBD",
+              "eligibility": {
+                "categories": [
+                  "streaming"
+                ]
+              },
+              "capacity_minor": 2000,
+              "window": "monthly",
+              "requires_enrollment": true,
+              "enrolled": false
+            },
+            {
+              "benefit_id": "prot_purchase",
+              "kind": "protection",
+              "label": "Purchase protection on consumer electronics",
+              "provenance": "Section 5.1, purchase protection; up to $500 per claim",
+              "eligibility": {
+                "categories": [
+                  "electronics"
+                ]
+              },
+              "flat_minor": 50000
+            },
+            {
+              "benefit_id": "prot_trip_delay",
+              "kind": "protection",
+              "label": "Trip delay insurance",
+              "provenance": "Section 5.2, trip delay insurance",
+              "eligibility": {
+                "mccs": [
+                  4511
+                ]
+              },
+              "flat_minor": 0
+            },
+            {
+              "benefit_id": "svc_concierge",
+              "kind": "unpriced",
+              "label": "24-hour concierge",
+              "provenance": "Section 6.1, member services",
+              "note": "service value that no integer on a receipt claims to capture"
+            }
+          ]
+        }
+      },
+      "recorded_verdict": "REJECTED",
+      "recorded_reason_codes": [
+        "EARN_CAP_INCONSISTENT_WITH_RATE",
+        "PROVENANCE_PLACEHOLDER",
+        "UNREACHABLE_ZERO_VALUE",
+        "EXCLUSIVITY_GROUP_OF_ONE"
+      ]
+    },
+    {
+      "tool": "submit_draft",
+      "input": {
+        "draft": {
+          "version": "plumbline/manifest-draft/1",
+          "manifest_id": "meridian-vantage-2026",
+          "issuer": "Meridian Bank",
+          "product": "Vantage Card",
+          "currency": "USD",
+          "issued_at": 1753600000,
+          "source": "Meridian Bank Vantage Card — Summary of Rewards and Benefits, effective 15 January 2026",
+          "benefits": [
+            {
+              "benefit_id": "earn_dining",
+              "kind": "earn",
+              "label": "4x points at restaurants",
+              "provenance": "Section 2.1, dining multiplier; 4 points/$ at 1c per point (s2.3)",
+              "eligibility": {
+                "mccs": [
+                  5812,
+                  5814
+                ],
+                "categories": [
+                  "dining"
+                ]
+              },
+              "rate_bp": 400,
+              "cap_qualifying_spend_minor": 5000000,
+              "capacity_minor": 200000,
+              "window": "annual"
+            },
+            {
+              "benefit_id": "earn_airfare",
+              "kind": "earn",
+              "label": "3x points on airfare booked with airlines",
+              "provenance": "Section 2.2, travel multiplier; 3 points/$ at 1c per point (s2.3)",
+              "eligibility": {
+                "mccs": [
+                  4511
+                ],
+                "categories": [
+                  "airfare"
+                ]
+              },
+              "rate_bp": 300
+            },
+            {
+              "benefit_id": "credit_dining_monthly",
+              "kind": "credit",
+              "label": "Monthly dining statement credit",
+              "provenance": "Section 3.1, dining credit; $10.00 remaining this statement",
+              "eligibility": {
+                "mccs": [
+                  5812
+                ]
+              },
+              "capacity_minor": 1000,
+              "window": "monthly",
+              "exclusivity_group": "dining_line"
+            },
+            {
+              "benefit_id": "credit_restaurant_week",
+              "kind": "credit",
+              "label": "Quarterly restaurant week credit",
+              "provenance": "Section 3.3, restaurant week credit; $25.00 remaining this quarter",
+              "eligibility": {
+                "mccs": [
+                  5812,
+                  5814
+                ]
+              },
+              "capacity_minor": 2500,
+              "window": "quarterly",
+              "exclusivity_group": "dining_line"
+            },
+            {
+              "benefit_id": "credit_streaming",
+              "kind": "credit",
+              "label": "Monthly digital entertainment credit",
+              "provenance": "Section 3.2, streaming credit; $20.00 remains, account not enrolled",
+              "eligibility": {
+                "categories": [
+                  "streaming"
+                ]
+              },
+              "capacity_minor": 2000,
+              "window": "monthly",
+              "requires_enrollment": true,
+              "enrolled": false
+            },
+            {
+              "benefit_id": "prot_purchase",
+              "kind": "protection",
+              "label": "Purchase protection on consumer electronics",
+              "provenance": "Section 5.1, purchase protection; up to $500 per claim",
+              "eligibility": {
+                "categories": [
+                  "electronics"
+                ]
+              },
+              "flat_minor": 50000
+            },
+            {
+              "benefit_id": "prot_trip_delay",
+              "kind": "unpriced",
+              "label": "Trip delay insurance",
+              "provenance": "Section 5.2, trip delay insurance",
+              "note": "amounts depend on the claim and the itinerary; pricing would need a claims-probability assumption the terms do not supply"
+            },
+            {
+              "benefit_id": "svc_concierge",
+              "kind": "unpriced",
+              "label": "24-hour concierge",
+              "provenance": "Section 6.1, member services",
+              "note": "service value that no integer on a receipt claims to capture"
+            }
+          ]
+        }
+      },
+      "recorded_verdict": "ACCEPTED",
+      "recorded_reason_codes": []
+    }
+  ]
+}

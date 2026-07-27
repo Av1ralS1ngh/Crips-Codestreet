@@ -1,0 +1,366 @@
+@import "tailwindcss";
+@import "@fontsource-variable/jetbrains-mono";
+
+/* ------------------------------------------------------------------------------------
+   PLUMBLINE console — design foundation.
+
+   The page is WHITE. Colour lives in components, never in page chrome: a solid navy or
+   bright-blue header bar on a card, a navy conclusion band, a full-bleed royal field for a
+   terminal moment. There is no coloured bar across the top of a screen.
+
+   Two blues, doing two jobs. Navy is structure and authority — card headers, page titles,
+   the witness-backed figure, conclusion bands. Bright blue is secondary structure and
+   interaction — alternating headers, section labels, links, selected state, focus rings.
+
+   Two families, split strictly. The text face carries every sentence, label, heading, table
+   header and pill. The monospace carries only hashes, reason codes, identifiers, MCC codes
+   and manifest rule expressions. An explanatory sentence is never monospace; a hash is never
+   the text face.
+
+   Nothing renders below 0.75rem. If content will not fit, cut content or widen the
+   container.
+   ---------------------------------------------------------------------------------- */
+
+/* -- tokens ---------------------------------------------------------------------------
+   --amex-royal and --amex-cream are sampled from a photograph and are approximations.
+   They are single tokens so official values can be dropped in with one edit each.
+   ------------------------------------------------------------------------------------ */
+
+:root {
+  --amex-navy: #00175a; /* primary card headers, titles, key data, bands */
+  --amex-blue: #006fcf; /* alternating card headers, labels, links, focus */
+  --amex-royal: #1e4ba5; /* full-bleed hero and terminal screens only */
+  --amex-sky: #6ba4e0; /* accent word on blue fields, sublines in bands */
+  --amex-white: #ffffff; /* page */
+  --amex-gray-01: #f7f8f9; /* card body */
+  --amex-gray-02: #ecedee; /* SOLVES pill, table zebra, progress track */
+  --amex-gray-03: #c8c9c7; /* borders, rules, pill outlines */
+  --amex-gray-04: #97999b; /* disabled only */
+  --amex-cream: #f6dfd2; /* decorative band on blue fields */
+  --amex-ink: #4d4f53; /* body copy */
+  --amex-success: #008767; /* verified, issuer-signed, passed */
+  --amex-warning: #b42c01; /* struck, blocked, refused, the overstatement */
+  --amex-attention: #fdb92d; /* considered but unpriced */
+  --radius-card: 8px;
+  --radius-pill: 999px;
+  --border: 1px solid var(--amex-gray-03);
+  --shadow: none; /* there are no shadows in this system */
+}
+
+/* Derived values. Every one of these is a function of a token above; none introduces a new
+   hue. They exist so the palette holds at projector gamma in a lit room.
+
+   --amex-attention-ink is the one that needs saying out loud: #FDB92D on white is about
+   1.7:1, which is unreadable on a projector, so amber is carried as the pill BORDER and the
+   text is the same hue driven down to a legible value. CONSIDERED_BUT_UNPRICED still reads
+   amber; it just also reads. */
+:root {
+  --amex-ink-strong: #2b2d31; /* primary sentences and table data */
+  --amex-ink-muted: #75777a; /* captions and provenance lines, still ~4.6:1 on white */
+  --amex-attention-ink: #8a5a00; /* amber at text contrast */
+  --amex-warning-deep: #8e2201;
+  --amex-navy-wash: #eef2f9;
+  --amex-blue-wash: #e8f1fb;
+  --amex-success-wash: #e9f4f0;
+  --amex-warning-wash: #fbede8;
+  --amex-attention-wash: #fef6e4;
+}
+
+@theme {
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif;
+  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", "SF Mono", Consolas, monospace;
+
+  /* -- palette ------------------------------------------------------------------------ */
+
+  --color-navy: var(--amex-navy);
+  --color-blue: var(--amex-blue);
+  --color-royal: var(--amex-royal);
+  --color-sky: var(--amex-sky);
+  --color-cream: var(--amex-cream);
+
+  --color-gray-01: var(--amex-gray-01);
+  --color-gray-02: var(--amex-gray-02);
+  --color-gray-03: var(--amex-gray-03);
+  --color-gray-04: var(--amex-gray-04);
+
+  --color-success: var(--amex-success);
+  --color-warning: var(--amex-warning);
+  --color-attention: var(--amex-attention);
+  --color-attention-ink: var(--amex-attention-ink);
+
+  --color-navy-wash: var(--amex-navy-wash);
+  --color-blue-wash: var(--amex-blue-wash);
+  --color-success-wash: var(--amex-success-wash);
+  --color-warning-wash: var(--amex-warning-wash);
+  --color-attention-wash: var(--amex-attention-wash);
+
+  /* Surface and ink names the console already speaks, re-pointed at the light system so a
+     screen that has not been rebuilt yet still renders legibly rather than white-on-white. */
+  --color-bg: var(--amex-white);
+  --color-panel: var(--amex-gray-01);
+  --color-raised: var(--amex-white);
+  --color-sunken: var(--amex-gray-02);
+  --color-line: var(--amex-gray-03);
+  --color-line-2: var(--amex-gray-04);
+
+  --color-ink: var(--amex-ink-strong);
+  --color-ink-2: var(--amex-ink);
+  --color-ink-3: #5f6165;
+  --color-ink-4: var(--amex-ink-muted);
+
+  /* Semantic aliases. `deny` is the warning red and means exactly one thing: this value was
+     removed, blocked or refused. `allow` is verified or issuer-signed, at pill and label
+     scale only. `proof` is cryptographic material, which is interaction-adjacent, so blue. */
+  --color-deny: var(--amex-warning);
+  --color-deny-2: var(--amex-warning-deep);
+  --color-deny-wash: var(--amex-warning-wash);
+  --color-allow: var(--amex-success);
+  --color-allow-wash: var(--amex-success-wash);
+  --color-stepup: var(--amex-attention-ink);
+  --color-stepup-wash: var(--amex-attention-wash);
+  --color-proof: var(--amex-blue);
+  --color-proof-wash: var(--amex-blue-wash);
+
+  /* -- type scale --------------------------------------------------------------------
+     0.75rem is the floor and it is a floor, not a guideline. Everything below it was
+     removed from this file when the scale landed.
+     ---------------------------------------------------------------------------------- */
+
+  --text-hero: 3rem;
+  --text-hero--line-height: 1;
+  --text-hero--font-weight: 700;
+  --text-hero--letter-spacing: -0.015em;
+
+  --text-page-title: 1.75rem;
+  --text-page-title--line-height: 1.15;
+  --text-page-title--font-weight: 700;
+  --text-page-title--letter-spacing: -0.01em;
+
+  --text-standfirst: 1rem;
+  --text-standfirst--line-height: 1.5;
+  --text-standfirst--font-weight: 400;
+
+  --text-card-title: 1rem;
+  --text-card-title--line-height: 1.2;
+  --text-card-title--font-weight: 700;
+
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.2;
+  --text-label--font-weight: 700;
+  --text-label--letter-spacing: 0.06em;
+
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.55;
+  --text-body--font-weight: 400;
+
+  --text-pill: 0.75rem;
+  --text-pill--line-height: 1;
+  --text-pill--font-weight: 700;
+
+  --text-data: 0.9375rem;
+  --text-data--line-height: 1.35;
+  --text-data--font-weight: 500;
+
+  --text-code: 0.8125rem;
+  --text-code--line-height: 1.45;
+  --text-code--font-weight: 400;
+
+  /* -- geometry ----------------------------------------------------------------------
+     Everything is rounded. Nothing in this system has a sharp corner.
+     ---------------------------------------------------------------------------------- */
+
+  --radius-card: 8px;
+  --radius-pill: 999px;
+
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    /* 16px root, so the 0.75rem floor is 12px. The S/M/L lever moves the whole scale
+       together; it never lets a size fall through the floor. */
+    font-size: var(--ui-scale, 16px);
+    background: var(--amex-white);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--amex-white);
+    color: var(--amex-ink);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior: none;
+  }
+
+  #root {
+    height: 100dvh;
+  }
+
+  /* There are no shadows in this system, and no glass. This is the guard, not a note: a
+     shadow reintroduced anywhere in the codebase is cancelled here. Focus is an outline,
+     so nothing legitimate is lost. */
+  *,
+  *::before,
+  *::after {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  ::selection {
+    background: var(--amex-blue);
+    color: var(--amex-white);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--amex-blue);
+    outline-offset: 2px;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--amex-gray-03) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: var(--amex-gray-03);
+    border-radius: var(--radius-pill);
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+/* -- typography levers ---------------------------------------------------------------- */
+
+/**
+ * The connective tissue inside every card: 0.75rem, 700, uppercase, 0.06em, bright blue.
+ * `eyebrow` is the class name the console already uses in 60-odd places; it now resolves to
+ * the section label, so a screen picks the system up without being rewritten first.
+ */
+@utility eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--amex-blue);
+}
+
+/** Figures that must line up column-to-column. Mono, tabular, zero slashed. */
+@utility num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "zero" 1;
+}
+
+/** Currency in a table cell: symbol, separators, right-aligned, monospace tabular. */
+@utility money-cell {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "zero" 1;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/** Long hex that must wrap without pushing a panel wide. */
+@utility hash {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  overflow-wrap: anywhere;
+  color: var(--amex-blue);
+}
+
+/* The width-axis levers the previous display face carried. The text face is a neutral
+   grotesque with no width axis, so these are inert by design rather than deleted: the class
+   names survive in screens that have not been rebuilt, and they now do nothing instead of
+   doing something off-system. */
+@utility display-wide {
+  font-stretch: normal;
+}
+@utility display-xwide {
+  font-stretch: normal;
+}
+@utility display-narrow {
+  font-stretch: normal;
+}
+
+/* -- motion --------------------------------------------------------------------------
+   Enough to be noticed from a distance, never enough to make a judge wait. Nothing here
+   animates a shadow, a gradient or a blur.
+   ------------------------------------------------------------------------------------ */
+
+@keyframes line-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes flash-deny {
+  0% {
+    background-color: var(--amex-warning-wash);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes flash-neutral {
+  0% {
+    background-color: var(--amex-blue-wash);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes stamp {
+  0% {
+    opacity: 0;
+    transform: scale(1.16);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(0.985);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@utility anim-line-in {
+  animation: line-in 260ms var(--ease-out-quint) both;
+}
+@utility anim-stamp {
+  animation: stamp 380ms var(--ease-out-quint) both;
+}
+@utility anim-flash-deny {
+  animation: flash-deny 900ms ease-out both;
+}
+@utility anim-flash-neutral {
+  animation: flash-neutral 900ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}

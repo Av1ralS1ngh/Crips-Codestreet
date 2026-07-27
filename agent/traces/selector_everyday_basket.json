@@ -1,0 +1,98 @@
+{
+  "scenario": "everyday_basket",
+  "cart_id": "everyday_basket",
+  "model": "claude-opus-5",
+  "provenance": "authored fixture — NOT a live claude-opus-5 transcript. Re-record with `python -m agent.selector --live --record`.",
+  "recorded_at": 1785110400,
+  "note": "Only the model's CHOICES are recorded here. Replay re-executes every tool call against the live MCP server, the live allocator and the live verifier, so every number in the output is computed at replay time and none of it is read out of this file.",
+  "runs": {
+    "control": {
+      "narration": [
+        "I have no way to value this basket. Nothing available to me prices a cart against a card — I can see each product's marketing page and nothing else. I will read all three and reason from what they advertise.",
+        "Ranked by what they advertise, the Platinum Card is the clear leader: over $1,900 a year in statement credits against a $895 fee, the widest earn structure and benefits none of the others carry. I will recommend Platinum. To be explicit, this is an estimate — I have no line-level derivation and no way to check it."
+      ],
+      "tool_calls": [
+        {
+          "tool": "list_products",
+          "input": {}
+        },
+        {
+          "tool": "read_marketing_copy",
+          "input": {
+            "product": "The Platinum Card from American Express"
+          }
+        },
+        {
+          "tool": "read_marketing_copy",
+          "input": {
+            "product": "Chase Sapphire Reserve"
+          }
+        },
+        {
+          "tool": "read_marketing_copy",
+          "input": {
+            "product": "American Express Gold Card"
+          }
+        },
+        {
+          "tool": "state_recommendation",
+          "input": {
+            "instrument_id": "The Platinum Card from American Express",
+            "criterion": "max_incremental_value",
+            "rationale": "The Platinum Card advertises over $1,900 a year in statement credits against its $895 annual fee, more than any other card in this wallet, and it carries the broadest earn structure of the three. On that basis it should return the most value on this basket.",
+            "claimed_value_display": "$150.00"
+          }
+        }
+      ]
+    },
+    "derived": {
+      "narration": [
+        "I will not estimate this. The value server prices the basket on each instrument with a deterministic allocator, so I will ask it and then work out why the answer came out the way it did.",
+        "The engine is unambiguous. The Gold Card realizes $67.18 on this basket, against $31.70 for the Sapphire Reserve and $25.78 for the Platinum. The reason is visible in the derivation rather than in any headline: this is an ordinary week, so the 4x restaurant and 4x supermarket rates attach to four of the six lines, and the small monthly credits — dining, Uber, Dunkin' — attach to exactly the lines this basket contains. The Platinum's larger advertised credits admit no line here at all. I also checked what a naive per-line summation would have claimed for the Gold: $203.98, because it double-counts the base rate against the category rate and counts each credit at the full line amount instead of at its remaining balance. The engine's number is lower and it is achievable.",
+        "Recommending the Gold Card on maximum incremental value, quoting the engine's figures rather than my own."
+      ],
+      "tool_calls": [
+        {
+          "tool": "list_carts",
+          "input": {}
+        },
+        {
+          "tool": "value_cart",
+          "input": {
+            "cart": "everyday_basket",
+            "criterion": "max_incremental_value"
+          }
+        },
+        {
+          "tool": "explain_derivation",
+          "input": {
+            "instrument": "amex-gold-us-2026",
+            "cart": "everyday_basket"
+          }
+        },
+        {
+          "tool": "explain_derivation",
+          "input": {
+            "instrument": "amex-platinum-us-2026",
+            "cart": "everyday_basket"
+          }
+        },
+        {
+          "tool": "get_manifest",
+          "input": {
+            "product": "amex-gold-us-2026"
+          }
+        },
+        {
+          "tool": "state_recommendation",
+          "input": {
+            "instrument_id": "amex-gold-us-2026",
+            "criterion": "max_incremental_value",
+            "rationale": "The evaluator realizes $67.18 on this basket for the Gold Card, against $31.70 for the Sapphire Reserve and $25.78 for the Platinum, so the Gold leads the Platinum by $41.40. The derivation shows why: the 4x restaurant and 4x supermarket rates attach to four of the six lines, and the monthly dining, Uber and Dunkin' credits attach to exactly the lines this basket contains, while the Platinum's larger advertised credits admit no line here. I did not compute any of these figures; they are the engine's, each backed by a verified witness.",
+            "claimed_value_display": "$67.18"
+          }
+        }
+      ]
+    }
+  }
+}

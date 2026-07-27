@@ -1,0 +1,4748 @@
+{
+ "generated_at": 1785110400,
+ "disclosure": "Each stop on each axis is a real run of plumbline.allocate over a manifest with one field changed. The witness is the engine's; the verification is this browser's. Signatures are HMAC under prototype keys, and no signature survives a perturbation.",
+ "cart": {
+  "merchant": "m_travel_desk_in",
+  "currency": "INR",
+  "lines": [
+   {
+    "sku": "in_hotel",
+    "description": "Marina Bay hotel, 3 nights, booked direct",
+    "amount": 2840000,
+    "mcc": 7011,
+    "category": "overseas_spend",
+    "qty": 3
+   },
+   {
+    "sku": "in_hotel_transit",
+    "description": "Airport transit hotel, 1 night, booked direct",
+    "amount": 620000,
+    "mcc": 7011,
+    "category": "hotel_direct",
+    "qty": 1
+   },
+   {
+    "sku": "in_flight",
+    "description": "BLR\u2013SIN return, booked direct with the airline",
+    "amount": 1420000,
+    "mcc": 3000,
+    "category": "airfare",
+    "qty": 2
+   },
+   {
+    "sku": "in_dining",
+    "description": "Dinner for four, Marina Bay",
+    "amount": 168400,
+    "mcc": 5812,
+    "category": "overseas_spend",
+    "qty": 1
+   },
+   {
+    "sku": "in_fuel",
+    "description": "Fuel, full tank before the airport drive",
+    "amount": 480000,
+    "mcc": 5541,
+    "category": "fuel",
+    "qty": 1
+   },
+   {
+    "sku": "in_retail",
+    "description": "Noise-cancelling headphones",
+    "amount": 249900,
+    "mcc": 5732,
+    "category": "india_retail",
+    "qty": 1
+   }
+  ]
+ },
+ "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+ "criterion": "maximise witness-backed value on this cart; break ties by lower asserted value, then by instrument id",
+ "policy_hash": "045775de71635bfcaf52e3b45d0280f5cececc138954dd428bc74fd4a3815ddf",
+ "method": "one field of one benefit is changed; plumbline.allocate is re-run over the same cart; the witness it produced is carried here and re-checked in the browser against a manifest the console perturbs for itself",
+ "instruments": [
+  {
+   "instrument_id": "amex-platinum-charge-in-2026",
+   "issuer": "American Express",
+   "product": "The Platinum Card (India)",
+   "issuer_signed": true,
+   "source": "publicly published card terms as at 2026-07-27, modelled; remaining balances are SYNTHETIC member state, not live issuer data",
+   "manifest_hash": "69e801c5acfb302d8fbc0861872cb5bbf591abf37c77b85bd6225f626c8b855a",
+   "signature": "1abe4fdfc8966c4448ff1af45c3b3736db03c6c9ef7a5ca47a2570bb4241326e",
+   "key_id": "plumbline-console-issuer",
+   "manifest": {
+    "version": "plumbline/manifest/1",
+    "manifest_id": "amex-platinum-charge-in-2026",
+    "issuer": "American Express",
+    "product": "The Platinum Card (India)",
+    "currency": "INR",
+    "issued_at": 1785110400,
+    "source": "publicly published card terms as at 2026-07-27, modelled; remaining balances are SYNTHETIC member state, not live issuer data",
+    "benefits": [
+     {
+      "benefit_id": "amex_in_plat_earn_base",
+      "kind": "earn",
+      "label": "1 Membership Rewards point for every \u20b940 spent",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": [
+        "dining",
+        "hotel_direct",
+        "airfare",
+        "india_retail",
+        "overseas_spend"
+       ]
+      },
+      "rate_bp": 62,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": "amex_in_plat:earn",
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "1 MR per \u20b940 at \u20b90.25 per point is 0.62% and rounds down to 62 bp. Eligibility is an allow-list because the published terms exclude fuel, insurance, utilities, cash_transaction, emi_conversion; fuel is excluded here and carries its own published rate below"
+     },
+     {
+      "benefit_id": "amex_in_plat_earn_overseas_3x",
+      "kind": "earn",
+      "label": "3X Membership Rewards points on spend incurred abroad",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": [
+        "overseas_spend"
+       ]
+      },
+      "rate_bp": 187,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": "amex_in_plat:earn",
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "shares an exclusivity group with the base rate: 3X replaces 1X and is never added to it. Overseas-ness is carried on the cart line, so the manifest declares no condition its own vocabulary cannot express"
+     },
+     {
+      "benefit_id": "amex_in_plat_earn_fuel",
+      "kind": "earn",
+      "label": "5 Membership Rewards points for every \u20b9100 spent on fuel",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": [
+        "fuel"
+       ]
+      },
+      "rate_bp": 125,
+      "capacity_minor": 75000,
+      "flat_minor": 0,
+      "exclusivity_group": "amex_in_plat:earn",
+      "window": "monthly",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "published cap is 5,000 Membership Rewards Points per calendar month, carried here as value headroom. SYNTHETIC member state: 2,000 points already drawn, leaving \u20b9750. An earn benefit is never applied fractionally, so a fuel line whose earn exceeds the headroom is dropped rather than clipped, which understates"
+     },
+     {
+      "benefit_id": "amex_in_plat_taj_epicure",
+      "kind": "unpriced",
+      "label": "Taj Epicure Plus membership",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored, and stated precisely because it is the term this card is most often misquoted on: Taj Epicure Plus is a MEMBERSHIP the Cardmember enrols into, not a rupee credit. It delivers percentage privileges \u2014 25% off food and beverage at participating Taj, SeleQtions, Vivanta, Gateway and Claridges hotels, 25% off Qmin delivery, 20% off Jiva Spa treatments. American Express publishes no rupee value for it, so this manifest asserts none"
+     },
+     {
+      "benefit_id": "amex_in_plat_district_dining_offer",
+      "kind": "unpriced",
+      "label": "25% off dining on District by Zomato, Wednesdays",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: the published offer is 25% off up to \u20b95,000 per transaction and \u20b910,000 per calendar month, but it requires a coupon code, runs only on one weekday and is time-boxed to a promo window. This manifest's vocabulary can express none of those three conditions, and a benefit priced without the conditions that gate it would overstate"
+     },
+     {
+      "benefit_id": "amex_in_plat_lounge_access",
+      "kind": "unpriced",
+      "label": "1,550+ airport lounges worldwide, including The Centurion Lounge, Delta Sky Club and Priority Pass",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     },
+     {
+      "benefit_id": "amex_in_plat_hotel_programmes",
+      "kind": "unpriced",
+      "label": "Fine Hotels + Resorts, The Hotel Collection, Taj and Oberoi partner rates, and Marriott Bonvoy and Hilton Honors Gold status",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: the published figures are either an average value across stays or a discount off a rate this cart does not carry, and neither is an amount an allocation on this cart could realize"
+     },
+     {
+      "benefit_id": "amex_in_plat_milestones",
+      "kind": "unpriced",
+      "label": "Welcome gift on \u20b950,000 of net spend in the first two months, and renewal vouchers up to \u20b935,000 on \u20b920 lakh of spend in the membership year",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: both turn on a spend total over a membership period, and no allocation on one cart can realize them"
+     },
+     {
+      "benefit_id": "amex_in_plat_rewards_xcelerator",
+      "kind": "unpriced",
+      "label": "Rewards Xcelerator, up to 20X Membership Rewards at partner brands",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: member-targeted and enrollment-gated, and we model no live Offers feed and claim no access to one"
+     },
+     {
+      "benefit_id": "amex_in_plat_protections",
+      "kind": "unpriced",
+      "label": "Air accident cover, purchase protection, overseas medical and emergency assistance cover",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: pricing contingent cover needs a claims-probability assumption this system does not have and will not invent"
+     },
+     {
+      "benefit_id": "amex_in_plat_offers",
+      "kind": "unpriced",
+      "label": "Amex Offers",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: member-targeted and enrollment-gated, and we model no live Offers feed and claim no access to one"
+     }
+    ]
+   }
+  },
+  {
+   "instrument_id": "amex-platinum-travel-in-2026",
+   "issuer": "American Express",
+   "product": "Platinum Travel Credit Card (India)",
+   "issuer_signed": true,
+   "source": "publicly published card terms as at 2026-07-27, modelled; remaining balances are SYNTHETIC member state, not live issuer data",
+   "manifest_hash": "594ca438f97479cecb4cf389e64208f7bde3ae80408c3d820fafe126921036aa",
+   "signature": "962b6c53a1d07617f8a7a13dfff311f085495c43601c640ce2e5b17d982d0b93",
+   "key_id": "plumbline-console-issuer",
+   "manifest": {
+    "version": "plumbline/manifest/1",
+    "manifest_id": "amex-platinum-travel-in-2026",
+    "issuer": "American Express",
+    "product": "Platinum Travel Credit Card (India)",
+    "currency": "INR",
+    "issued_at": 1785110400,
+    "source": "publicly published card terms as at 2026-07-27, modelled; remaining balances are SYNTHETIC member state, not live issuer data",
+    "benefits": [
+     {
+      "benefit_id": "amex_in_travel_earn_base",
+      "kind": "earn",
+      "label": "1 Membership Rewards point for every \u20b950 spent",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": [
+        "dining",
+        "hotel_direct",
+        "airfare",
+        "india_retail",
+        "overseas_spend"
+       ]
+      },
+      "rate_bp": 50,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": "amex_in_travel:earn",
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "1 MR per \u20b950 at \u20b90.25 per point is 0.5% and rounds down to 50 bp. Eligibility is an allow-list because the published terms exclude fuel, insurance, utilities, cash_transaction, emi_conversion. This card publishes no fuel rate, so fuel earns nothing here"
+     },
+     {
+      "benefit_id": "amex_in_travel_milestones",
+      "kind": "unpriced",
+      "label": "7,500 bonus Membership Rewards Points at \u20b91.9 lakh of spend, 10,000 at \u20b94 lakh, and 22,500 plus a Taj e-gift card worth \u20b910,000 at \u20b97 lakh",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: every threshold is measured over a membership year, and no allocation on one cart can realize any of them. This is the largest published number on the card and pricing it against a single cart would be the clearest possible way to overstate"
+     },
+     {
+      "benefit_id": "amex_in_travel_welcome",
+      "kind": "unpriced",
+      "label": "Welcome gift of 10,000 Membership Rewards Points on \u20b915,000 of spend in the first 90 days",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: it is a one-time event over an enrolment window, not value this cart realizes"
+     },
+     {
+      "benefit_id": "amex_in_travel_lounge_access",
+      "kind": "unpriced",
+      "label": "8 complimentary domestic lounge visits a year, limited to two per quarter, plus a complimentary Priority Pass membership",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     },
+     {
+      "benefit_id": "amex_in_travel_protections",
+      "kind": "unpriced",
+      "label": "Travel and purchase protections",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: pricing contingent cover needs a claims-probability assumption this system does not have and will not invent"
+     },
+     {
+      "benefit_id": "amex_in_travel_offers",
+      "kind": "unpriced",
+      "label": "Amex Offers",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: member-targeted and enrollment-gated, and we model no live Offers feed and claim no access to one"
+     }
+    ]
+   }
+  },
+  {
+   "instrument_id": "hdfc-infinia-metal-2026",
+   "issuer": "HDFC Bank",
+   "product": "Infinia Metal Edition",
+   "issuer_signed": false,
+   "source": "publicly published card terms as at 2026-07-27, modelled; remaining balances are SYNTHETIC member state, not live issuer data",
+   "manifest_hash": "8e65617707e2cd21a4f16d1c69204c0597c65b4549d81eceaf3125024f05a5b4",
+   "signature": null,
+   "key_id": null,
+   "manifest": {
+    "version": "plumbline/manifest/1",
+    "manifest_id": "hdfc-infinia-metal-2026",
+    "issuer": "HDFC Bank",
+    "product": "Infinia Metal Edition",
+    "currency": "INR",
+    "issued_at": 1785110400,
+    "source": "publicly published card terms as at 2026-07-27, modelled; remaining balances are SYNTHETIC member state, not live issuer data",
+    "benefits": [
+     {
+      "benefit_id": "hdfc_infinia_earn_base",
+      "kind": "earn",
+      "label": "5 Reward Points per \u20b9150 of eligible retail spend",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": [
+        "smartbuy_hotel",
+        "smartbuy_flight",
+        "india_retail",
+        "dining",
+        "hotel_direct",
+        "airfare",
+        "overseas_spend"
+       ]
+      },
+      "rate_bp": 333,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": "hdfc_infinia:earn",
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "5 RP per \u20b9150 at 1 RP = \u20b91 on SmartBuy travel redemption is 3.33% and rounds down to 333 bp. Points accrue in whole \u20b9150 blocks, which a linear rate cannot express; the modelled rate can exceed the block-rounded figure by strictly less than 5 RP on one line. Eligibility is an allow-list because the published terms pay nothing on wallet_load, fuel, rent, government, emi_conversion"
+     },
+     {
+      "benefit_id": "hdfc_infinia_earn_smartbuy_hotel_10x",
+      "kind": "earn",
+      "label": "10X Reward Points on hotels booked through SmartBuy",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": [
+        "smartbuy_hotel"
+       ]
+      },
+      "rate_bp": 3333,
+      "capacity_minor": 920000,
+      "flat_minor": 0,
+      "exclusivity_group": "hdfc_infinia:earn",
+      "window": "monthly",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "10X of the 5 RP per \u20b9150 base is 50 RP per \u20b9150, which rounds down to 3333 bp. The published cap is 15,000 accelerated Reward Points per calendar month, shared across SmartBuy categories. SYNTHETIC member state: 5,800 already drawn, leaving \u20b99,200"
+     },
+     {
+      "benefit_id": "hdfc_infinia_earn_smartbuy_flight_5x",
+      "kind": "earn",
+      "label": "5X Reward Points on flights booked through SmartBuy",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": [
+        "smartbuy_flight"
+       ]
+      },
+      "rate_bp": 1666,
+      "capacity_minor": 0,
+      "flat_minor": 0,
+      "exclusivity_group": "hdfc_infinia:earn",
+      "window": "monthly",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "5X of the base is 25 RP per \u20b9150, which rounds down to 1666 bp. Declared with zero headroom because the monthly accelerated pool is SHARED with the hotel accelerator and is carried there in full: giving each accelerator its own copy of one pool would let a cart spend it twice"
+     },
+     {
+      "benefit_id": "hdfc_infinia_lounge_access",
+      "kind": "unpriced",
+      "label": "Unlimited domestic and international airport lounge access via Priority Pass, for the primary and add-on cardholders, with no spend condition",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     },
+     {
+      "benefit_id": "hdfc_infinia_forex",
+      "kind": "unpriced",
+      "label": "2% foreign currency markup",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: a markup is a cost avoided relative to another card, not value this cart realizes, and netting it here would make the number a comparison rather than an allocation"
+     },
+     {
+      "benefit_id": "hdfc_infinia_fee_waiver",
+      "kind": "unpriced",
+      "label": "Renewal fee waived at \u20b910 lakh of annual spend",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: it turns on a full year of spend, and no allocation on one cart can realize it"
+     },
+     {
+      "benefit_id": "hdfc_infinia_service",
+      "kind": "unpriced",
+      "label": "24x7 concierge and Club Marriott membership",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored: service, access and status are real value that no integer on this receipt claims to capture"
+     }
+    ]
+   }
+  },
+  {
+   "instrument_id": "hypothetical-illustrative-reserve",
+   "issuer": "Hypothetical Bank",
+   "product": "Illustrative Reserve",
+   "issuer_signed": false,
+   "source": "HYPOTHETICAL INSTRUMENT \u2014 invented for this demonstration. Not a real product, not modelled from any issuer's published terms, and signed by no one. It is in the candidate set because the published Indian catalogue carries no statement credits, so the case where two credits compete for one line cannot be shown from real Indian terms; attaching invented credits to a real issuer's product name is the one thing this system may never do.",
+   "manifest_hash": "11522317a4ce5e71da973e22cd4f572e79e1a22e88ddd7ec9c708de628933f45",
+   "signature": null,
+   "key_id": null,
+   "manifest": {
+    "version": "plumbline/manifest/1",
+    "manifest_id": "hypothetical-illustrative-reserve",
+    "issuer": "Hypothetical Bank",
+    "product": "Illustrative Reserve",
+    "currency": "INR",
+    "issued_at": 1785110400,
+    "source": "HYPOTHETICAL INSTRUMENT \u2014 invented for this demonstration. Not a real product, not modelled from any issuer's published terms, and signed by no one. It is in the candidate set because the published Indian catalogue carries no statement credits, so the case where two credits compete for one line cannot be shown from real Indian terms; attaching invented credits to a real issuer's product name is the one thing this system may never do.",
+    "benefits": [
+     {
+      "benefit_id": "hypo_dining_credit_monthly",
+      "kind": "credit",
+      "label": "Monthly dining credit",
+      "eligibility": {
+       "mccs": [
+        5812
+       ],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": 30000,
+      "flat_minor": 0,
+      "exclusivity_group": "hypo:dining_credit",
+      "window": "monthly",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "invented figure on a hypothetical instrument; no issuer publishes this; \u20b9300 of balance against a larger dinner"
+     },
+     {
+      "benefit_id": "hypo_dining_credit_partner",
+      "kind": "credit",
+      "label": "Partner restaurant credit",
+      "eligibility": {
+       "mccs": [
+        5812
+       ],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": 20000,
+      "flat_minor": 0,
+      "exclusivity_group": "hypo:dining_credit",
+      "window": "monthly",
+      "requires_enrollment": true,
+      "enrolled": true,
+      "note": "invented figure on a hypothetical instrument; no issuer publishes this; shares an exclusivity group with the monthly dining credit, so one dinner draws at most one of them"
+     },
+     {
+      "benefit_id": "hypo_stay_credit",
+      "kind": "credit",
+      "label": "Annual stay credit",
+      "eligibility": {
+       "mccs": [
+        7011
+       ],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": 50000,
+      "flat_minor": 0,
+      "exclusivity_group": "hypo:stay_credit",
+      "window": "annual",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "invented figure on a hypothetical instrument; no issuer publishes this; \u20b9500 of balance against a much larger room charge"
+     },
+     {
+      "benefit_id": "hypo_earn_travel",
+      "kind": "earn",
+      "label": "Travel multiplier",
+      "eligibility": {
+       "mccs": [
+        7011,
+        3000
+       ],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 250,
+      "capacity_minor": 40000,
+      "flat_minor": 0,
+      "exclusivity_group": "hypo:earn",
+      "window": "annual",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "invented figure on a hypothetical instrument; no issuer publishes this; the shared annual headroom is drawn down across lines"
+     },
+     {
+      "benefit_id": "hypo_earn_base",
+      "kind": "earn",
+      "label": "Base earn",
+      "eligibility": {
+       "mccs": [
+        7011,
+        3000,
+        5812,
+        5732
+       ],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 75,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": "hypo:earn",
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "invented figure on a hypothetical instrument; no issuer publishes this; shares an exclusivity group with the travel multiplier, because a bonus rate replaces a base rate and never adds to it"
+     },
+     {
+      "benefit_id": "hypo_lounge",
+      "kind": "unpriced",
+      "label": "Lounge access",
+      "eligibility": {
+       "mccs": [],
+       "merchants": [],
+       "categories": []
+      },
+      "rate_bp": 0,
+      "capacity_minor": null,
+      "flat_minor": 0,
+      "exclusivity_group": null,
+      "window": "none",
+      "requires_enrollment": false,
+      "enrolled": true,
+      "note": "declared and considered, deliberately not scored \u2014 and invented, like everything else on this instrument"
+     }
+    ]
+   }
+  }
+ ],
+ "axes": [
+  {
+   "axis_id": "stay_credit_balance",
+   "instrument_id": "hypothetical-illustrative-reserve",
+   "issuer": "Hypothetical Bank",
+   "product": "Illustrative Reserve",
+   "issuer_signed": false,
+   "benefit_id": "hypo_stay_credit",
+   "benefit_label": "Annual stay credit",
+   "benefit_kind": "credit",
+   "benefit_window": "annual",
+   "benefit_note": "invented figure on a hypothetical instrument; no issuer publishes this; \u20b9500 of balance against a much larger room charge",
+   "exclusivity_group": "hypo:stay_credit",
+   "field": "capacity_minor",
+   "unit": "money",
+   "fact": "member state",
+   "label": "Annual stay credit \u00b7 balance remaining",
+   "what_it_is": "how much of this account's stay credit is left today. Two Card Members hold the same product with different balances, so moving this asserts nothing about the product's terms.",
+   "watch_for": "the balance lands whole on the first stay it admits and the second stay gets nothing, because the two share an exclusivity group. That is the shortfall no per-line implementation can see: it is not a property of either line alone.",
+   "baseline_value": 50000,
+   "baseline_index": 3,
+   "signed_manifest_hash": "11522317a4ce5e71da973e22cd4f572e79e1a22e88ddd7ec9c708de628933f45",
+   "points": [
+    {
+     "value": 0,
+     "value_display": "\u20b90",
+     "manifest_hash": "368e49a6c648f80a1d9f49afeb0349eed8861c6bf3ab576f6202202aed520450",
+     "asserted_minor": 94587,
+     "asserted_display": "\u20b9945.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 94587,
+      "realized_display": "\u20b9945.87"
+     },
+     "witness_hash": "575f73fde0b98bb9aa57941cf0ec6d97637bfd824b75ec2a3aeaaa75daa3e4cf",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 94587,
+       "rank": 2,
+       "asserted_display": "\u20b9945.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 10,
+      "assigned": 6,
+      "skipped_capacity": 2,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 10000,
+     "value_display": "\u20b9100",
+     "manifest_hash": "401d9d75c0c06f6f1c33128b434d2eca9ee863709a1c197af2a75043bd42d61e",
+     "asserted_minor": 104587,
+     "asserted_display": "\u20b91,045.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 10000,
+        "value_minor": 10000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 104587,
+      "realized_display": "\u20b91,045.87"
+     },
+     "witness_hash": "6e440b9f713b4f31362493ad5eb4b9b96ebd02d4b5818b1d3b21a79f1e4b1732",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 104587,
+       "rank": 2,
+       "asserted_display": "\u20b91,045.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 25000,
+     "value_display": "\u20b9250",
+     "manifest_hash": "7bbc3f0c9c0658f174959fc152ef15b57820facee3ba495a44181cfa492674dd",
+     "asserted_minor": 119587,
+     "asserted_display": "\u20b91,195.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 25000,
+        "value_minor": 25000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 119587,
+      "realized_display": "\u20b91,195.87"
+     },
+     "witness_hash": "546d737d3c9ded08bc1b39b655687fedbd92f099646416941213ea19584977ac",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 119587,
+       "rank": 2,
+       "asserted_display": "\u20b91,195.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 50000,
+     "value_display": "\u20b9500",
+     "manifest_hash": "11522317a4ce5e71da973e22cd4f572e79e1a22e88ddd7ec9c708de628933f45",
+     "asserted_minor": 144587,
+     "asserted_display": "\u20b91,445.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 144587,
+      "realized_display": "\u20b91,445.87"
+     },
+     "witness_hash": "a6846cafb547ac8e9e3d27068e9b6fce85cdcd352aa3c2822d8ec075ad4f49ad",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 144587,
+       "rank": 2,
+       "asserted_display": "\u20b91,445.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 120000,
+     "value_display": "\u20b91,200",
+     "manifest_hash": "07e5a3e04109341e962ef75aaa91e531cf911fef9bac5b92c45a3dfecd9fc75b",
+     "asserted_minor": 214587,
+     "asserted_display": "\u20b92,145.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 120000,
+        "value_minor": 120000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 214587,
+      "realized_display": "\u20b92,145.87"
+     },
+     "witness_hash": "1fdb54f77fdb6de8e10bc3979a6b81c2475216724c84a81bfbb14fe4c211af61",
+     "ranking": [
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 214587,
+       "rank": 1,
+       "asserted_display": "\u20b92,145.87"
+      },
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 2,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hypothetical-illustrative-reserve",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 300000,
+     "value_display": "\u20b93,000",
+     "manifest_hash": "1a95de378ecb9b9038ea53655bff86f31640d635f2468c09b6e57410f5a2e953",
+     "asserted_minor": 394587,
+     "asserted_display": "\u20b93,945.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 300000,
+        "value_minor": 300000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 394587,
+      "realized_display": "\u20b93,945.87"
+     },
+     "witness_hash": "4c38b28b38b500b43c8cd74bff4279e6461d5277a5f8b6e58b43ad174617693c",
+     "ranking": [
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 394587,
+       "rank": 1,
+       "asserted_display": "\u20b93,945.87"
+      },
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 2,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hypothetical-illustrative-reserve",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 620000,
+     "value_display": "\u20b96,200",
+     "manifest_hash": "6e3e262cc38f779a9ffd4abbb0fcc2cc9850e0ce17c7d6d39ad507cc8a114093",
+     "asserted_minor": 714587,
+     "asserted_display": "\u20b97,145.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 620000,
+        "value_minor": 620000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 714587,
+      "realized_display": "\u20b97,145.87"
+     },
+     "witness_hash": "a02bcf803068bd2b1a7dd0be7efd6d2c2d6b2cfd42de6cc5d922860abf0fc62d",
+     "ranking": [
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 714587,
+       "rank": 1,
+       "asserted_display": "\u20b97,145.87"
+      },
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 2,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hypothetical-illustrative-reserve",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 900000,
+     "value_display": "\u20b99,000",
+     "manifest_hash": "54208c644114ba89f899e19b461394bfe371ccf953f01e9629198fca847866d9",
+     "asserted_minor": 994587,
+     "asserted_display": "\u20b99,945.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 900000,
+        "value_minor": 900000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 994587,
+      "realized_display": "\u20b99,945.87"
+     },
+     "witness_hash": "d336e254a475fd46e87ef4aec6f3c9b92e331d4c02de5fed4a402f4ad490368b",
+     "ranking": [
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 994587,
+       "rank": 1,
+       "asserted_display": "\u20b99,945.87"
+      },
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 2,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hypothetical-illustrative-reserve",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 1500000,
+     "value_display": "\u20b915,000",
+     "manifest_hash": "6d7fbc9b7d13ee24fefd8a7c091fac5ea309d8ba70d6b305906018b986fcf587",
+     "asserted_minor": 1594587,
+     "asserted_display": "\u20b915,945.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 1500000,
+        "value_minor": 1500000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 1594587,
+      "realized_display": "\u20b915,945.87"
+     },
+     "witness_hash": "559deefceac5db2c9dbf2539bf322e1b5df2fe98141d4572b6d86aaae4f759d9",
+     "ranking": [
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 1594587,
+       "rank": 1,
+       "asserted_display": "\u20b915,945.87"
+      },
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 2,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hypothetical-illustrative-reserve",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    }
+   ]
+  },
+  {
+   "axis_id": "dining_credit_balance",
+   "instrument_id": "hypothetical-illustrative-reserve",
+   "issuer": "Hypothetical Bank",
+   "product": "Illustrative Reserve",
+   "issuer_signed": false,
+   "benefit_id": "hypo_dining_credit_monthly",
+   "benefit_label": "Monthly dining credit",
+   "benefit_kind": "credit",
+   "benefit_window": "monthly",
+   "benefit_note": "invented figure on a hypothetical instrument; no issuer publishes this; \u20b9300 of balance against a larger dinner",
+   "exclusivity_group": "hypo:dining_credit",
+   "field": "capacity_minor",
+   "unit": "money",
+   "fact": "member state",
+   "label": "Monthly dining credit \u00b7 balance remaining",
+   "what_it_is": "how much of this month's dining credit is left. Member state again, and the only knob on this screen whose movement changes WHICH benefit wins a line.",
+   "watch_for": "below \u20b9200 the enrolled partner credit takes the dinner instead and this one leaves the derivation entirely. At exactly \u20b9200 the tie breaks on benefit id and never on iteration order, which is why two runs produce the same receipt.",
+   "baseline_value": 30000,
+   "baseline_index": 4,
+   "signed_manifest_hash": "11522317a4ce5e71da973e22cd4f572e79e1a22e88ddd7ec9c708de628933f45",
+   "points": [
+    {
+     "value": 0,
+     "value_display": "\u20b90",
+     "manifest_hash": "1cd322317ae97418de27e1c01347d88b0a2b88723e0f50578aa99575fe2c5f0c",
+     "asserted_minor": 134587,
+     "asserted_display": "\u20b91,345.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_partner",
+        "consumed_minor": 20000,
+        "value_minor": 20000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 134587,
+      "realized_display": "\u20b91,345.87"
+     },
+     "witness_hash": "3a7d2518a22641323e310b99145cc58539ab57a2f2c23efd48dc5cbcfe73900f",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 134587,
+       "rank": 2,
+       "asserted_display": "\u20b91,345.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 11,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 1
+     }
+    },
+    {
+     "value": 5000,
+     "value_display": "\u20b950",
+     "manifest_hash": "be47f7ad196b83d432fedefefb3bde4277f77c98aee252fe03689cfb5a6c3e33",
+     "asserted_minor": 134587,
+     "asserted_display": "\u20b91,345.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_partner",
+        "consumed_minor": 20000,
+        "value_minor": 20000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 134587,
+      "realized_display": "\u20b91,345.87"
+     },
+     "witness_hash": "3a7d2518a22641323e310b99145cc58539ab57a2f2c23efd48dc5cbcfe73900f",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 134587,
+       "rank": 2,
+       "asserted_display": "\u20b91,345.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 10000,
+     "value_display": "\u20b9100",
+     "manifest_hash": "455d96e2f1e2a40be7435ad702221093e3ed6d92b65d2697ff156a8966c6fb86",
+     "asserted_minor": 134587,
+     "asserted_display": "\u20b91,345.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_partner",
+        "consumed_minor": 20000,
+        "value_minor": 20000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 134587,
+      "realized_display": "\u20b91,345.87"
+     },
+     "witness_hash": "3a7d2518a22641323e310b99145cc58539ab57a2f2c23efd48dc5cbcfe73900f",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 134587,
+       "rank": 2,
+       "asserted_display": "\u20b91,345.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 20000,
+     "value_display": "\u20b9200",
+     "manifest_hash": "71dbe85d93ca36bb67c97170bbfc3732ae70f8a4a3c82db27b50e8b88461215f",
+     "asserted_minor": 134587,
+     "asserted_display": "\u20b91,345.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 20000,
+        "value_minor": 20000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 134587,
+      "realized_display": "\u20b91,345.87"
+     },
+     "witness_hash": "88343d39d2504cda365917079649b3cf7ff556157f5b38af92d84f1a196590c3",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 134587,
+       "rank": 2,
+       "asserted_display": "\u20b91,345.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 30000,
+     "value_display": "\u20b9300",
+     "manifest_hash": "11522317a4ce5e71da973e22cd4f572e79e1a22e88ddd7ec9c708de628933f45",
+     "asserted_minor": 144587,
+     "asserted_display": "\u20b91,445.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 144587,
+      "realized_display": "\u20b91,445.87"
+     },
+     "witness_hash": "a6846cafb547ac8e9e3d27068e9b6fce85cdcd352aa3c2822d8ec075ad4f49ad",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 144587,
+       "rank": 2,
+       "asserted_display": "\u20b91,445.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 60000,
+     "value_display": "\u20b9600",
+     "manifest_hash": "b4546ac1e94167d06aa698f4342feeb6dfae0eb59cfeafdc46f7a74b912ab454",
+     "asserted_minor": 174587,
+     "asserted_display": "\u20b91,745.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 60000,
+        "value_minor": 60000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 174587,
+      "realized_display": "\u20b91,745.87"
+     },
+     "witness_hash": "fcc61a2e17baa1f6bbd68540d718edbc7c78623329de546319d05b786cb41995",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 174587,
+       "rank": 2,
+       "asserted_display": "\u20b91,745.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 100000,
+     "value_display": "\u20b91,000",
+     "manifest_hash": "2c63f53e1bf6372b86a3624714797a32a2878afd8a48a9a0549208977c68c2d4",
+     "asserted_minor": 214587,
+     "asserted_display": "\u20b92,145.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 100000,
+        "value_minor": 100000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 214587,
+      "realized_display": "\u20b92,145.87"
+     },
+     "witness_hash": "f7299a2c3cb0c9d4f64ee4b7c11a389e76710a6754f5fc976f3dfa24a1c17346",
+     "ranking": [
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 214587,
+       "rank": 1,
+       "asserted_display": "\u20b92,145.87"
+      },
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 2,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hypothetical-illustrative-reserve",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 168400,
+     "value_display": "\u20b91,684",
+     "manifest_hash": "e9cd595cf71afaf4459a0e278d193ba7aae7515c7399b9142667b616c8472585",
+     "asserted_minor": 282987,
+     "asserted_display": "\u20b92,829.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 168400,
+        "value_minor": 168400
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 282987,
+      "realized_display": "\u20b92,829.87"
+     },
+     "witness_hash": "74b33dbc5175c76fc4b058bacdcc43e0b24f3bf72ae69acf0d152f4c3a67ca85",
+     "ranking": [
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 282987,
+       "rank": 1,
+       "asserted_display": "\u20b92,829.87"
+      },
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 2,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hypothetical-illustrative-reserve",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 250000,
+     "value_display": "\u20b92,500",
+     "manifest_hash": "5441ade950e759686a05527e6be2cc66dd37a5691221f9c0a930391a441f6783",
+     "asserted_minor": 282987,
+     "asserted_display": "\u20b92,829.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 168400,
+        "value_minor": 168400
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 282987,
+      "realized_display": "\u20b92,829.87"
+     },
+     "witness_hash": "74b33dbc5175c76fc4b058bacdcc43e0b24f3bf72ae69acf0d152f4c3a67ca85",
+     "ranking": [
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 282987,
+       "rank": 1,
+       "asserted_display": "\u20b92,829.87"
+      },
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 2,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hypothetical-illustrative-reserve",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    }
+   ]
+  },
+  {
+   "axis_id": "travel_multiplier_headroom",
+   "instrument_id": "hypothetical-illustrative-reserve",
+   "issuer": "Hypothetical Bank",
+   "product": "Illustrative Reserve",
+   "issuer_signed": false,
+   "benefit_id": "hypo_earn_travel",
+   "benefit_label": "Travel multiplier",
+   "benefit_kind": "earn",
+   "benefit_window": "annual",
+   "benefit_note": "invented figure on a hypothetical instrument; no issuer publishes this; the shared annual headroom is drawn down across lines",
+   "exclusivity_group": "hypo:earn",
+   "field": "capacity_minor",
+   "unit": "money",
+   "fact": "member state",
+   "label": "Travel multiplier \u00b7 annual cap headroom",
+   "what_it_is": "how much of the annual multiplier cap this account has not yet used. Member state, not a published rate.",
+   "watch_for": "a multiplier is all-or-nothing under this manifest \u2014 no partial rate is declared \u2014 so a line contributes nothing until the headroom covers it whole, and then the base rate in the same group stops applying to that line.",
+   "baseline_value": 40000,
+   "baseline_index": 4,
+   "signed_manifest_hash": "11522317a4ce5e71da973e22cd4f572e79e1a22e88ddd7ec9c708de628933f45",
+   "points": [
+    {
+     "value": 0,
+     "value_display": "\u20b90",
+     "manifest_hash": "533038cf0b234ce4aba1970b38299cc62a56ce9c1ca659a4045a6ce0c1b4c1a2",
+     "asserted_minor": 119737,
+     "asserted_display": "\u20b91,197.37",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 10650,
+        "value_minor": 10650
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 119737,
+      "realized_display": "\u20b91,197.37"
+     },
+     "witness_hash": "94b76e5bfd5f817c447512e572f5453e24df32ffcfba586bbf4553806b0eabb2",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 119737,
+       "rank": 2,
+       "asserted_display": "\u20b91,197.37"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 9,
+      "assigned": 7,
+      "skipped_capacity": 1,
+      "skipped_exclusivity": 1
+     }
+    },
+    {
+     "value": 10000,
+     "value_display": "\u20b9100",
+     "manifest_hash": "50c953235603caf10b902068def9d7c74c56e9ba117f01066ed0751ffe9a93c0",
+     "asserted_minor": 119737,
+     "asserted_display": "\u20b91,197.37",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 10650,
+        "value_minor": 10650
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 119737,
+      "realized_display": "\u20b91,197.37"
+     },
+     "witness_hash": "94b76e5bfd5f817c447512e572f5453e24df32ffcfba586bbf4553806b0eabb2",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 119737,
+       "rank": 2,
+       "asserted_display": "\u20b91,197.37"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 4,
+      "skipped_exclusivity": 1
+     }
+    },
+    {
+     "value": 20000,
+     "value_display": "\u20b9200",
+     "manifest_hash": "b38e0c348c2a0ecf4b3b341aff55d8f30a3bf5d15eb058f190a418e9a85edd4a",
+     "asserted_minor": 130587,
+     "asserted_display": "\u20b91,305.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 10650,
+        "value_minor": 10650
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 15500,
+        "value_minor": 15500
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 130587,
+      "realized_display": "\u20b91,305.87"
+     },
+     "witness_hash": "bad7dc9638f3692c5751e1abc507099f70d66d47900e0de0b8902d4d250a27c7",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 130587,
+       "rank": 2,
+       "asserted_display": "\u20b91,305.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 35500,
+     "value_display": "\u20b9355",
+     "manifest_hash": "784565401b10b0ef5e1aa86e76355af2f7d06aab27565dd4f33587caeafc2feb",
+     "asserted_minor": 144587,
+     "asserted_display": "\u20b91,445.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 144587,
+      "realized_display": "\u20b91,445.87"
+     },
+     "witness_hash": "a6846cafb547ac8e9e3d27068e9b6fce85cdcd352aa3c2822d8ec075ad4f49ad",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 144587,
+       "rank": 2,
+       "asserted_display": "\u20b91,445.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 40000,
+     "value_display": "\u20b9400",
+     "manifest_hash": "11522317a4ce5e71da973e22cd4f572e79e1a22e88ddd7ec9c708de628933f45",
+     "asserted_minor": 144587,
+     "asserted_display": "\u20b91,445.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 144587,
+      "realized_display": "\u20b91,445.87"
+     },
+     "witness_hash": "a6846cafb547ac8e9e3d27068e9b6fce85cdcd352aa3c2822d8ec075ad4f49ad",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 144587,
+       "rank": 2,
+       "asserted_display": "\u20b91,445.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 71000,
+     "value_display": "\u20b9710",
+     "manifest_hash": "c438f4c675d8158e81a34c5c6595d2e4655a72eccf77368e8806208dd1e6c8f2",
+     "asserted_minor": 169437,
+     "asserted_display": "\u20b91,694.37",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 10650,
+        "value_minor": 10650
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 71000,
+        "value_minor": 71000
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 169437,
+      "realized_display": "\u20b91,694.37"
+     },
+     "witness_hash": "0136f5100844b52f2cbf341f8af7a4ab39e423183237b040f9c5ae8e9a511021",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 169437,
+       "rank": 2,
+       "asserted_display": "\u20b91,694.37"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 110000,
+     "value_display": "\u20b91,100",
+     "manifest_hash": "6fe9f998ab23a9ef3d1e8fb5ddf892490fa5a21f4c1dd962d9cf967e751a5bc6",
+     "asserted_minor": 194287,
+     "asserted_display": "\u20b91,942.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 71000,
+        "value_minor": 71000
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 194287,
+      "realized_display": "\u20b91,942.87"
+     },
+     "witness_hash": "c706d6aaa45f8c98c9c8935af1be7a72faddb4decd4acb8fa708647b4f905540",
+     "ranking": [
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 194287,
+       "rank": 1,
+       "asserted_display": "\u20b91,942.87"
+      },
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 2,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hypothetical-illustrative-reserve",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 2,
+      "skipped_exclusivity": 3
+     }
+    },
+    {
+     "value": 200000,
+     "value_display": "\u20b92,000",
+     "manifest_hash": "40f3a0665ac3be0a3cf002f9e416c3031e2e8f820c5f49313c1c04b85df90099",
+     "asserted_minor": 205137,
+     "asserted_display": "\u20b92,051.37",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 71000,
+        "value_minor": 71000
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 15500,
+        "value_minor": 15500
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 205137,
+      "realized_display": "\u20b92,051.37"
+     },
+     "witness_hash": "05e8e0c9f3893b713a1dea5d321cfc15e9f572d36de008d78f315ece47f0d9f7",
+     "ranking": [
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 205137,
+       "rank": 1,
+       "asserted_display": "\u20b92,051.37"
+      },
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 2,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hypothetical-illustrative-reserve",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 1,
+      "skipped_exclusivity": 4
+     }
+    }
+   ]
+  },
+  {
+   "axis_id": "amex_fuel_cap_headroom",
+   "instrument_id": "amex-platinum-charge-in-2026",
+   "issuer": "American Express",
+   "product": "The Platinum Card (India)",
+   "issuer_signed": true,
+   "benefit_id": "amex_in_plat_earn_fuel",
+   "benefit_label": "5 Membership Rewards points for every \u20b9100 spent on fuel",
+   "benefit_kind": "earn",
+   "benefit_window": "monthly",
+   "benefit_note": "published cap is 5,000 Membership Rewards Points per calendar month, carried here as value headroom. SYNTHETIC member state: 2,000 points already drawn, leaving \u20b9750. An earn benefit is never applied fractionally, so a fuel line whose earn exceeds the headroom is dropped rather than clipped, which understates",
+   "exclusivity_group": "amex_in_plat:earn",
+   "field": "capacity_minor",
+   "unit": "money",
+   "fact": "member state",
+   "label": "Fuel earn \u00b7 monthly cap headroom",
+   "what_it_is": "how much of the published 5,000 Membership Rewards Points a calendar month this account has not yet drawn on fuel. It is member state, which is the only kind of knob this screen puts on a real issuer's product: a balance differs between two holders of the same card, a rate does not.",
+   "watch_for": "the fuel line is the one place on this cart where the published Amex rate is the only rate standing \u2014 every other instrument in the candidate set excludes fuel from its base earn. The line earns \u20b960 and an earn benefit is never applied fractionally, so the two stops either side of \u20b960 turn it on and off whole: below that the line is dropped rather than clipped, which understates, and understating is the safe direction.",
+   "baseline_value": 75000,
+   "baseline_index": 7,
+   "signed_manifest_hash": "69e801c5acfb302d8fbc0861872cb5bbf591abf37c77b85bd6225f626c8b855a",
+   "points": [
+    {
+     "value": 0,
+     "value_display": "\u20b90",
+     "manifest_hash": "2ff04dd77947213c46956d267c546cea2e311ccd84d0371188bff3ae6709cc9a",
+     "asserted_minor": 70454,
+     "asserted_display": "\u20b9704.54",
+     "witness": {
+      "manifest_id": "amex-platinum-charge-in-2026",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "amex_in_plat_earn_overseas_3x",
+        "consumed_minor": 3149,
+        "value_minor": 3149
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 8804,
+        "value_minor": 8804
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "amex_in_plat_earn_overseas_3x",
+        "consumed_minor": 53108,
+        "value_minor": 53108
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 3844,
+        "value_minor": 3844
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 1549,
+        "value_minor": 1549
+       }
+      ],
+      "realized_minor": 70454,
+      "realized_display": "\u20b9704.54"
+     },
+     "witness_hash": "2f6db01002469fe9a55c7bb5b381392a7d963ce391baa002018367f7ebb9e37b",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 144587,
+       "rank": 2,
+       "asserted_display": "\u20b91,445.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 70454,
+       "rank": 3,
+       "asserted_display": "\u20b9704.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 7,
+      "assigned": 5,
+      "skipped_capacity": 0,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 1000,
+     "value_display": "\u20b910",
+     "manifest_hash": "b994f805fcd041a84bf9efe022f96e01acd15e374a69233d0ad5da38db83b434",
+     "asserted_minor": 70454,
+     "asserted_display": "\u20b9704.54",
+     "witness": {
+      "manifest_id": "amex-platinum-charge-in-2026",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "amex_in_plat_earn_overseas_3x",
+        "consumed_minor": 3149,
+        "value_minor": 3149
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 8804,
+        "value_minor": 8804
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "amex_in_plat_earn_overseas_3x",
+        "consumed_minor": 53108,
+        "value_minor": 53108
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 3844,
+        "value_minor": 3844
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 1549,
+        "value_minor": 1549
+       }
+      ],
+      "realized_minor": 70454,
+      "realized_display": "\u20b9704.54"
+     },
+     "witness_hash": "2f6db01002469fe9a55c7bb5b381392a7d963ce391baa002018367f7ebb9e37b",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 144587,
+       "rank": 2,
+       "asserted_display": "\u20b91,445.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 70454,
+       "rank": 3,
+       "asserted_display": "\u20b9704.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 8,
+      "assigned": 5,
+      "skipped_capacity": 1,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 3000,
+     "value_display": "\u20b930",
+     "manifest_hash": "40f6765b4d0c5c6e0e918e29af19fbfedcc34c507e3f405ca88fa1a09cc85c02",
+     "asserted_minor": 70454,
+     "asserted_display": "\u20b9704.54",
+     "witness": {
+      "manifest_id": "amex-platinum-charge-in-2026",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "amex_in_plat_earn_overseas_3x",
+        "consumed_minor": 3149,
+        "value_minor": 3149
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 8804,
+        "value_minor": 8804
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "amex_in_plat_earn_overseas_3x",
+        "consumed_minor": 53108,
+        "value_minor": 53108
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 3844,
+        "value_minor": 3844
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 1549,
+        "value_minor": 1549
+       }
+      ],
+      "realized_minor": 70454,
+      "realized_display": "\u20b9704.54"
+     },
+     "witness_hash": "2f6db01002469fe9a55c7bb5b381392a7d963ce391baa002018367f7ebb9e37b",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 144587,
+       "rank": 2,
+       "asserted_display": "\u20b91,445.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 70454,
+       "rank": 3,
+       "asserted_display": "\u20b9704.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 8,
+      "assigned": 5,
+      "skipped_capacity": 1,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 5900,
+     "value_display": "\u20b959",
+     "manifest_hash": "6b04946b3256f000a201fecd0d7bfbce94b6771dec374051922bde9bfbdd81c4",
+     "asserted_minor": 70454,
+     "asserted_display": "\u20b9704.54",
+     "witness": {
+      "manifest_id": "amex-platinum-charge-in-2026",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "amex_in_plat_earn_overseas_3x",
+        "consumed_minor": 3149,
+        "value_minor": 3149
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 8804,
+        "value_minor": 8804
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "amex_in_plat_earn_overseas_3x",
+        "consumed_minor": 53108,
+        "value_minor": 53108
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 3844,
+        "value_minor": 3844
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 1549,
+        "value_minor": 1549
+       }
+      ],
+      "realized_minor": 70454,
+      "realized_display": "\u20b9704.54"
+     },
+     "witness_hash": "2f6db01002469fe9a55c7bb5b381392a7d963ce391baa002018367f7ebb9e37b",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 144587,
+       "rank": 2,
+       "asserted_display": "\u20b91,445.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 70454,
+       "rank": 3,
+       "asserted_display": "\u20b9704.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 8,
+      "assigned": 5,
+      "skipped_capacity": 1,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 6000,
+     "value_display": "\u20b960",
+     "manifest_hash": "5f03781378a01a410bc1cea02e8960788cd2dc9c2095423d876074400ab7c442",
+     "asserted_minor": 76454,
+     "asserted_display": "\u20b9764.54",
+     "witness": {
+      "manifest_id": "amex-platinum-charge-in-2026",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "amex_in_plat_earn_overseas_3x",
+        "consumed_minor": 3149,
+        "value_minor": 3149
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 8804,
+        "value_minor": 8804
+       },
+       {
+        "line_sku": "in_fuel",
+        "benefit_id": "amex_in_plat_earn_fuel",
+        "consumed_minor": 6000,
+        "value_minor": 6000
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "amex_in_plat_earn_overseas_3x",
+        "consumed_minor": 53108,
+        "value_minor": 53108
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 3844,
+        "value_minor": 3844
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 1549,
+        "value_minor": 1549
+       }
+      ],
+      "realized_minor": 76454,
+      "realized_display": "\u20b9764.54"
+     },
+     "witness_hash": "e9489e52dee85ade0f5f675435a862c2517be5641202abbcd5ec95bea4615dff",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 144587,
+       "rank": 2,
+       "asserted_display": "\u20b91,445.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 8,
+      "assigned": 6,
+      "skipped_capacity": 0,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 10000,
+     "value_display": "\u20b9100",
+     "manifest_hash": "eb4918b2ee656dd46a8370e647beb1d965532ab967cff46307c23753700d2725",
+     "asserted_minor": 76454,
+     "asserted_display": "\u20b9764.54",
+     "witness": {
+      "manifest_id": "amex-platinum-charge-in-2026",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "amex_in_plat_earn_overseas_3x",
+        "consumed_minor": 3149,
+        "value_minor": 3149
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 8804,
+        "value_minor": 8804
+       },
+       {
+        "line_sku": "in_fuel",
+        "benefit_id": "amex_in_plat_earn_fuel",
+        "consumed_minor": 6000,
+        "value_minor": 6000
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "amex_in_plat_earn_overseas_3x",
+        "consumed_minor": 53108,
+        "value_minor": 53108
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 3844,
+        "value_minor": 3844
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 1549,
+        "value_minor": 1549
+       }
+      ],
+      "realized_minor": 76454,
+      "realized_display": "\u20b9764.54"
+     },
+     "witness_hash": "e9489e52dee85ade0f5f675435a862c2517be5641202abbcd5ec95bea4615dff",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 144587,
+       "rank": 2,
+       "asserted_display": "\u20b91,445.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 8,
+      "assigned": 6,
+      "skipped_capacity": 0,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 40000,
+     "value_display": "\u20b9400",
+     "manifest_hash": "9506741b6cd93a5ad1a74919dfbc769617bab234899a6e8c90f3b73c50133cce",
+     "asserted_minor": 76454,
+     "asserted_display": "\u20b9764.54",
+     "witness": {
+      "manifest_id": "amex-platinum-charge-in-2026",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "amex_in_plat_earn_overseas_3x",
+        "consumed_minor": 3149,
+        "value_minor": 3149
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 8804,
+        "value_minor": 8804
+       },
+       {
+        "line_sku": "in_fuel",
+        "benefit_id": "amex_in_plat_earn_fuel",
+        "consumed_minor": 6000,
+        "value_minor": 6000
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "amex_in_plat_earn_overseas_3x",
+        "consumed_minor": 53108,
+        "value_minor": 53108
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 3844,
+        "value_minor": 3844
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 1549,
+        "value_minor": 1549
+       }
+      ],
+      "realized_minor": 76454,
+      "realized_display": "\u20b9764.54"
+     },
+     "witness_hash": "e9489e52dee85ade0f5f675435a862c2517be5641202abbcd5ec95bea4615dff",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 144587,
+       "rank": 2,
+       "asserted_display": "\u20b91,445.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 8,
+      "assigned": 6,
+      "skipped_capacity": 0,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 75000,
+     "value_display": "\u20b9750",
+     "manifest_hash": "69e801c5acfb302d8fbc0861872cb5bbf591abf37c77b85bd6225f626c8b855a",
+     "asserted_minor": 76454,
+     "asserted_display": "\u20b9764.54",
+     "witness": {
+      "manifest_id": "amex-platinum-charge-in-2026",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "amex_in_plat_earn_overseas_3x",
+        "consumed_minor": 3149,
+        "value_minor": 3149
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 8804,
+        "value_minor": 8804
+       },
+       {
+        "line_sku": "in_fuel",
+        "benefit_id": "amex_in_plat_earn_fuel",
+        "consumed_minor": 6000,
+        "value_minor": 6000
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "amex_in_plat_earn_overseas_3x",
+        "consumed_minor": 53108,
+        "value_minor": 53108
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 3844,
+        "value_minor": 3844
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 1549,
+        "value_minor": 1549
+       }
+      ],
+      "realized_minor": 76454,
+      "realized_display": "\u20b9764.54"
+     },
+     "witness_hash": "e9489e52dee85ade0f5f675435a862c2517be5641202abbcd5ec95bea4615dff",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 144587,
+       "rank": 2,
+       "asserted_display": "\u20b91,445.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 8,
+      "assigned": 6,
+      "skipped_capacity": 0,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 125000,
+     "value_display": "\u20b91,250",
+     "manifest_hash": "373d6a8ee7f156a899f92bfeaff82f716dc9f48fbb29671da6f10d428b643690",
+     "asserted_minor": 76454,
+     "asserted_display": "\u20b9764.54",
+     "witness": {
+      "manifest_id": "amex-platinum-charge-in-2026",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "amex_in_plat_earn_overseas_3x",
+        "consumed_minor": 3149,
+        "value_minor": 3149
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 8804,
+        "value_minor": 8804
+       },
+       {
+        "line_sku": "in_fuel",
+        "benefit_id": "amex_in_plat_earn_fuel",
+        "consumed_minor": 6000,
+        "value_minor": 6000
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "amex_in_plat_earn_overseas_3x",
+        "consumed_minor": 53108,
+        "value_minor": 53108
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 3844,
+        "value_minor": 3844
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "amex_in_plat_earn_base",
+        "consumed_minor": 1549,
+        "value_minor": 1549
+       }
+      ],
+      "realized_minor": 76454,
+      "realized_display": "\u20b9764.54"
+     },
+     "witness_hash": "e9489e52dee85ade0f5f675435a862c2517be5641202abbcd5ec95bea4615dff",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 144587,
+       "rank": 2,
+       "asserted_display": "\u20b91,445.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 8,
+      "assigned": 6,
+      "skipped_capacity": 0,
+      "skipped_exclusivity": 2
+     }
+    }
+   ]
+  },
+  {
+   "axis_id": "hypothetical_base_rate",
+   "instrument_id": "hypothetical-illustrative-reserve",
+   "issuer": "Hypothetical Bank",
+   "product": "Illustrative Reserve",
+   "issuer_signed": false,
+   "benefit_id": "hypo_earn_base",
+   "benefit_label": "Base earn",
+   "benefit_kind": "earn",
+   "benefit_window": "none",
+   "benefit_note": "invented figure on a hypothetical instrument; no issuer publishes this; shares an exclusivity group with the travel multiplier, because a bonus rate replaces a base rate and never adds to it",
+   "exclusivity_group": "hypo:earn",
+   "field": "rate_bp",
+   "unit": "bp",
+   "fact": "invented term",
+   "label": "Illustrative Reserve base earn \u00b7 rate",
+   "what_it_is": "a rate, and therefore a product term rather than member state. It is moved only here, on the one instrument in the candidate set that is invented outright and signed by nobody, because a rate printed beside a real product's name is a claim about that product and we do not make it.",
+   "watch_for": "the only axis that moves a rate. Every line it admits re-values at once and the ranking moves with it, while the travel multiplier's own headroom holds the total down at the top end.",
+   "baseline_value": 75,
+   "baseline_index": 3,
+   "signed_manifest_hash": "11522317a4ce5e71da973e22cd4f572e79e1a22e88ddd7ec9c708de628933f45",
+   "points": [
+    {
+     "value": 0,
+     "value_display": "0 bp",
+     "manifest_hash": "190bff2256190d2319e3e558ec885569f5b8ac398e62383cd161b0e5b83a8e14",
+     "asserted_minor": 115500,
+     "asserted_display": "\u20b91,155",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       }
+      ],
+      "realized_minor": 115500,
+      "realized_display": "\u20b91,155"
+     },
+     "witness_hash": "946352900a4c648c54d78635069ea8192cc55f1a3fdae6e8eb8ae30a99647bc9",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 115500,
+       "rank": 2,
+       "asserted_display": "\u20b91,155"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 7,
+      "assigned": 3,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 1
+     }
+    },
+    {
+     "value": 25,
+     "value_display": "25 bp",
+     "manifest_hash": "7237bdd4e556c0ba9633cb69e0818d77e7856a97c971728914576e2198a27214",
+     "asserted_minor": 125195,
+     "asserted_display": "\u20b91,251.95",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 421,
+        "value_minor": 421
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 7100,
+        "value_minor": 7100
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1550,
+        "value_minor": 1550
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 624,
+        "value_minor": 624
+       }
+      ],
+      "realized_minor": 125195,
+      "realized_display": "\u20b91,251.95"
+     },
+     "witness_hash": "e91a47adf60638c55c14420ec9511e7b2afaee04dfe4fba233413d0b536e9424",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 125195,
+       "rank": 2,
+       "asserted_display": "\u20b91,251.95"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 50,
+     "value_display": "50 bp",
+     "manifest_hash": "5782df3bc41415dfc2fed967fff9acc1304337e87be6f034d44ab95096918363",
+     "asserted_minor": 134891,
+     "asserted_display": "\u20b91,348.91",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 842,
+        "value_minor": 842
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 14200,
+        "value_minor": 14200
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 3100,
+        "value_minor": 3100
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1249,
+        "value_minor": 1249
+       }
+      ],
+      "realized_minor": 134891,
+      "realized_display": "\u20b91,348.91"
+     },
+     "witness_hash": "3b40ee12de2888b3c7a366b334969c3126782c51fc34990e082ba5a069ef6485",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 134891,
+       "rank": 2,
+       "asserted_display": "\u20b91,348.91"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 75,
+     "value_display": "75 bp",
+     "manifest_hash": "11522317a4ce5e71da973e22cd4f572e79e1a22e88ddd7ec9c708de628933f45",
+     "asserted_minor": 144587,
+     "asserted_display": "\u20b91,445.87",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1263,
+        "value_minor": 1263
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 21300,
+        "value_minor": 21300
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4650,
+        "value_minor": 4650
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1874,
+        "value_minor": 1874
+       }
+      ],
+      "realized_minor": 144587,
+      "realized_display": "\u20b91,445.87"
+     },
+     "witness_hash": "a6846cafb547ac8e9e3d27068e9b6fce85cdcd352aa3c2822d8ec075ad4f49ad",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 144587,
+       "rank": 2,
+       "asserted_display": "\u20b91,445.87"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 100,
+     "value_display": "100 bp",
+     "manifest_hash": "199ae3f114da7549c8f0ed13788fa9386bbec54978447f2d2a4e99e615910514",
+     "asserted_minor": 154283,
+     "asserted_display": "\u20b91,542.83",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 1684,
+        "value_minor": 1684
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 28400,
+        "value_minor": 28400
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 6200,
+        "value_minor": 6200
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 2499,
+        "value_minor": 2499
+       }
+      ],
+      "realized_minor": 154283,
+      "realized_display": "\u20b91,542.83"
+     },
+     "witness_hash": "391fbafdcdf78da758b7812f4638afdb0495948fa1e6c21f07486c0949db95a1",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 154283,
+       "rank": 2,
+       "asserted_display": "\u20b91,542.83"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 150,
+     "value_display": "150 bp",
+     "manifest_hash": "9b141f696e01b36ea3aad78927c952d8491b3c27db74e9abab54ffa793d02884",
+     "asserted_minor": 173674,
+     "asserted_display": "\u20b91,736.74",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 2526,
+        "value_minor": 2526
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_travel",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 42600,
+        "value_minor": 42600
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 9300,
+        "value_minor": 9300
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 3748,
+        "value_minor": 3748
+       }
+      ],
+      "realized_minor": 173674,
+      "realized_display": "\u20b91,736.74"
+     },
+     "witness_hash": "fe8d08368f345f2300e196b85bee0a4bf75e291aae54bb36776899bc907019d7",
+     "ranking": [
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 1,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 173674,
+       "rank": 2,
+       "asserted_display": "\u20b91,736.74"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hdfc-infinia-metal-2026",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 3,
+      "skipped_exclusivity": 2
+     }
+    },
+    {
+     "value": 250,
+     "value_display": "250 bp",
+     "manifest_hash": "8454bf3290f8e23927f416a1564ac0f3915705a05508b0e28c2772df2e189fbe",
+     "asserted_minor": 212457,
+     "asserted_display": "\u20b92,124.57",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 4210,
+        "value_minor": 4210
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 35500,
+        "value_minor": 35500
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 71000,
+        "value_minor": 71000
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 15500,
+        "value_minor": 15500
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 6247,
+        "value_minor": 6247
+       }
+      ],
+      "realized_minor": 212457,
+      "realized_display": "\u20b92,124.57"
+     },
+     "witness_hash": "e792310b2e309c5adcac02e5e9d8f428ddddf67ca694ca4c84d67dd018293af5",
+     "ranking": [
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 212457,
+       "rank": 1,
+       "asserted_display": "\u20b92,124.57"
+      },
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 2,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hypothetical-illustrative-reserve",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 1,
+      "skipped_exclusivity": 4
+     }
+    },
+    {
+     "value": 400,
+     "value_display": "400 bp",
+     "manifest_hash": "2e32bb28f0ed5d7e0e5735b9d9337a1a319835b43a0568e524072f456bb7dd36",
+     "asserted_minor": 291932,
+     "asserted_display": "\u20b92,919.32",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 6736,
+        "value_minor": 6736
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 56800,
+        "value_minor": 56800
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 113600,
+        "value_minor": 113600
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 24800,
+        "value_minor": 24800
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 9996,
+        "value_minor": 9996
+       }
+      ],
+      "realized_minor": 291932,
+      "realized_display": "\u20b92,919.32"
+     },
+     "witness_hash": "6a43bb127535c05e8adb69ab8e3fb5719d08e8022cce39afda254add45e5a4b8",
+     "ranking": [
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 291932,
+       "rank": 1,
+       "asserted_display": "\u20b92,919.32"
+      },
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 2,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hypothetical-illustrative-reserve",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 1,
+      "skipped_exclusivity": 4
+     }
+    },
+    {
+     "value": 600,
+     "value_display": "600 bp",
+     "manifest_hash": "b8960b7ba4ecc337be1fd312cde137afc2f6d63795fdcdbb329a8604e66abb07",
+     "asserted_minor": 397898,
+     "asserted_display": "\u20b93,978.98",
+     "witness": {
+      "manifest_id": "hypothetical-illustrative-reserve",
+      "cart_hash": "efd079fc3cec8eb7f4e195729d8e53f73a412287fc28f08e8dfb7c70b57e26d8",
+      "assignments": [
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_dining_credit_monthly",
+        "consumed_minor": 30000,
+        "value_minor": 30000
+       },
+       {
+        "line_sku": "in_dining",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 10104,
+        "value_minor": 10104
+       },
+       {
+        "line_sku": "in_flight",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 85200,
+        "value_minor": 85200
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 170400,
+        "value_minor": 170400
+       },
+       {
+        "line_sku": "in_hotel",
+        "benefit_id": "hypo_stay_credit",
+        "consumed_minor": 50000,
+        "value_minor": 50000
+       },
+       {
+        "line_sku": "in_hotel_transit",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 37200,
+        "value_minor": 37200
+       },
+       {
+        "line_sku": "in_retail",
+        "benefit_id": "hypo_earn_base",
+        "consumed_minor": 14994,
+        "value_minor": 14994
+       }
+      ],
+      "realized_minor": 397898,
+      "realized_display": "\u20b93,978.98"
+     },
+     "witness_hash": "7cd9a277ded235a2a05291c25c98726eae7928938786118f6e59f339acd820e2",
+     "ranking": [
+      {
+       "instrument_id": "hypothetical-illustrative-reserve",
+       "asserted_minor": 397898,
+       "rank": 1,
+       "asserted_display": "\u20b93,978.98"
+      },
+      {
+       "instrument_id": "hdfc-infinia-metal-2026",
+       "asserted_minor": 176432,
+       "rank": 2,
+       "asserted_display": "\u20b91,764.32"
+      },
+      {
+       "instrument_id": "amex-platinum-charge-in-2026",
+       "asserted_minor": 76454,
+       "rank": 3,
+       "asserted_display": "\u20b9764.54"
+      },
+      {
+       "instrument_id": "amex-platinum-travel-in-2026",
+       "asserted_minor": 26491,
+       "rank": 4,
+       "asserted_display": "\u20b9264.91"
+      }
+     ],
+     "selected": "hypothetical-illustrative-reserve",
+     "allocator_stats": {
+      "considered": 12,
+      "assigned": 7,
+      "skipped_capacity": 1,
+      "skipped_exclusivity": 4
+     }
+    }
+   ]
+  }
+ ]
+}
