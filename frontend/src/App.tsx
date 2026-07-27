@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { CopyHash, LogoClearZone, ToastHost, Wordmark } from "./components/amex";
+import { WorldServicePattern } from "./components/WorldServicePattern";
 import { EvidenceDrawer } from "./components/EvidenceDrawer";
 import { FeedRail } from "./components/FeedRail";
 import { Toggle } from "./components/ui";
@@ -178,15 +179,23 @@ export default function App() {
           </p>
         </nav>
 
-        <main className="min-w-0 flex-1 overflow-hidden bg-white p-6">
-          {screen === "overstatement" && <OverstatementView />}
-          {screen === "receipt" && <ReceiptView />}
-          {screen === "omission" && <OmissionView />}
-          {screen === "refusal" && <RefusalView />}
-          {screen === "degrade" && <DegradeView />}
-          {screen === "attribution" && <AttributionView />}
-          {screen === "controls" && <ControlsView />}
-          {screen === "kernel" && <KernelView />}
+        {/*
+          The engraving sits behind the content at onWhite opacity, the way security paper
+          carries its field: visible only in the gaps between panels, never under text.
+          Panels are opaque, so data always reads against a solid surface.
+        */}
+        <main className="relative min-w-0 flex-1 overflow-hidden bg-white">
+          <WorldServicePattern tone="onWhite" className="absolute inset-0" />
+          <div className="relative h-full min-h-0 p-6">
+            {screen === "overstatement" && <OverstatementView />}
+            {screen === "receipt" && <ReceiptView />}
+            {screen === "omission" && <OmissionView />}
+            {screen === "refusal" && <RefusalView />}
+            {screen === "degrade" && <DegradeView />}
+            {screen === "attribution" && <AttributionView />}
+            {screen === "controls" && <ControlsView />}
+            {screen === "kernel" && <KernelView />}
+          </div>
         </main>
 
         {/*

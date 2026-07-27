@@ -364,3 +364,29 @@
     transition-duration: 1ms !important;
   }
 }
+
+/* -- filled panel headers -------------------------------------------------------------
+   Panels carry the deck's card language: a filled navy, blue or warning header. Screen
+   code puts ink-scale utilities and semantic colours inside `right` slots and hints; on a
+   dark fill those must resolve to on-dark values without editing every call site. Only
+   text colours are remapped — components that bring their own white surface (Seal, Button)
+   pass through untouched. */
+.panel-head :is(.text-ink, .text-ink-2, .text-ink-3, .text-ink-4) {
+  color: rgba(255, 255, 255, 0.78);
+}
+.panel-head :is(.text-navy, .text-blue) {
+  color: #ffffff;
+}
+.panel-head .text-deny {
+  color: #ffd9cc;
+}
+.panel-head .text-allow {
+  color: #b5e6d7;
+}
+.panel-head .text-stepup {
+  color: #ffe1a1;
+}
+/* A white-surfaced chip inside the header keeps its own ink. */
+.panel-head :is(.bg-white, .bg-gray-01, .bg-gray-02) :is(.text-ink, .text-ink-2, .text-ink-3, .text-ink-4) {
+  color: var(--amex-ink);
+}

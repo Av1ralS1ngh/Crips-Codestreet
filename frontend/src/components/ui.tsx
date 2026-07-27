@@ -34,17 +34,27 @@ export function Panel({
   bodyClassName?: string;
   tone?: "default" | "deny" | "proof";
 }) {
-  const ring =
-    tone === "deny" ? "border-warning" : tone === "proof" ? "border-blue" : "border-gray-03";
+  // The filled header is the deck's card language: navy is structure, bright blue is
+  // proof-adjacent, warning red is a refusal. The fill carries the tone, so the border
+  // stays gray on every card. `panel-head` remaps ink utilities inside the header to
+  // on-dark values (index.css) so existing right-slot content stays legible.
+  const fill =
+    tone === "deny" ? "bg-warning" : tone === "proof" ? "bg-blue" : "bg-navy";
   return (
     <section
-      className={`flex min-h-0 min-w-0 flex-col rounded-card border bg-gray-01 ${ring} ${className}`}
+      className={`flex min-h-0 min-w-0 flex-col overflow-hidden rounded-card border border-gray-03 bg-gray-01 ${className}`}
     >
       {(title || right) && (
-        <header className="flex shrink-0 items-baseline justify-between gap-3 border-b border-gray-03 px-4 py-3">
+        <header
+          className={`panel-head flex shrink-0 items-center justify-between gap-3 px-4 py-2.5 ${fill}`}
+        >
           <div className="flex min-w-0 items-baseline gap-2.5">
-            {title && <h2 className="eyebrow break-words">{title}</h2>}
-            {hint && <span className="break-words text-code text-ink-4">{hint}</span>}
+            {title && (
+              <h2 className="text-pill break-words tracking-[0.06em] text-white uppercase">
+                {title}
+              </h2>
+            )}
+            {hint && <span className="text-code break-words text-white/75">{hint}</span>}
           </div>
           {right && <div className="shrink-0">{right}</div>}
         </header>
