@@ -1,5 +1,7 @@
 @import "tailwindcss";
-@import "@fontsource-variable/jetbrains-mono";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+@import "@fontsource/ibm-plex-mono/600.css";
 
 /* ------------------------------------------------------------------------------------
    PLUMBLINE console — design foundation.
@@ -26,25 +28,33 @@
    They are single tokens so official values can be dropped in with one edit each.
    ------------------------------------------------------------------------------------ */
 
+/* Values are the Claude Design handoff's (design_handoff_plumbline_console/README.md),
+   which lifted them from the pitch deck. The old names are kept and re-pointed so every
+   screen keeps compiling while it is rebuilt onto the new system. */
 :root {
-  --amex-navy: #00175a; /* primary card headers, titles, key data, bands */
-  --amex-blue: #006fcf; /* alternating card headers, labels, links, focus */
-  --amex-royal: #1e4ba5; /* full-bleed hero and terminal screens only */
-  --amex-sky: #6ba4e0; /* accent word on blue fields, sublines in bands */
+  --amex-navy: #00175a; /* headings, statement bars, beat chips, panel headers */
+  --amex-navy-deep: #001344; /* hero background base */
+  --amex-blue: #006fcf; /* selection, links, eyebrows, the derived figure */
+  --amex-blue-bright: #1478ce; /* primary button hover */
+  --amex-royal: #1e4ba5; /* legacy terminal fields */
+  --amex-sky: #7ec0ee; /* tertiary bars, muted data series */
+  --amex-sky-pale: #d6e9f8; /* selection highlight */
   --amex-white: #ffffff; /* page */
-  --amex-gray-01: #f7f8f9; /* card body */
-  --amex-gray-02: #ecedee; /* SOLVES pill, table zebra, progress track */
-  --amex-gray-03: #c8c9c7; /* borders, rules, pill outlines */
-  --amex-gray-04: #97999b; /* disabled only */
+  --amex-gray-01: #f7f8fa; /* panel header strips, inset callouts */
+  --amex-gray-02: #f0f2f5; /* hairline fills, inactive chips */
+  --amex-gray-03: #dce2e8; /* all 1px borders */
+  --amex-gray-04: #8f9aa4; /* disabled, mono metadata */
+  --amex-track: #e4e8ec; /* bar-chart tracks */
+  --amex-panel: #f2f4f6; /* "What this shows" body */
   --amex-cream: #f6dfd2; /* decorative band on blue fields */
-  --amex-ink: #4d4f53; /* body copy */
-  --amex-success: #008767; /* verified, issuer-signed, passed */
-  --amex-warning: #b42c01; /* struck, blocked, refused, the overstatement */
+  --amex-ink: #4a5560; /* secondary copy */
+  --amex-success: #0f7b4f; /* VERIFIED / FAITHFUL / ALLOW / load-bearing */
+  --amex-warning: #b3261e; /* REJECTED / DEVIATES / DENIED / dead weight */
   --amex-attention: #fdb92d; /* considered but unpriced */
-  --radius-card: 8px;
+  --radius-card: 0px; /* panels and tables are square; it reads as an instrument */
   --radius-pill: 999px;
   --border: 1px solid var(--amex-gray-03);
-  --shadow: none; /* there are no shadows in this system */
+  --shadow: none; /* one shadow exists in the design: the hero proof card */
 }
 
 /* Derived values. Every one of these is a function of a token above; none introduces a new
@@ -55,27 +65,36 @@
    text is the same hue driven down to a legible value. CONSIDERED_BUT_UNPRICED still reads
    amber; it just also reads. */
 :root {
-  --amex-ink-strong: #2b2d31; /* primary sentences and table data */
-  --amex-ink-muted: #75777a; /* captions and provenance lines, still ~4.6:1 on white */
-  --amex-attention-ink: #8a5a00; /* amber at text contrast */
-  --amex-warning-deep: #8e2201;
+  --amex-ink-strong: #1a1d21; /* body copy */
+  --amex-ink-muted: #8f9aa4; /* mono metadata, column heads */
+  --amex-attention-ink: #9a6b00; /* DEGRADED, amber at text contrast */
+  --amex-warning-deep: #8e1a14;
   --amex-navy-wash: #eef2f9;
-  --amex-blue-wash: #e8f1fb;
-  --amex-success-wash: #e9f4f0;
-  --amex-warning-wash: #fbede8;
-  --amex-attention-wash: #fef6e4;
+  --amex-blue-wash: #e6f1fb; /* option pill tint */
+  --amex-blue-row: #f5faff; /* chosen row tint */
+  --amex-success-wash: #e8f3ee; /* protect pill tint */
+  --amex-warning-wash: #fbedec; /* deny pill tint */
+  --amex-warning-row: #fdf3f2; /* deny row tint */
+  --amex-attention-wash: #fffbf2; /* degraded row tint */
 }
 
 @theme {
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif;
-  --font-mono: "JetBrains Mono Variable", "JetBrains Mono", "SF Mono", Consolas, monospace;
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", "SF Mono", Consolas, monospace;
 
   /* -- palette ------------------------------------------------------------------------ */
 
   --color-navy: var(--amex-navy);
+  --color-navy-deep: var(--amex-navy-deep);
   --color-blue: var(--amex-blue);
+  --color-blue-bright: var(--amex-blue-bright);
   --color-royal: var(--amex-royal);
   --color-sky: var(--amex-sky);
+  --color-sky-pale: var(--amex-sky-pale);
+  --color-track: var(--amex-track);
+  --color-field: var(--amex-panel);
+  --color-blue-row: var(--amex-blue-row);
+  --color-warning-row: var(--amex-warning-row);
   --color-cream: var(--amex-cream);
 
   --color-gray-01: var(--amex-gray-01);
@@ -122,34 +141,40 @@
   --color-proof-wash: var(--amex-blue-wash);
 
   /* -- type scale --------------------------------------------------------------------
-     0.75rem is the floor and it is a floor, not a guideline. Everything below it was
-     removed from this file when the scale landed.
+     The handoff's roles, in rem at a 16px root so the S/M/L lever still moves the whole
+     scale together. The floor is 0.65625rem (10.5px), the handoff's column-head size;
+     nothing renders below it.
      ---------------------------------------------------------------------------------- */
 
-  --text-hero: 3rem;
-  --text-hero--line-height: 1;
+  --text-hero: 4.125rem; /* 66px — landing hero only */
+  --text-hero--line-height: 1.03;
   --text-hero--font-weight: 700;
-  --text-hero--letter-spacing: -0.015em;
+  --text-hero--letter-spacing: -0.028em;
 
-  --text-page-title: 1.75rem;
-  --text-page-title--line-height: 1.15;
+  --text-section: 2.75rem; /* 44px — landing h2 */
+  --text-section--line-height: 1.1;
+  --text-section--font-weight: 700;
+  --text-section--letter-spacing: -0.022em;
+
+  --text-page-title: 2.625rem; /* 42px — screen h1 */
+  --text-page-title--line-height: 1.08;
   --text-page-title--font-weight: 700;
-  --text-page-title--letter-spacing: -0.01em;
+  --text-page-title--letter-spacing: -0.024em;
 
-  --text-standfirst: 1rem;
-  --text-standfirst--line-height: 1.5;
+  --text-standfirst: 1.09375rem; /* 17.5px */
+  --text-standfirst--line-height: 1.6;
   --text-standfirst--font-weight: 400;
 
-  --text-card-title: 1rem;
-  --text-card-title--line-height: 1.2;
+  --text-card-title: 0.90625rem; /* 14.5px — panel titles */
+  --text-card-title--line-height: 1.3;
   --text-card-title--font-weight: 700;
 
-  --text-label: 0.75rem;
+  --text-label: 0.6875rem; /* 11px — eyebrows and header strips, always mono+uppercase */
   --text-label--line-height: 1.2;
-  --text-label--font-weight: 700;
-  --text-label--letter-spacing: 0.06em;
+  --text-label--font-weight: 600;
+  --text-label--letter-spacing: 0.16em;
 
-  --text-body: 0.9375rem;
+  --text-body: 1rem; /* 16px — body in panels */
   --text-body--line-height: 1.55;
   --text-body--font-weight: 400;
 
@@ -157,13 +182,18 @@
   --text-pill--line-height: 1;
   --text-pill--font-weight: 700;
 
-  --text-data: 0.9375rem;
-  --text-data--line-height: 1.35;
+  --text-data: 0.9375rem; /* 15px — table cells */
+  --text-data--line-height: 1.4;
   --text-data--font-weight: 500;
 
   --text-code: 0.8125rem;
   --text-code--line-height: 1.45;
   --text-code--font-weight: 400;
+
+  --text-statement: 1.4375rem; /* 23px — the navy statement bar */
+  --text-statement--line-height: 1.4;
+  --text-statement--font-weight: 700;
+  --text-statement--letter-spacing: -0.008em;
 
   /* -- geometry ----------------------------------------------------------------------
      Everything is rounded. Nothing in this system has a sharp corner.
@@ -198,16 +228,24 @@
 
   #root {
     height: 100dvh;
+    /* Below this the two-column screens collapse and every inner grid wraps; the handoff
+       fixes the floor rather than letting the sidebar squeeze the data column. */
+    min-width: 1460px;
   }
 
-  /* There are no shadows in this system, and no glass. This is the guard, not a note: a
-     shadow reintroduced anywhere in the codebase is cancelled here. Focus is an outline,
-     so nothing legitimate is lost. */
-  *,
+  /* Shadows are an allowlist, not a free-for-all. The handoff grants exactly three:
+     the hero proof card (.shadow-proof-card), the slider thumb, and the rail's inset
+     hover ring (.ring-rail); the landing header's blur (.landing-blur) is the one glass.
+     Everything else is cancelled here. */
+  *:not(.shadow-proof-card):not(.ring-rail):not([type="range"]),
   *::before,
   *::after {
     box-shadow: none !important;
     text-shadow: none !important;
+  }
+  *:not(.landing-blur),
+  *::before,
+  *::after {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
@@ -247,12 +285,63 @@
  * the section label, so a screen picks the system up without being rewritten first.
  */
 @utility eyebrow {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem; /* 11px */
+  font-weight: 600;
+  letter-spacing: 0.18em;
   line-height: 1.2;
   text-transform: uppercase;
   color: var(--amex-blue);
+}
+
+/** Column heads in tables: the smallest role in the system, 10.5px, and the floor. */
+@utility colhead {
+  font-family: var(--font-mono);
+  font-size: 0.65625rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--amex-ink-muted);
+}
+
+/** The mono uppercase strip across a panel header, white on a navy/blue/deny fill. */
+@utility strip {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+/* The security-paper field: two overlapping ring families in CSS, no asset. Must be a
+   child of the scroll CONTENT, not the scroll container, or it stops after one viewport. */
+@utility security-field {
+  background-image:
+    repeating-radial-gradient(
+      circle at 88% 220px,
+      rgba(0, 111, 207, 0.055) 0 1.1px,
+      rgba(0, 111, 207, 0) 1.1px 15px
+    ),
+    repeating-radial-gradient(
+      circle at 10% 1400px,
+      rgba(0, 23, 90, 0.04) 0 1.1px,
+      rgba(0, 23, 90, 0) 1.1px 19px
+    );
+}
+@utility security-field-navy {
+  background-image:
+    repeating-radial-gradient(
+      circle at 84% 26%,
+      rgba(255, 255, 255, 0.075) 0 1.1px,
+      rgba(255, 255, 255, 0) 1.1px 15px
+    ),
+    repeating-radial-gradient(
+      circle at 18% 88%,
+      rgba(126, 192, 238, 0.07) 0 1.1px,
+      rgba(126, 192, 238, 0) 1.1px 19px
+    );
 }
 
 /** Figures that must line up column-to-column. Mono, tabular, zero slashed. */
@@ -389,4 +478,24 @@
 /* A white-surfaced chip inside the header keeps its own ink. */
 .panel-head :is(.bg-white, .bg-gray-01, .bg-gray-02) :is(.text-ink, .text-ink-2, .text-ink-3, .text-ink-4) {
   color: var(--amex-ink);
+}
+
+/* The handoff's two entrance motions: screens fade, hero blocks rise. Nothing scroll-
+   driven, nothing looping. */
+@keyframes plFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes plRise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@utility anim-screen {
+  animation: plFade 0.28s ease both;
+}
+@utility anim-rise {
+  animation: plRise 0.5s ease both;
+}
+@utility anim-rise-late {
+  animation: plRise 0.6s 0.1s ease both;
 }

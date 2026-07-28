@@ -1,40 +1,39 @@
 /**
- * Beat 1 — the intuitive answer overstates.
+ * Beat 01 — the intuitive answer overstates.
  *
- * Same cart, same card, two columns. On the left, per-line summation. On the right, a value
- * backed by a concrete allocation that satisfies every balance and every exclusivity group.
- * The right number is lower, and it is the only one of the two that can actually be
- * delivered.
+ * Three bars carry the argument: what per-line summation claims, what an allocation can
+ * actually realise, and the difference between them. The table underneath is the receipt
+ * for that difference — every benefit, what it claimed, what it was allocated.
  *
  * Two things this screen refuses to do:
  *
- *   * It does not argue with a strawman. The left column carries both the literal per-line
- *     sum and the strongest figure a per-line implementation can reach — one that reads
- *     each balance and clamps to it. The witness still comes in below that, and the
- *     reconciliation names which rule cost what.
+ *   * It does not argue with a strawman. The naive bar carries the strongest figure a
+ *     per-line implementation can reach — one that reads each balance and clamps to it —
+ *     and the reconciliation strip names which rule a per-line clamp can see and which it
+ *     cannot.
  *   * It does not assert that the witness is valid. It re-checks it in the browser, in
  *     linear time, with no solver, and prints its own verdict beside the evaluator's.
  */
 
-import { Bar, Caveat, Panel, Provenance, Toggle } from "../components/ui";
 import {
+  BarRow,
+  BeatHeader,
+  BeatPage,
+  BeatSplit,
   HashRow,
-  KindChip,
-  ScreenHeader,
   PlumblineUnavailable,
+  ShowsPanel,
+  SquarePanel,
+  Takeaway,
   VerifyPair,
 } from "../components/plumblineUi";
-import { ruleFor } from "../lib/derive";
-import { money, ms as fmtMs } from "../lib/format";
+import { money } from "../lib/format";
 import { activeInstrument, manifestFor, useConsole } from "../lib/store";
 import { useLocalVerification } from "../lib/useWitness";
-import {
-  CAUSE_COPY,
-  type Collision,
-  type DerivationRow,
-  type LatencyTable,
-} from "../lib/plumbline";
-import type { Cart, CartLine } from "../lib/types";
+import { CAUSE_COPY, type Reconciliation } from "../lib/plumbline";
+
+/** The deny bar is a wash, not the deny red: it is a quantity, not a refusal. */
+const OVERSTATEMENT_FILL = "bg-[#E8B4AF]";
 
 export function OverstatementView() {
   const plumbline = useConsole((s) => s.plumbline);
@@ -54,420 +53,262 @@ export function OverstatementView() {
 
   if (!plumbline || !instrument) return <PlumblineUnavailable error={plumblineError} />;
 
-  const { reconciliation: rec } = instrument;
-  const cart = plumbline.cart;
+  const rec = instrument.reconciliation;
+  const basketMinor = plumbline.cart.lines.reduce((sum, line) => sum + line.amount, 0);
+  const share = (minor: number) => (rec.naive_minor > 0 ? (minor / rec.naive_minor) * 100 : 0);
+  // Naive over provable. Guarded because a card that realises nothing has no ratio, and a
+  // divide-by-zero rendered as "Infinity×" would be the one wrong number that refutes the
+  // whole screen.
+  const factor = rec.witness_minor > 0 ? rec.naive_minor / rec.witness_minor : null;
+  const claims = claimRows(rec);
 
   return (
-    <div className="flex h-full min-h-0 flex-col gap-3">
-      <ScreenHeader
+    <BeatPage>
+      <BeatHeader
         beat="01"
+        label="Overstatement"
         title="The intuitive answer overstates."
-        right={
-          <Toggle
-            value={instrument.instrument_id}
-            onChange={setInstrument}
-            options={plumbline.valuation.instruments.map((i) => ({
-              value: i.instrument_id,
-              label: i.product,
-            }))}
-          />
-        }
+        meta={`${instrument.allocator_stats.considered} pairings considered · ${instrument.allocator_stats.assigned} assigned`}
       >
         {plumbline.valuation.narrative}
-      </ScreenHeader>
+      </BeatHeader>
 
-      {/* ------------------------------------------------------------------ the two numbers */}
-      <div className="grid shrink-0 grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)_minmax(0,1fr)] gap-3">
-        <Panel
-          title="Per-line summation"
-          hint="every eligible benefit against every line it admits"
-          tone="deny"
-          bodyClassName="flex flex-col gap-2 p-4"
-        >
-          <div className="num display-wide text-[2.9rem] leading-none font-semibold text-deny">
-            {rec.naive_display}
-          </div>
-          <div className="flex items-baseline justify-between gap-3 border-t border-line pt-2">
-            <span className="text-pill text-ink-3">
-              same sum, each pairing capped at its remaining balance
-            </span>
-            <span className="num shrink-0 text-body font-medium text-deny/85">
-              {rec.capped_display}
-            </span>
-          </div>
-          {/* Was three sentences on why a per-line clamp is still blind across lines. The
-              two figures above it make the point without the prose. */}
-          <Caveat>
-            The strongest a per-line valuation can reach. It still cannot see one balance
-            spent twice across two lines.
-          </Caveat>
-        </Panel>
+      <BeatSplit
+        aside={
+          <>
+            <SquarePanel
+              title="Instrument"
+              right={
+                <span className="num text-pill font-normal text-ink-4">
+                  {plumbline.valuation.instruments.length} valued
+                </span>
+              }
+            >
+              {plumbline.valuation.instruments.map((candidate) => {
+                const active = candidate.instrument_id === instrument.instrument_id;
+                return (
+                  <button
+                    key={candidate.instrument_id}
+                    type="button"
+                    onClick={() => setInstrument(candidate.instrument_id)}
+                    className={`flex flex-col items-start gap-1 border-b border-gray-02 px-[22px] py-3.5 text-left transition-colors duration-[180ms] last:border-b-0 ${
+                      active
+                        ? "border-l-[3px] border-l-blue bg-blue-row pl-[19px]"
+                        : "bg-white hover:bg-gray-01"
+                    }`}
+                  >
+                    <span
+                      className={`break-words text-data ${active ? "font-bold text-blue" : "text-ink"}`}
+                    >
+                      {candidate.product}
+                    </span>
+                    <span className="num text-pill font-normal text-ink-4">
+                      {candidate.issuer} · {candidate.asserted_display}
+                    </span>
+                  </button>
+                );
+              })}
+            </SquarePanel>
 
-        <Panel
-          title="Overstated by"
-          hint="reconciled to the rupee"
-          bodyClassName="flex flex-col gap-2.5 p-4"
-        >
-          <div className="num display-wide text-[2.9rem] leading-none font-semibold text-deny">
-            {rec.overstatement_display}
+            <ShowsPanel
+              points={[
+                <>
+                  Exclusivity is the whole problem. Two benefits in one group can both match a
+                  line, and only one of them can be spent there.
+                </>,
+                <>
+                  The allocator picks the assignment that maximises realised value, then exhibits
+                  it. That exhibit is the witness, and it is the table on the left.
+                </>,
+                <>
+                  Re-adding it is linear time and needs no solver, so anyone can check the number
+                  without trusting us. This browser just did.
+                </>,
+              ]}
+              footnote={
+                <>
+                  The allocator is conservative by construction but not optimal; the gap is
+                  measured offline, never in the checkout path. Entailment is a different
+                  component with a different budget.
+                </>
+              }
+            />
+          </>
+        }
+      >
+        {/* ------------------------------------------------------------------ the two numbers */}
+        <div className="flex flex-col gap-4">
+          <span className="eyebrow">
+            Value on a {money(basketMinor)} basket · {plumbline.cart.lines.length} lines ·{" "}
+            {plumbline.cart.merchant}
+          </span>
+
+          <div className="flex flex-col gap-[22px] pt-1.5">
+            {/* The steelman rides on the naive bar rather than getting a bar of its own: the
+                strongest figure a per-line implementation can reach is one that reads each
+                balance and clamps to it, and on some instruments that is the same number. */}
+            <BarRow
+              label="Per-line summation, naive"
+              value={rec.naive_display}
+              pct={100}
+              sub={
+                rec.capped_minor < rec.naive_minor
+                  ? `capped to remaining balances · ${rec.capped_display}`
+                  : `no pairing exceeds its own balance · ${rec.capped_display}`
+              }
+            />
+            <BarRow
+              label="Witness-backed allocation"
+              value={rec.witness_display}
+              pct={share(rec.witness_minor)}
+              fill="bg-blue"
+              valueClass="text-blue"
+            />
+            <BarRow
+              label="Overstated by"
+              value={rec.overstatement_display}
+              pct={share(rec.overstatement_minor)}
+              fill={OVERSTATEMENT_FILL}
+              valueClass="text-warning"
+              sub={
+                factor === null
+                  ? "no allocation realises anything on this basket"
+                  : `${factor.toFixed(2)}× the provable figure`
+              }
+            />
           </div>
-          <div className="flex flex-col gap-1.5">
+
+          {/* Where the difference went, and which half of it a per-line clamp could ever see.
+              The steelman lives here: the first cause is visible per line, the rest are not. */}
+          <div className="mt-2 grid grid-cols-3 gap-px border border-gray-03 bg-gray-03">
             {rec.by_cause.map((cause) => (
-              <div key={cause.cause} className="flex flex-col gap-1">
-                <div className="flex items-baseline justify-between gap-2">
-                  <span className="min-w-0 break-words text-pill text-ink-2">
-                    {CAUSE_COPY[cause.cause]?.label ?? cause.cause}
-                  </span>
-                  <span className="num shrink-0 text-pill text-ink">{cause.display}</span>
-                </div>
-                <Bar value={cause.minor} total={rec.overstatement_minor} tone="deny" />
+              <div key={cause.cause} className="flex flex-col gap-2 bg-white px-[18px] py-4">
+                <span className="colhead break-words">
+                  {CAUSE_COPY[cause.cause]?.label ?? cause.cause}
+                </span>
+                <span className="num text-[1.0625rem] font-semibold text-navy">
+                  {cause.display}
+                </span>
+                <span className="text-code text-ink-4">
+                  {cause.visible_per_line
+                    ? "a per-line clamp sees this one"
+                    : "invisible to a per-line clamp"}
+                </span>
               </div>
             ))}
           </div>
-        </Panel>
+        </div>
 
-        <Panel
-          title="Witness-backed"
-          hint="a concrete allocation realises this much"
-          bodyClassName="flex flex-col gap-2 p-4"
-        >
-          <div className="num display-wide text-[2.9rem] leading-none font-semibold text-allow">
-            {rec.witness_display}
-          </div>
-          <VerifyPair server={instrument.verification} local={local} />
-          <HashRow label="witness sha256" value={instrument.witness_hash} />
-        </Panel>
-      </div>
-
-      {/* -------------------------------------------------------------------- the derivation */}
-      <div className="grid min-h-0 flex-1 grid-cols-[minmax(0,2.05fr)_minmax(0,1fr)] gap-3">
-        <Panel
-          title="The allocation"
-          hint="re-add the column and you have the assertion"
+        {/* -------------------------------------------------------------------- the derivation */}
+        <SquarePanel
+          title="Two credits, one line"
           right={
-            <span className="num text-pill text-ink-4">
-              {instrument.allocator_stats.considered} pairings considered ·{" "}
-              {instrument.allocator_stats.assigned} assigned
+            <span className="num text-pill font-normal text-ink-4">
+              {instrument.collisions.length} exclusivity collision
+              {instrument.collisions.length === 1 ? "" : "s"} on this basket
             </span>
           }
-          bodyClassName="min-h-0 overflow-y-auto"
         >
-          <AllocationTable
-            cart={cart}
-            rows={instrument.derivation}
-            collisions={instrument.collisions}
-            totalMinor={instrument.asserted_minor}
-            totalDisplay={instrument.asserted_display}
-          />
-        </Panel>
+          <div className="grid grid-cols-[minmax(0,2fr)_1fr_1fr] items-baseline gap-4 border-b border-gray-02 px-[22px] py-4">
+            <span className="colhead">Benefit</span>
+            <span className="colhead text-right">Claimed</span>
+            <span className="colhead text-right">Allocated</span>
+          </div>
 
-        <div className="flex min-h-0 flex-col gap-3">
-          <CollisionPanel collisions={instrument.collisions} />
-          <LatencyPanel latency={plumbline.valuation.latency} localMs={local?.elapsedMs ?? null} />
+          {claims.map((row) => (
+            <div
+              key={row.benefit_id}
+              className="grid grid-cols-[minmax(0,2fr)_1fr_1fr] items-baseline gap-4 border-b border-gray-02 px-[22px] py-4"
+            >
+              <div className="flex min-w-0 flex-col gap-1.5">
+                <span className="break-words text-data text-ink">{row.label}</span>
+                {row.notes.map((note) => (
+                  <span key={note} className="num break-words text-pill font-normal text-warning">
+                    {note}
+                  </span>
+                ))}
+              </div>
+              <span className="num text-right text-data font-normal text-ink-2">
+                {money(row.claimed_minor)}
+              </span>
+              <span
+                className={`num text-right text-data ${
+                  row.allocated_minor > 0 ? "font-semibold text-blue" : "text-ink-4"
+                }`}
+              >
+                {row.allocated_minor > 0 ? money(row.allocated_minor) : "—"}
+              </span>
+            </div>
+          ))}
+
+          <div className="grid grid-cols-[minmax(0,2fr)_1fr_1fr] items-baseline gap-4 border-t border-gray-03 bg-gray-01 px-[22px] py-[17px]">
+            <span className="text-card-title text-navy">Witness total, the asserted value</span>
+            <span className="num text-right text-data font-normal text-ink-4">
+              {rec.naive_display}
+            </span>
+            <span
+              className="num text-right text-[1.0625rem] font-semibold text-blue"
+              title={`${instrument.asserted_minor} minor units`}
+            >
+              {instrument.asserted_display}
+            </span>
+          </div>
+        </SquarePanel>
+
+        {/* ------------------------------------------------------------------ checked, not claimed */}
+        <div className="flex flex-col gap-4">
+          <span className="eyebrow">Checked twice, on two machines</span>
+          <VerifyPair server={instrument.verification} local={local} />
+          <div className="border border-gray-03 bg-gray-01 px-6 py-[18px]">
+            <HashRow label="witness sha256" value={instrument.witness_hash} />
+          </div>
         </div>
-      </div>
-    </div>
+      </BeatSplit>
+
+      <Takeaway>A sum of benefits is not a value. An allocation is.</Takeaway>
+    </BeatPage>
   );
 }
 
 // ---------------------------------------------------------------------------------------
 
-interface Grouped {
-  line: CartLine;
-  assigned: DerivationRow[];
-  struck: {
-    label: string;
-    group: string;
-    valueMinor: number;
-    winnerLabel: string;
-  }[];
+interface ClaimRow {
+  benefit_id: string;
+  label: string;
+  claimed_minor: number;
+  allocated_minor: number;
+  notes: string[];
 }
 
 /**
- * Grouped by cart line rather than flat, because the claim being made is per line: this
- * dinner was paid for once. A flat list of assignments hides exactly the collision the
- * screen exists to show.
+ * The reconciliation is keyed by (line, benefit); this table is keyed by benefit, because
+ * the claim a reader is checking is per benefit: this credit was advertised at X and
+ * delivered Y. Summing across lines is what makes the two columns reconcile to the two
+ * figures in the bars above — nothing here recomputes a value, it only re-groups one.
  */
-function group(cart: Cart, rows: DerivationRow[], collisions: Collision[]): Grouped[] {
-  return cart.lines.map((line) => {
-    const struck: Grouped["struck"] = [];
-    for (const collision of collisions) {
-      if (collision.line_sku !== line.sku) continue;
-      for (const loser of collision.struck) {
-        // What it would actually have delivered had it won — not its uncapped headline,
-        // which would overstate the loser exactly as the left column overstates the card.
-        const deliverable =
-          loser.capacity_minor === null
-            ? loser.value_minor
-            : Math.min(loser.value_minor, loser.capacity_minor);
-        struck.push({
-          label: loser.label,
-          group: collision.exclusivity_group,
-          valueMinor: deliverable,
-          winnerLabel: collision.winner.label,
-        });
-      }
+function claimRows(rec: Reconciliation): ClaimRow[] {
+  const byBenefit = new Map<string, ClaimRow>();
+
+  for (const row of rec.rows) {
+    let entry = byBenefit.get(row.benefit_id);
+    if (!entry) {
+      entry = {
+        benefit_id: row.benefit_id,
+        label: row.benefit_label,
+        claimed_minor: 0,
+        allocated_minor: 0,
+        notes: [],
+      };
+      byBenefit.set(row.benefit_id, entry);
     }
-    return {
-      line,
-      assigned: rows.filter((r) => r.line_sku === line.sku),
-      struck,
-    };
-  });
-}
+    entry.claimed_minor += row.naive_minor;
+    entry.allocated_minor += row.realized_minor;
 
-function AllocationTable({
-  cart,
-  rows,
-  collisions,
-  totalMinor,
-  totalDisplay,
-}: {
-  cart: Cart;
-  rows: DerivationRow[];
-  collisions: Collision[];
-  totalMinor: number;
-  totalDisplay: string;
-}) {
-  const groups = group(cart, rows, collisions);
-
-  return (
-    <table className="w-full border-collapse text-pill">
-      <thead>
-        <tr className="sticky top-0 z-10 bg-panel">
-          <th className="eyebrow border-b border-line px-3.5 py-2 text-left font-semibold">
-            Line · benefit
-          </th>
-          <th className="eyebrow border-b border-line px-2 py-2 text-left font-semibold">
-            Kind
-          </th>
-          <th className="eyebrow border-b border-line px-2 py-2 text-left font-semibold">
-            Rule from the manifest
-          </th>
-          <th className="eyebrow border-b border-line px-2 py-2 text-right font-semibold">
-            Balance before → after
-          </th>
-          <th className="eyebrow border-b border-line px-3.5 py-2 text-right font-semibold">
-            Value
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {groups.map((g) => (
-          <LineGroup key={g.line.sku} group={g} />
-        ))}
-        <tr>
-          <td colSpan={3} className="border-t-2 border-line-2 px-3.5 py-3">
-            <span className="eyebrow">Witness total, the asserted value</span>
-          </td>
-          <td className="border-t-2 border-line-2 px-2 py-3 text-right">
-            <span className="num text-pill text-ink-4">{rows.length} assignments</span>
-          </td>
-          <td className="border-t-2 border-line-2 px-3.5 py-3 text-right">
-            <span
-              className="num display-wide text-[1.35rem] leading-none font-semibold text-allow"
-              title={`${totalMinor} minor units`}
-            >
-              {totalDisplay}
-            </span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  );
-}
-
-function LineGroup({ group: g }: { group: Grouped }) {
-  return (
-    <>
-      <tr className="bg-sunken/70">
-        <td className="border-t border-line px-3.5 py-1.5" colSpan={3}>
-          <div className="flex items-baseline gap-2.5">
-            <span className="num shrink-0 text-pill text-ink-4">{g.line.sku}</span>
-            <span className="min-w-0 break-words font-medium text-ink">{g.line.description}</span>
-          </div>
-        </td>
-        <td className="border-t border-line px-2 py-1.5 text-right">
-          <span className="num text-pill text-ink-4">MCC {g.line.mcc}</span>
-        </td>
-        <td className="border-t border-line px-3.5 py-1.5 text-right">
-          <span className="num text-body text-ink-2">{money(g.line.amount)}</span>
-        </td>
-      </tr>
-
-      {g.assigned.map((row) => (
-        <tr key={`${row.line_sku}-${row.benefit_id}`} className="hover:bg-raised/40">
-          <td className="px-3.5 py-1.5 pl-7">
-            <span className="min-w-0 break-words text-ink-2">{row.benefit_label}</span>
-          </td>
-          <td className="px-2 py-1.5">
-            <KindChip kind={row.benefit_kind} />
-          </td>
-          <td className="num px-2 py-1.5 text-pill text-ink-3">{ruleFor(row)}</td>
-          <td className="num px-2 py-1.5 text-right text-pill text-ink-4">
-            {row.capacity_before === null ? (
-              <span>no ceiling</span>
-            ) : (
-              <span>
-                {money(row.capacity_before)} → {money(row.capacity_after ?? 0)}
-              </span>
-            )}
-          </td>
-          <td className="num px-3.5 py-1.5 text-right text-body text-ink">
-            {row.value_display}
-          </td>
-        </tr>
-      ))}
-
-      {g.struck.map((row) => (
-        <tr key={`${g.line.sku}-struck-${row.label}`} className="bg-deny-wash/25">
-          <td className="px-3.5 py-1.5 pl-7">
-            <span className="break-words text-deny/80 line-through decoration-deny/70">
-              {row.label}
-            </span>
-          </td>
-          <td className="px-2 py-1.5">
-            <span className="inline-block rounded border border-deny/45 px-1 py-px font-mono text-pill tracking-[0.08em] text-deny uppercase">
-              struck
-            </span>
-          </td>
-          <td className="num px-2 py-1.5 text-pill text-deny/85" colSpan={2}>
-            exclusivity group {row.group}, claimed by {row.winnerLabel}
-          </td>
-          <td className="num px-3.5 py-1.5 text-right text-body text-deny/70 line-through decoration-deny/60">
-            {money(row.valueMinor)}
-          </td>
-        </tr>
-      ))}
-    </>
-  );
-}
-
-// ---------------------------------------------------------------------------------------
-
-function CollisionPanel({ collisions }: { collisions: Collision[] }) {
-  if (collisions.length === 0) {
-    return (
-      <Panel title="Exclusivity" bodyClassName="p-4">
-        <span className="text-pill text-ink-4">
-          No two benefits on this card competed for the same line in this cart.
-        </span>
-      </Panel>
-    );
+    if (row.shortfall_minor <= 0) continue;
+    const cause = CAUSE_COPY[row.cause]?.label ?? row.cause;
+    const note = row.exclusivity_group ? `${cause} · ${row.exclusivity_group}` : cause;
+    if (!entry.notes.includes(note)) entry.notes.push(note);
   }
-  return (
-    <Panel
-      title="Two credits, one line"
-      hint="what per-line summation cannot express"
-      tone="deny"
-      bodyClassName="flex flex-col gap-3 p-4"
-    >
-      {collisions.map((collision) => {
-        const struckTotal = collision.struck.reduce(
-          (sum, s) =>
-            sum +
-            (s.capacity_minor === null ? s.value_minor : Math.min(s.value_minor, s.capacity_minor)),
-          0,
-        );
-        return (
-          <div key={`${collision.line_sku}-${collision.exclusivity_group}`} className="flex flex-col gap-2">
-            <div className="flex items-baseline justify-between gap-2">
-              <span className="min-w-0 break-words text-body text-ink">
-                {collision.line_description}
-              </span>
-              <span className="num shrink-0 text-pill text-ink-3">
-                {money(collision.line_amount)}
-              </span>
-            </div>
-            <div className="num rounded border border-deny/35 bg-deny-wash/60 px-2 py-1 text-pill text-deny">
-              {collision.exclusivity_group}
-            </div>
-            <div className="flex flex-col gap-1">
-              <div className="flex items-baseline justify-between gap-2">
-                <span className="min-w-0 break-words text-pill text-allow">
-                  {collision.winner.label}
-                </span>
-                <span className="num shrink-0 text-pill text-allow">
-                  {collision.winner.value_display}
-                </span>
-              </div>
-              {collision.struck.map((loser) => (
-                <div key={loser.benefit_id} className="flex items-baseline justify-between gap-2">
-                  <span className="min-w-0 break-words text-pill text-deny/80 line-through decoration-deny/70">
-                    {loser.label}
-                  </span>
-                  <span className="num shrink-0 text-pill text-deny/70 line-through decoration-deny/60">
-                    {money(
-                      loser.capacity_minor === null
-                        ? loser.value_minor
-                        : Math.min(loser.value_minor, loser.capacity_minor),
-                    )}
-                  </span>
-                </div>
-              ))}
-            </div>
-            <Caveat>
-              A per-line sum adds {money(struckTotal)} the card will never pay.
-            </Caveat>
-          </div>
-        );
-      })}
-    </Panel>
-  );
-}
 
-function LatencyPanel({
-  latency,
-  localMs,
-}: {
-  latency: LatencyTable;
-  localMs: number | null;
-}) {
-  const { bench, bench_verify: verify, solver } = latency;
-  return (
-    <Panel
-      title="Latency at the same problem size"
-      hint={bench.problem_size}
-      tone="proof"
-      className="min-h-0"
-      bodyClassName="flex flex-col gap-3 p-4 overflow-y-auto min-h-0"
-    >
-      <div className="grid grid-cols-2 gap-3">
-        <Provenance
-          label="Greedy allocator"
-          value={`${bench.p50_ms.toFixed(2)} ms`}
-          tone="allow"
-          method={`p50 over ${bench.runs} runs · p99 ${bench.p99_ms.toFixed(2)} ms · measured`}
-        />
-        <Provenance
-          label="MaxSMT alternative"
-          value={`${solver.lo_ms}–${solver.hi_ms} ms`}
-          tone="deny"
-          method={`${solver.source} · not measured here`}
-        />
-      </div>
-
-      <div className="flex flex-col gap-1.5 border-t border-line pt-2.5">
-        <div className="flex items-baseline justify-between gap-2 text-pill">
-          <span className="text-ink-3">Linear-time verification, no solver</span>
-          <span className="num text-allow">{verify.p50_ms.toFixed(2)} ms</span>
-        </div>
-        {localMs !== null && (
-          <div className="flex items-baseline justify-between gap-2 text-pill">
-            <span className="text-ink-3">…and in this browser, this run</span>
-            <span className="num text-allow">{fmtMs(localMs, 3)}</span>
-          </div>
-        )}
-      </div>
-
-      {/* Both caveats ran to three sentences. Cut to the two disclosures that have to
-          survive: the solver's failure mode, and that greedy is not optimal. The
-          NP-hardness argument for why there is no DP fallback is spoken, not rendered. */}
-      <Caveat>{solver.failure_mode}.</Caveat>
-      <Caveat>
-        The allocator is conservative by construction but not optimal; gap measured offline.
-        Entailment is a different component.
-      </Caveat>
-    </Panel>
-  );
+  return [...byBenefit.values()].sort((a, b) => b.claimed_minor - a.claimed_minor);
 }

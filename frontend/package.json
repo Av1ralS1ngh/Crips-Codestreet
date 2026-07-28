@@ -10,12 +10,13 @@
     "preview": "vite preview",
     "dev:live": "VITE_CAVEAT_TRANSPORT=live vite",
     "typecheck": "tsc -b --noEmit",
-    "typefloor": "! grep -rEno \"text-\\\\[0\\\\.([0-6][0-9]?|7[0-4]?)rem\\\\]|text-\\\\[([0-9]|1[01])px\\\\]\" src && echo 'type floor holds: nothing renders below 0.75rem'",
+    "typefloor": "! grep -rEno \"text-\\\\[0\\\\.([0-5][0-9]*|6[0-4][0-9]*|6)rem\\\\]|text-\\\\[([0-9]|10)px\\\\]\" src && echo 'type floor holds: nothing renders below 10.5px (the handoff column-head size)'",
     "smoke": "tsc -p tsconfig.smoke.json --noEmit && vite build --ssr scripts/smoke.tsx --outDir .smoke --logLevel error && node .smoke/smoke.js"
   },
   "dependencies": {
     "@fontsource-variable/archivo": "^5.3.0",
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "zustand": "^5.0.14"

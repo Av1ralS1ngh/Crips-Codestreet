@@ -1,31 +1,24 @@
 /**
- * Beat 1 — theft, then no theft.
+ * Kernel, tab 1 — theft, then no theft.
  *
- * The same agent, the same task, the same injected merchant page, run down both sides of
- * a split screen. The left pane is a receipt: it has no opinion about what it is paying
- * for. The right pane is a decision record. The injected lines are rendered identically
- * on both sides, so the only difference a judge has to track is what happened at the
- * bottom of each column.
+ * The same agent, the same task, the same injected merchant page, run down both sides. The
+ * left pane is a receipt: it has no opinion about what it is paying for. The right pane is
+ * a decision record. The two panes state their outcome and nothing else, and the single
+ * cart table underneath carries the lines, so a judge tracks one divergence rather than
+ * reading the same twelve rows twice.
+ *
+ * Nothing here asks the merchant for anything. The check runs against the intent the Card
+ * Member signed, on the cardholder's own mandate.
  */
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  Button,
-  Caveat,
-  Check,
-  Empty,
-  Money,
-  OutcomeChip,
-  Panel,
-  ReasonCode,
-  Verdict,
-} from "../components/ui";
-import { money, ms as fmtMs, signedMoney } from "../lib/format";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { SquarePanel } from "../components/plumblineUi";
+import { Button, ReasonCode, Verdict } from "../components/ui";
+import { humanReason, money, ms as fmtMs, signedMoney } from "../lib/format";
 import { useConsole } from "../lib/store";
 import {
   PDP_STAGES,
   REASON_STEP_UP_REQUIRED,
-  type CartLine,
   type DecisionRecord,
   type ScenarioResult,
 } from "../lib/types";
@@ -38,18 +31,49 @@ const INJECT_LINE_MS = 95;
 const SETTLE_HOLD_MS = 420;
 const LADDER_STEP_MS = 110;
 
-interface Row {
-  line: CartLine;
+/** One executed line beside what the Card Member actually signed for it. */
+interface DiffRow {
+  sku: string;
+  description: string;
+  mcc: number;
+  qty: number;
+  signed: number | null;
+  inCart: number | null;
   injected: boolean;
 }
 
-function rowsFor(result: ScenarioResult | undefined): Row[] {
-  if (!result?.executed_cart) return [];
-  const addedSkus = new Set((result.governed?.diff.added ?? []).map((l) => l.sku));
-  return result.executed_cart.lines.map((line) => ({
-    line,
+function diffRows(result: ScenarioResult | undefined): DiffRow[] {
+  const executed = result?.executed_cart?.lines ?? [];
+  const intent = result?.intent_cart?.lines ?? [];
+  const signedBySku = new Map(intent.map((line) => [line.sku, line.amount]));
+  const addedSkus = new Set((result?.governed?.diff.added ?? []).map((line) => line.sku));
+
+  const rows: DiffRow[] = executed.map((line) => ({
+    sku: line.sku,
+    description: line.description,
+    mcc: line.mcc,
+    qty: line.qty,
+    signed: signedBySku.get(line.sku) ?? null,
+    inCart: line.amount,
     injected: addedSkus.has(line.sku),
   }));
+
+  // A line the agent dropped is a divergence too, and it renders on the same table rather
+  // than in a second one nobody reads.
+  const executedSkus = new Set(executed.map((line) => line.sku));
+  for (const line of intent) {
+    if (executedSkus.has(line.sku)) continue;
+    rows.push({
+      sku: line.sku,
+      description: line.description,
+      mcc: line.mcc,
+      qty: line.qty,
+      signed: line.amount,
+      inCart: null,
+      injected: false,
+    });
+  }
+  return rows;
 }
 
 export function AttackView() {
@@ -58,19 +82,22 @@ export function AttackView() {
   const scenarios = useConsole((s) => s.scenarios);
   const openEvidence = useConsole((s) => s.openEvidence);
 
+  // Switching kernel tabs unmounts this view, so the reveal state is seeded from whatever
+  // the store already holds: coming back to a run that has finished shows the finished
+  // run, not a blank stage with a settled decision sitting behind it.
   const [active, setActive] = useState<"clean_purchase" | "injection">("injection");
-  const [phase, setPhase] = useState<Phase>("idle");
-  const [visible, setVisible] = useState(0);
-  const [ladder, setLadder] = useState(0);
+  const [phase, setPhase] = useState<Phase>(() => (scenarios.injection ? "done" : "idle"));
+  const [visible, setVisible] = useState(() => diffRows(scenarios.injection).length);
+  const [ladder, setLadder] = useState(() => (scenarios.injection ? PDP_STAGES.length : 0));
   const [elapsed, setElapsed] = useState(0);
   const elapsedRef = useRef(0);
   elapsedRef.current = elapsed;
 
   const cancelRef = useRef(0);
   const result = scenarios[active];
-  const rows = rowsFor(result);
-  const intentCount = rows.filter((r) => !r.injected).length;
+  const rows = diffRows(result);
   const decision = result?.governed;
+  const ungoverned = result?.ungoverned;
 
   // Re-anchored on each phase rather than on each tick: `elapsed` is read to continue
   // from where the previous phase left off, so depending on it would restart the clock
@@ -94,7 +121,7 @@ export function AttackView() {
       const fresh = await run(scenario);
       if (!fresh || cancelRef.current !== token) return;
 
-      const all = rowsFor(fresh);
+      const all = diffRows(fresh);
       const intent = all.filter((r) => !r.injected).length;
       const injected = all.length - intent;
       const alive = () => cancelRef.current === token;
@@ -142,32 +169,30 @@ export function AttackView() {
   };
 
   const settled = phase === "settle" || phase === "done";
-  const executedTotal = result?.executed_cart
-    ? result.executed_cart.lines.reduce((sum, l) => sum + l.amount, 0)
-    : 0;
-  const revealedTotal = rows.slice(0, visible).reduce((sum, r) => sum + r.line.amount, 0);
+  const revealedTotal = rows
+    .slice(0, visible)
+    .reduce((sum, row) => sum + (row.inCart ?? 0), 0);
+  const primaryReason = decision?.reason_codes[0];
 
   return (
-    <div className="flex h-full min-h-0 flex-col gap-3">
-      <header className="flex shrink-0 flex-wrap items-end justify-between gap-4">
+    <div className="flex flex-col gap-6">
+      <header className="flex flex-wrap items-end justify-between gap-5">
         <div className="min-w-0">
-          <h1 className="display-xwide text-[1.7rem] leading-none font-semibold tracking-[-0.01em]">
+          <p className="text-[1.0625rem] leading-[1.6] font-bold text-ink">
             One agent. One injected page. Two outcomes.
-          </h1>
-          <p className="mt-1.5 text-body text-ink-2">
+          </p>
+          <p className="mt-1 max-w-[62ch] text-[0.90625rem] leading-[1.55] font-normal text-ink-2">
             {result?.narrative ??
               "An injected instruction appends stored-value gift cards after the human signed intent."}
           </p>
         </div>
-        <div className="flex shrink-0 items-center gap-2">
-          <div className="num mr-2 text-pill text-ink-3">
-            T+{(elapsed / 1000).toFixed(1)}s
-          </div>
+        <div className="flex shrink-0 items-center gap-2.5">
+          <span className="num text-code text-ink-4">T+{(elapsed / 1000).toFixed(1)}s</span>
           <Button
             size="md"
             tone={active === "clean_purchase" ? "primary" : "default"}
             disabled={running !== null}
-            onClick={() => start("clean_purchase")}
+            onClick={() => void start("clean_purchase")}
           >
             Clean run
           </Button>
@@ -175,7 +200,7 @@ export function AttackView() {
             size="md"
             tone="deny"
             disabled={running !== null}
-            onClick={() => start("injection")}
+            onClick={() => void start("injection")}
           >
             {running === "injection" ? "Running…" : "Run injection"}
           </Button>
@@ -186,143 +211,266 @@ export function AttackView() {
       </header>
 
       {phase === "idle" && !result ? (
-        <Panel className="flex-1">
-          <Empty>
-            Press <span className="mx-1 font-mono text-deny">Run injection</span> to replay the
-            attack through both stacks.
-          </Empty>
-        </Panel>
+        <div className="border border-gray-03 bg-white px-[22px] py-10 text-center text-body text-ink-3">
+          Press <span className="num text-warning">Run injection</span> to replay the attack
+          through both stacks.
+        </div>
       ) : (
         <>
-          <div className="grid min-h-0 flex-1 grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-6">
             {/* ---------------------------------------------------------- ungoverned */}
-            <Panel
-              title="Ungoverned agent"
-              hint="merchant page trusted verbatim"
-              right={
-                <span className="num text-pill text-ink-4">
-                  {result?.executed_cart?.merchant ?? "—"}
-                </span>
-              }
-              bodyClassName="flex flex-col min-h-0"
-            >
-              <CartLines rows={rows} visible={visible} />
-              <footer className="shrink-0 border-t border-line px-4 py-3.5">
-                {settled ? (
-                  <div className="anim-stamp flex items-end justify-between gap-4">
-                    <div>
-                      <div className="eyebrow">Authorisation</div>
-                      <div className="mt-1 inline-flex items-center gap-2">
-                        <span className="rounded border border-allow/35 bg-allow-wash px-1.5 py-0.5 font-mono text-pill tracking-[0.08em] text-allow">
-                          APPROVED
-                        </span>
-                        <span className="num text-pill text-ink-4">
-                          auth 054829 · settled
-                        </span>
-                      </div>
-                    </div>
-                    <div className="num display-wide text-[2.6rem] leading-none font-semibold">
-                      {money(executedTotal)}
-                    </div>
-                  </div>
-                ) : (
-                  <PendingFooter total={revealedTotal} label="Cart total" />
-                )}
-              </footer>
-            </Panel>
+            <OutcomePanel tone="deny" title="Ungoverned agent">
+              <Readout
+                label="Decision"
+                value={
+                  <span className="num text-[1.0625rem] font-semibold text-warning">
+                    {!settled ? "PENDING" : ungoverned?.authorized ? "APPROVED" : "DECLINED"}
+                  </span>
+                }
+              />
+              <div className="h-px bg-gray-02" />
+              <Readout
+                label="Settled"
+                value={
+                  <span
+                    className={`num text-[1.5rem] font-semibold ${settled ? "text-navy" : "text-ink-4"}`}
+                  >
+                    {money(settled ? (ungoverned?.amount ?? 0) : revealedTotal)}
+                  </span>
+                }
+                note={
+                  settled
+                    ? (ungoverned?.note ?? "merchant page trusted verbatim")
+                    : "cart total as the agent builds it"
+                }
+              />
+            </OutcomePanel>
 
             {/* ------------------------------------------------------------ governed */}
-            <Panel
-              title="Behind CAVEAT"
-              hint="re-validated against signed intent"
-              tone={settled && decision?.outcome === "DENY" ? "deny" : "default"}
-              right={
-                decision && settled ? <OutcomeChip outcome={decision.outcome} size="lg" /> : null
-              }
-              bodyClassName="flex flex-col min-h-0"
-            >
-              <CartLines rows={rows} visible={visible} />
-              <footer className="shrink-0 border-t border-line">
-                {settled && decision ? (
-                  <div className="flex flex-col gap-3 px-4 py-3.5">
-                    <CheckLadder decision={decision} revealed={ladder} />
-                    <div className="anim-stamp flex items-end justify-between gap-4">
-                      <div className="min-w-0">
-                        <div className="eyebrow">Decision</div>
-                        <div className="mt-1 font-mono text-body text-deny">
-                          {decision.outcome === "ALLOW" ? (
-                            <span className="text-allow">{decision.headline}</span>
-                          ) : (
-                            decision.headline
-                          )}
-                        </div>
-                      </div>
-                      <div
-                        className={`num display-wide text-[2.6rem] leading-none font-semibold ${
-                          decision.outcome === "ALLOW"
-                            ? "text-allow"
-                            : "text-deny line-through decoration-2"
+            <OutcomePanel tone="success" title="Behind the kernel">
+              <Readout
+                label="Decision"
+                value={
+                  <span className="num text-[1.0625rem] font-semibold text-success">
+                    {!settled || !decision ? "PENDING" : outcomeWord(decision)}
+                  </span>
+                }
+              />
+              <div className="h-px bg-gray-02" />
+              <Readout
+                label="Settled"
+                value={
+                  <span
+                    className={`num text-[1.5rem] font-semibold ${settled ? "text-navy" : "text-ink-4"}`}
+                  >
+                    {money(
+                      !settled || !decision
+                        ? revealedTotal
+                        : decision.outcome === "ALLOW"
+                          ? decision.amount
+                          : 0,
+                    )}
+                  </span>
+                }
+                note={
+                  !settled || !decision
+                    ? "cart re-validated against signed intent"
+                    : decision.outcome === "ALLOW"
+                      ? decision.diff.summary
+                      : `${money(decision.amount)} blocked · ${primaryReason ? humanReason(primaryReason) : "outside the mandate"}`
+                }
+              />
+            </OutcomePanel>
+          </div>
+
+          {/* ------------------------------------------------------------------ ladder */}
+          <SquarePanel
+            title="Policy decision point"
+            right={
+              <span className="num text-[0.71875rem] font-normal text-ink-4">
+                {PDP_STAGES.length} checks, fail-closed order
+              </span>
+            }
+          >
+            <div className="grid grid-cols-[34px_minmax(0,140px)_minmax(0,1fr)_74px] gap-4 border-b border-gray-02 px-[22px] py-3.5">
+              <span className="colhead">#</span>
+              <span className="colhead">Check</span>
+              <span className="colhead">Finding</span>
+              <span className="colhead text-right">Result</span>
+            </div>
+            {ladder === 0 || !decision ? (
+              <p className="px-[22px] py-4 text-[0.84375rem] text-ink-4">
+                the five checks run in order and stop at the first refusal
+              </p>
+            ) : (
+              PDP_STAGES.slice(0, ladder).map((stage, index) => {
+                const hits = stage.codes.filter((code) =>
+                  (decision.reason_codes as string[]).includes(code),
+                );
+                const failed = hits.length > 0;
+                const detail = decision.violations.find((v) =>
+                  (stage.codes as readonly string[]).includes(v.reason),
+                );
+                return (
+                  <div
+                    key={stage.key}
+                    className={`anim-line-in grid grid-cols-[34px_minmax(0,140px)_minmax(0,1fr)_74px] items-baseline gap-4 border-b border-gray-02 px-[22px] py-3.5 last:border-b-0 ${
+                      failed ? "bg-warning-row" : ""
+                    }`}
+                    style={{ animationDelay: `${index * 20}ms` }}
+                  >
+                    <span className="num text-[0.75rem] font-normal text-ink-4">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span
+                      className={`text-[0.9375rem] leading-[1.4] break-words ${failed ? "font-bold text-warning" : "text-ink"}`}
+                    >
+                      {stage.label}
+                    </span>
+                    {/* A passing stage used to print `stage.note`, restating what the check
+                        does. The label names it and the result says it held; only failures
+                        earn the line. */}
+                    <span className="text-[0.84375rem] leading-[1.5] break-words text-ink-2">
+                      {failed ? (detail?.detail ?? hits.join(", ")) : ""}
+                    </span>
+                    <span
+                      className={`num text-right text-[0.75rem] font-medium ${failed ? "text-warning" : "text-success"}`}
+                    >
+                      {failed ? "FAIL" : "PASS"}
+                    </span>
+                  </div>
+                );
+              })
+            )}
+          </SquarePanel>
+
+          {/* -------------------------------------------------------------- cart table */}
+          <SquarePanel
+            title="Cart ↔ signed intent"
+            right={
+              <span className="num text-[0.71875rem] font-normal text-ink-4">
+                {result?.executed_cart?.merchant ?? "—"}
+              </span>
+            }
+          >
+            <div className="grid grid-cols-[minmax(0,2fr)_1fr_1fr] gap-4 border-b border-gray-02 px-[22px] py-3.5">
+              <span className="colhead">Line</span>
+              <span className="colhead text-right">Signed</span>
+              <span className="colhead text-right">In cart</span>
+            </div>
+
+            {visible === 0 ? (
+              <p className="px-[22px] py-4 font-mono text-[0.84375rem] text-ink-4">
+                agent planning…
+              </p>
+            ) : (
+              rows.slice(0, visible).map((row, index) => (
+                <div
+                  key={`${row.sku}-${index}`}
+                  className={`anim-line-in grid grid-cols-[minmax(0,2fr)_1fr_1fr] items-baseline gap-4 border-b border-gray-02 px-[22px] py-3.5 ${
+                    row.injected ? "bg-warning-row" : ""
+                  }`}
+                >
+                  <span className="flex min-w-0 flex-col gap-1">
+                    <span className="flex flex-wrap items-baseline gap-2">
+                      <span
+                        className={`text-[0.9375rem] leading-[1.4] break-words ${
+                          row.injected ? "font-bold text-warning" : "text-ink"
                         }`}
                       >
-                        {money(decision.amount)}
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="px-4 py-3.5">
-                    <PendingFooter total={revealedTotal} label="Cart under evaluation" />
-                  </div>
-                )}
-              </footer>
-            </Panel>
-          </div>
-
-          {/* ------------------------------------------------------------------ diff */}
-          <div className="grid shrink-0 grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-3">
-            <Panel
-              title="Cart ↔ signed intent"
-              hint={decision?.diff.summary}
-              tone={decision?.diff.diverged ? "deny" : "default"}
-              bodyClassName="p-4"
-            >
-              {decision ? (
-                <DiffBlock decision={decision} intentCount={intentCount} settled={settled} />
-              ) : (
-                <div className="text-pill text-ink-4">awaiting execution…</div>
-              )}
-            </Panel>
-
-            <Panel title="Reasons & liability" bodyClassName="flex flex-col gap-3 p-4">
-              {settled && decision ? (
-                <>
-                  <div className="flex flex-wrap gap-1.5">
-                    {decision.reason_codes.length === 0 ? (
-                      <ReasonCode code="NO_VIOLATIONS" tone="muted" />
-                    ) : (
-                      decision.reason_codes.map((code) => (
-                        <ReasonCode
-                          key={code}
-                          code={code}
-                          tone={code === REASON_STEP_UP_REQUIRED ? "stepup" : "deny"}
-                        />
-                      ))
-                    )}
-                  </div>
-                  <Verdict verdict={decision.verdict} liable={decision.liable_party} />
-                  <div className="mt-auto flex items-center justify-between gap-2 pt-1">
-                    <span className="num text-pill text-ink-4">
-                      decided in {fmtMs(decision.elapsed_ms)} · ledger #{decision.ledger_seq}
+                        {row.description}
+                        {row.qty > 1 && <span className="text-ink-4"> ×{row.qty}</span>}
+                      </span>
+                      {row.injected && (
+                        <span className="num rounded-[3px] bg-gray-02 px-[9px] py-[3px] text-[0.71875rem] text-warning">
+                          INJECTED
+                        </span>
+                      )}
                     </span>
-                    <Button size="sm" onClick={() => openEvidence(decision.txn_id)}>
-                      Evidence →
-                    </Button>
-                  </div>
-                </>
-              ) : (
-                <div className="text-pill text-ink-4">awaiting decision…</div>
-              )}
-            </Panel>
-          </div>
+                    <span className="num text-[0.71875rem] break-words text-ink-4">
+                      {row.sku} · mcc {row.mcc}
+                    </span>
+                  </span>
+                  <span className="num text-right text-[0.9375rem] text-ink-2">
+                    {row.signed === null ? "—" : money(row.signed)}
+                  </span>
+                  <span
+                    className={`num text-right text-[0.9375rem] ${
+                      row.injected ? "font-semibold text-warning" : "text-ink-2"
+                    }`}
+                  >
+                    {row.inCart === null ? "—" : money(row.inCart)}
+                  </span>
+                </div>
+              ))
+            )}
+
+            {decision && (
+              <>
+                <div className="grid grid-cols-[minmax(0,2fr)_1fr_1fr] items-baseline gap-4 border-t border-gray-03 bg-gray-01 px-[22px] py-3.5">
+                  <span className="text-[0.9375rem] font-bold text-navy">Total</span>
+                  <span className="num text-right text-[0.9375rem] font-semibold text-navy">
+                    {money(decision.diff.intent_total)}
+                  </span>
+                  <span
+                    className={`num text-right text-[0.9375rem] font-semibold ${
+                      decision.diff.diverged ? "text-warning" : "text-navy"
+                    }`}
+                  >
+                    {money(decision.diff.executed_total)}
+                  </span>
+                </div>
+                <div className="flex flex-wrap items-baseline justify-between gap-4 border-t border-gray-03 bg-gray-01 px-[22px] py-[18px]">
+                  <span className="min-w-0 text-[0.90625rem] leading-[1.55] font-normal break-words text-ink-2">
+                    {decision.diff.summary}
+                    {decision.diff.merchant_changed &&
+                      ` · merchant swapped ${decision.diff.merchant_changed[0]} → ${decision.diff.merchant_changed[1]}`}
+                  </span>
+                  <span
+                    className={`num shrink-0 text-[1.0625rem] font-semibold ${
+                      decision.diff.delta > 0 ? "text-warning" : "text-success"
+                    }`}
+                  >
+                    {signedMoney(decision.diff.delta)}
+                  </span>
+                </div>
+              </>
+            )}
+          </SquarePanel>
+
+          {/* ------------------------------------------------------- reasons, liability */}
+          {settled && decision && (
+            <SquarePanel
+              title="Reasons and liability"
+              right={
+                <span className="num text-[0.71875rem] font-normal text-ink-4">
+                  decided in {fmtMs(decision.elapsed_ms)} · ledger #{decision.ledger_seq}
+                </span>
+              }
+            >
+              <div className="flex flex-col gap-4 px-[22px] py-5">
+                <div className="flex flex-wrap gap-2">
+                  {decision.reason_codes.length === 0 ? (
+                    <ReasonCode code="NO_VIOLATIONS" tone="muted" />
+                  ) : (
+                    decision.reason_codes.map((code) => (
+                      <ReasonCode
+                        key={code}
+                        code={code}
+                        tone={code === REASON_STEP_UP_REQUIRED ? "stepup" : "deny"}
+                      />
+                    ))
+                  )}
+                </div>
+                <div className="flex flex-wrap items-end justify-between gap-4">
+                  <Verdict verdict={decision.verdict} liable={decision.liable_party} />
+                  <Button size="sm" onClick={() => void openEvidence(decision.txn_id)}>
+                    Evidence →
+                  </Button>
+                </div>
+              </div>
+            </SquarePanel>
+          )}
         </>
       )}
     </div>
@@ -331,191 +479,53 @@ export function AttackView() {
 
 // ---------------------------------------------------------------------------------------
 
-function PendingFooter({ total, label }: { total: number; label: string }) {
-  return (
-    <div className="flex items-end justify-between gap-4">
-      <div className="eyebrow">{label}</div>
-      <div className="num display-wide text-[2.6rem] leading-none font-semibold text-ink-2">
-        {money(total)}
-      </div>
-    </div>
-  );
+/** DENIED is the good outcome on the right-hand pane, so the strip is green and so is it. */
+function outcomeWord(decision: DecisionRecord): string {
+  if (decision.outcome === "DENY") return "DENIED";
+  if (decision.outcome === "ALLOW") return "ALLOWED";
+  return "STEP-UP REQUIRED";
 }
 
-function CartLines({ rows, visible }: { rows: Row[]; visible: number }) {
-  const scroller = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = scroller.current;
-    if (el) el.scrollTop = el.scrollHeight;
-  }, [visible]);
-
-  return (
-    <div ref={scroller} className="min-h-0 flex-1 overflow-y-auto px-1 py-1.5">
-      {rows.slice(0, visible).map((row, index) => (
-        <div
-          key={`${row.line.sku}-${index}`}
-          className={`anim-line-in flex items-baseline gap-3 border-l-2 px-3 py-1.5 ${
-            row.injected
-              ? "anim-flash-deny border-deny bg-deny-wash/45"
-              : "border-transparent"
-          }`}
-        >
-          <span className="num w-[9.5rem] shrink-0 break-words text-pill text-ink-4">
-            {row.line.sku}
-          </span>
-          <span
-            className={`min-w-0 flex-1 break-words text-body ${
-              row.injected ? "text-deny" : "text-ink"
-            }`}
-          >
-            {row.line.description}
-            {row.line.qty > 1 && <span className="ml-1.5 text-ink-4">×{row.line.qty}</span>}
-          </span>
-          {row.injected && (
-            <span className="shrink-0 rounded border border-deny/50 px-1 py-px font-mono text-pill tracking-[0.08em] text-deny">
-              INJECTED
-            </span>
-          )}
-          <span className="num w-14 shrink-0 text-right text-pill text-ink-4">
-            {row.line.mcc}
-          </span>
-          <Money
-            minorUnits={row.line.amount}
-            tone={row.injected ? "deny" : "default"}
-            className="w-28 shrink-0 text-right text-body"
-          />
-        </div>
-      ))}
-      {visible === 0 && (
-        <div className="px-3 py-2 font-mono text-pill text-ink-4">
-          agent planning…
-        </div>
-      )}
-    </div>
-  );
-}
-
-function CheckLadder({ decision, revealed }: { decision: DecisionRecord; revealed: number }) {
-  return (
-    <ul className="flex flex-col gap-1">
-      {PDP_STAGES.slice(0, revealed).map((stage, index) => {
-        const hits = stage.codes.filter((code) =>
-          (decision.reason_codes as string[]).includes(code),
-        );
-        const failed = hits.length > 0;
-        const detail = decision.violations.find((v) =>
-          (stage.codes as readonly string[]).includes(v.reason),
-        );
-        return (
-          <li
-            key={stage.key}
-            className="anim-line-in flex items-baseline gap-2.5 text-pill"
-            style={{ animationDelay: `${index * 20}ms` }}
-          >
-            <span className="num w-4 shrink-0 text-ink-4">{index + 1}</span>
-            <Check ok={!failed} size={12} />
-            <span className={`w-24 shrink-0 ${failed ? "text-deny" : "text-ink-2"}`}>
-              {stage.label}
-            </span>
-            {/* A passing stage used to print `stage.note`, restating what the check does.
-                The label names it and the tick says it held; only failures earn the line. */}
-            {failed && (
-              <span className="min-w-0 flex-1 break-words text-ink-4">
-                {detail?.detail ?? hits.join(", ")}
-              </span>
-            )}
-          </li>
-        );
-      })}
-    </ul>
-  );
-}
-
-function DiffBlock({
-  decision,
-  intentCount,
-  settled,
+/**
+ * A strip-headed pane. `SquarePanel` carries navy, blue and deny strips; the governed side
+ * needs a success strip and a matching border, which is the one fill the shared component
+ * does not offer.
+ */
+function OutcomePanel({
+  tone,
+  title,
+  children,
 }: {
-  decision: DecisionRecord;
-  intentCount: number;
-  settled: boolean;
+  tone: "deny" | "success";
+  title: ReactNode;
+  children: ReactNode;
 }) {
-  const diff = decision.diff;
+  const border = tone === "deny" ? "border-warning" : "border-success";
+  const fill = tone === "deny" ? "bg-warning" : "bg-success";
   return (
-    <div className="grid h-full grid-cols-[repeat(3,minmax(0,1fr))_minmax(0,1.3fr)] gap-4">
-      <TotalBlock
-        label="Signed intent"
-        value={diff.intent_total}
-        note={`${intentCount} line${intentCount === 1 ? "" : "s"} · hash ${decision.intent_hash.slice(0, 8)}`}
-      />
-      <TotalBlock
-        label="Executed cart"
-        value={diff.executed_total}
-        note={`${intentCount + diff.added.length} lines · hash ${decision.cart_hash.slice(0, 8)}`}
-        tone={diff.diverged ? "deny" : "default"}
-      />
-      <div className="flex min-w-0 flex-col gap-1">
-        <div className="eyebrow">Divergence</div>
-        <div
-          className={`num display-wide text-[2rem] leading-none font-semibold ${
-            diff.delta > 0 ? "text-deny" : "text-allow"
-          } ${settled ? "anim-stamp" : ""}`}
-        >
-          {signedMoney(diff.delta)}
-        </div>
-        <div className="text-pill text-ink-3">
-          {diff.added.length} line{diff.added.length === 1 ? "" : "s"} after signature
-        </div>
-      </div>
-
-      <div className="flex min-w-0 flex-col gap-1.5">
-        <div className="eyebrow">Added after signing</div>
-        <div className="max-h-24 min-h-0 overflow-y-auto pr-1">
-          {diff.added.length === 0 ? (
-            <div className="text-pill text-allow">cart matches signed intent</div>
-          ) : (
-            diff.added.map((line, index) => (
-              <div
-                key={`${line.sku}-${index}`}
-                className="flex items-baseline justify-between gap-3 py-px text-pill"
-              >
-                <span className="break-words text-deny">{line.description}</span>
-                <Money minorUnits={line.amount} tone="deny" className="shrink-0 text-pill" />
-              </div>
-            ))
-          )}
-        </div>
-        {diff.merchant_changed && (
-          <Caveat>
-            merchant swapped {diff.merchant_changed[0]} → {diff.merchant_changed[1]}
-          </Caveat>
-        )}
-      </div>
+    <div className={`flex flex-col border bg-white ${border}`}>
+      <div className={`strip px-[22px] py-[15px] text-white ${fill}`}>{title}</div>
+      <div className="flex flex-col gap-4 px-[22px] py-6">{children}</div>
     </div>
   );
 }
 
-function TotalBlock({
+function Readout({
   label,
   value,
   note,
-  tone = "default",
 }: {
   label: string;
-  value: number;
-  note: string;
-  tone?: "default" | "deny";
+  value: ReactNode;
+  note?: ReactNode;
 }) {
   return (
-    <div className="flex min-w-0 flex-col gap-1">
-      <div className="eyebrow">{label}</div>
-      <Money
-        minorUnits={value}
-        tone={tone === "deny" ? "deny" : "default"}
-        className="display-wide text-[2rem] leading-none font-semibold"
-      />
-      <div className="num break-words text-pill text-ink-4">{note}</div>
+    <div className="flex min-w-0 flex-col gap-[5px]">
+      <span className="colhead">{label}</span>
+      {value}
+      {note && (
+        <span className="text-[0.875rem] leading-[1.5] break-words text-ink-3">{note}</span>
+      )}
     </div>
   );
 }

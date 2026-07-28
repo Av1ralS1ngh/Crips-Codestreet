@@ -28,6 +28,7 @@ import type { DegradeRun, ManifestBody, PlumblineState } from "./plumbline";
  * close, because it is the beat where the argument stops being ours.
  */
 export type ScreenKey =
+  | "landing"
   | "overstatement"
   | "receipt"
   | "omission"
@@ -124,7 +125,8 @@ export const useConsole = create<ConsoleState>((set, get) => ({
   degradeRunning: false,
 
   feed: [],
-  screen: "overstatement",
+  // A judge lands on the explanation, not on beat 01 of a demo.
+  screen: "landing",
   kernelTab: "attack",
   scale: "m",
 

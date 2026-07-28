@@ -32,11 +32,26 @@
  * by nobody. Putting a rate that is not its own beside a real product's name is a claim
  * about that product, and we do not make it — not about the issuer's card, and not about
  * the competitor's.
+ *
+ * The layer above is the Claude Design handoff's beat scaffold: chip, title, standfirst,
+ * content, "What this shows", takeaway. Main scrolls, so nothing here is viewport-locked
+ * and the derivation renders at its natural height.
  */
 
 import { useMemo, useState } from "react";
-import { Bar, Button, Caveat, Empty, Panel, Seal } from "../components/ui";
-import { HashRow, KindChip, ScreenHeader, VerifyBox } from "../components/plumblineUi";
+import { Button, Caveat, Seal } from "../components/ui";
+import {
+  BarRow,
+  BeatHeader,
+  BeatPage,
+  BeatSplit,
+  HashRow,
+  KindChip,
+  ShowsPanel,
+  SquarePanel,
+  Takeaway,
+  VerifyBox,
+} from "../components/plumblineUi";
 import { derivationRows } from "../lib/derivation";
 import { ruleFor } from "../lib/derive";
 import { money, ms as fmtMs, shortHash, signedMoney } from "../lib/format";
@@ -49,7 +64,38 @@ import {
   type PerturbationAxis,
   type PerturbationInstrument,
   type PerturbationPoint,
+  type RankEntry,
 } from "../lib/plumbline";
+
+/**
+ * The handoff's slider: a 3px track and a 20px blue thumb inside a 3px white ring.
+ *
+ * The ring needs its drop shadow to separate from the track, and it is one of the three
+ * shadows the design foundation grants: `index.css` exempts `[type="range"]` from the
+ * global cancel, and a universal selector never reaches a `::-webkit-slider-thumb`, so
+ * both halves land without a stylesheet edit.
+ */
+const SLIDER =
+  "w-full cursor-pointer appearance-none bg-transparent " +
+  "[&::-webkit-slider-runnable-track]:h-[3px] [&::-webkit-slider-runnable-track]:bg-track " +
+  "[&::-webkit-slider-thumb]:mt-[-9px] [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 " +
+  "[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-pill " +
+  "[&::-webkit-slider-thumb]:border-[3px] [&::-webkit-slider-thumb]:border-white " +
+  "[&::-webkit-slider-thumb]:bg-blue [&::-webkit-slider-thumb]:cursor-grab " +
+  "[&::-webkit-slider-thumb]:shadow-[0_1px_5px_rgba(0,23,90,0.35)] " +
+  "[&::-moz-range-track]:h-[3px] [&::-moz-range-track]:bg-track " +
+  "[&::-moz-range-thumb]:h-[14px] [&::-moz-range-thumb]:w-[14px] " +
+  "[&::-moz-range-thumb]:rounded-pill [&::-moz-range-thumb]:border-[3px] " +
+  "[&::-moz-range-thumb]:border-white [&::-moz-range-thumb]:bg-blue " +
+  "[&::-moz-range-thumb]:cursor-grab " +
+  "[&::-moz-range-thumb]:shadow-[0_1px_5px_rgba(0,23,90,0.35)]";
+
+/** The one live width on the screen. Everything else moves on the 180ms colour ramp. */
+const BAR_MOTION = "transition-[width] duration-[120ms] ease-linear";
+
+const STANDFIRST =
+  "The argument stops being ours here. Move one field of one benefit and see exactly " +
+  "what it takes to move the ranking, the witness and the derivation under it.";
 
 export function ControlsView() {
   const [axisId, setAxisId] = useState(BOOK.axes[0].axis_id);
@@ -100,91 +146,123 @@ export function ControlsView() {
   // which axis and stop rather than rendering a number nobody verified.
   if (!instrument || !manifest || !local) {
     return (
-      <Panel className="h-full" title="Perturbation corpus" tone="deny">
-        <Empty>
-          <div className="flex max-w-[34rem] flex-col gap-2">
-            <span className="num text-deny">{axis.axis_id}</span>
-            <span className="text-ink-2">
+      <BeatPage>
+        <BeatHeader
+          beat="07"
+          label="Controls"
+          title="Move one number. Watch the derivation move."
+        >
+          {STANDFIRST}
+        </BeatHeader>
+        <SquarePanel title="Perturbation corpus" tone="deny">
+          <div className="flex max-w-[70ch] flex-col gap-3 px-6 py-7">
+            <span className="num text-[1.1875rem] font-semibold text-warning">
+              {axis.axis_id}
+            </span>
+            <p className="text-body text-ink">
               names instrument <span className="num">{axis.instrument_id}</span>, which this
               corpus does not carry, so there is no signed body to perturb and nothing to
               verify the witness against.
-            </span>
-            <span className="text-ink-4">
-              Regenerate with{" "}
-              <span className="num">scripts/gen_plumbline_beats.py</span>; it refuses to write
-              a corpus whose axes and instruments disagree.
-            </span>
+            </p>
+            <p className="text-[0.90625rem] leading-[1.55] text-ink-3">
+              Regenerate with <span className="num">scripts/gen_plumbline_beats.py</span>; it
+              refuses to write a corpus whose axes and instruments disagree.
+            </p>
           </div>
-        </Empty>
-      </Panel>
+        </SquarePanel>
+      </BeatPage>
     );
   }
 
   return (
-    <div className="flex h-full min-h-0 flex-col gap-3">
-      <ScreenHeader
+    <BeatPage>
+      <BeatHeader
         beat="07"
-        title="Move one number. Watch the derivation and the ranking move."
-        right={
-          <Button
-            size="sm"
-            onClick={() => setIndex(axis.baseline_index)}
-            disabled={atBaseline}
-          >
-            reset to the signed terms
-          </Button>
-        }
+        label="Controls"
+        title="Move one number. Watch the derivation move."
+        meta={`${axis.points.length} engine-evaluated stops · verification live`}
       >
-        Move one field. The engine re-ran the allocator at every stop; this browser
-        re-checks the result against a manifest it perturbed itself.
-      </ScreenHeader>
+        {STANDFIRST}
+      </BeatHeader>
 
       {/*
         One line per axis, not two. The product and the fact class used to ride under every
         label as a second uppercase line, which turned five choices into two full rows of
-        chrome above the control they select. Both facts are already on the panel below:
+        chrome above the control they select. Both facts are already on the panels below:
         the instrument names itself in the ranking, and the fact class is the knob's hint.
       */}
-      <div className="flex shrink-0 flex-wrap gap-1.5">
+      <nav className="flex flex-wrap items-center gap-2">
         {BOOK.axes.map((option) => (
           <button
             key={option.axis_id}
             type="button"
             onClick={() => selectAxis(option)}
             title={`${option.product} · ${option.fact}`}
-            className={`rounded-pill border px-3 py-1.5 text-pill transition-colors ${
+            className={`rounded-pill border px-[18px] py-[9px] text-[0.90625rem] font-bold transition-colors duration-[180ms] ${
               option.axis_id === axis.axis_id
                 ? "border-blue bg-blue text-white"
-                : "border-gray-03 text-ink-3 hover:border-blue hover:text-blue"
+                : "border-gray-03 bg-white text-ink-2 hover:border-blue hover:text-blue"
             }`}
           >
             {option.label}
           </button>
         ))}
-      </div>
+        <span className="ml-auto shrink-0">
+          <Button size="sm" onClick={() => setIndex(axis.baseline_index)} disabled={atBaseline}>
+            reset to the signed terms
+          </Button>
+        </span>
+      </nav>
 
-      <div className="grid min-h-0 flex-1 grid-cols-[minmax(0,1.05fr)_minmax(0,1.35fr)] gap-3">
-        {/* ------------------------------------------------------------------- the control */}
-        <div className="flex min-h-0 flex-col gap-3 overflow-y-auto">
-          <Panel
-            title="The knob"
-            hint={axis.fact}
-            right={<Seal signed={atBaseline && instrument.issuer_signed} />}
-            bodyClassName="flex flex-col gap-3 p-3.5"
-          >
-            <div className="flex items-end justify-between gap-3">
-              <div className="flex min-w-0 flex-col gap-0.5">
-                <span className="break-words text-body text-ink">{axis.benefit_label}</span>
-                <div className="flex items-center gap-1.5">
+      <BeatSplit
+        aside={
+          <ShowsPanel
+            points={[
+              <>
+                Every stop on this axis is a recorded run of the engine's allocator. This
+                browser optimises nothing. It re-adds the numbers and checks the balances.
+              </>,
+              <>
+                A balance is member state: two Card Members hold the same product with
+                different balances on the same day, so moving one asserts nothing about the
+                product's terms. A rate is a product term, which is why the one rate on this
+                screen sits on the instrument invented outright and signed by nobody.
+              </>,
+              <>
+                The re-check runs on every move and is left switched on. If the engine and
+                this console ever disagreed about what a perturbation means, the verdict
+                below reads <strong className="font-bold">REJECTED</strong> with a code.
+              </>,
+            ]}
+            footnote={
+              <>
+                <span className="colhead block pb-2">What to watch on this axis</span>
+                {axis.watch_for}
+              </>
+            }
+          />
+        }
+      >
+        <SquarePanel
+          title="The knob"
+          right={<Seal signed={atBaseline && instrument.issuer_signed} />}
+        >
+          <div className="flex flex-col gap-[18px] px-6 py-7">
+            <div className="flex items-end justify-between gap-5">
+              <div className="flex min-w-0 flex-col gap-2.5">
+                <span className="text-[0.96875rem] leading-snug break-words text-ink">
+                  {axis.benefit_label}
+                </span>
+                <div className="flex flex-wrap items-center gap-2">
                   <KindChip kind={axis.benefit_kind} />
-                  <span className="num text-pill text-ink-4">
-                    {axis.field} · {axis.benefit_window}
+                  <span className="num text-code text-ink-4">
+                    {axis.field} · {axis.benefit_window} · {axis.fact}
                   </span>
                 </div>
               </div>
               <span
-                className={`num display-wide shrink-0 text-[2.1rem] leading-none font-semibold ${
-                  atBaseline ? "text-ink" : "text-stepup"
+                className={`num shrink-0 text-[1.625rem] leading-none font-semibold ${
+                  atBaseline ? "text-navy" : "text-blue"
                 }`}
               >
                 {point.value_display}
@@ -199,25 +277,27 @@ export function ControlsView() {
               value={index}
               onChange={(event) => setIndex(Number(event.target.value))}
               aria-label={axis.label}
-              className="w-full accent-[var(--color-stepup)]"
+              className={SLIDER}
             />
-            <div className="flex items-baseline justify-between gap-2">
-              <span className="num text-pill text-ink-4">{axis.points[0].value_display}</span>
-              <span className="num text-pill text-ink-4">
+
+            <div className="flex items-baseline justify-between gap-5">
+              <span className="num text-code text-ink-4">{axis.points[0].value_display}</span>
+              <span className="num text-code text-ink-4">
                 {axis.points.length} engine-evaluated stops
               </span>
-              <span className="num text-pill text-ink-4">
+              <span className="num text-code text-ink-4">
                 {axis.points[axis.points.length - 1].value_display}
               </span>
             </div>
 
-            <div className="flex items-baseline justify-between gap-2 border-t border-line pt-2">
-              <span className="text-pill text-ink-3">
-                signed value{" "}
-                <span className="num text-ink-2">{baseline.value_display}</span>
+            <div className="flex items-baseline justify-between gap-5 border-t border-gray-03 pt-[14px]">
+              <span className="text-[0.90625rem] text-ink-3">
+                signed value <span className="num text-ink-2">{baseline.value_display}</span>
               </span>
               <span
-                className={`num text-pill ${atBaseline ? "text-ink-4" : "text-stepup"}`}
+                className={`num text-[0.90625rem] font-semibold ${
+                  atBaseline ? "text-ink-4" : "text-blue"
+                }`}
               >
                 {atBaseline
                   ? "unchanged"
@@ -229,62 +309,135 @@ export function ControlsView() {
               </span>
             </div>
 
-          </Panel>
+            <p className="border-l-[3px] border-navy bg-gray-01 px-[18px] py-3.5 text-[0.90625rem] leading-[1.55] text-ink-2">
+              {axis.what_it_is}
+            </p>
+          </div>
+        </SquarePanel>
 
-          <SignaturePanel
-            instrument={instrument}
-            axis={axis}
-            point={point}
-            atBaseline={atBaseline}
-          />
+        <SignaturePanel
+          instrument={instrument}
+          axis={axis}
+          point={point}
+          atBaseline={atBaseline}
+        />
 
-          <Panel
-            title="This browser's own check"
-            hint="the same verifier the other screens run"
-            bodyClassName="flex flex-col gap-2 p-3.5"
-          >
-            <VerifyBox
-              label="Re-checked here, against the manifest this console perturbed"
-              ok={local.supportsAssertion}
-              note={
-                local.supportsAssertion
-                  ? `${local.assignments} assignments realise ${money(local.realizedMinor)} in ${fmtMs(local.elapsedMs, 3)} · no solver`
-                  : (local.failures[0]?.code ?? "does not support the assertion")
-              }
-            />
-            {local.failures.map((failure, i) => (
-              <p key={`${failure.code}-${i}`} className="num text-pill text-deny">
-                {failure.detail}
-              </p>
-            ))}
-          </Panel>
-        </div>
+        <RankingPanel
+          axis={axis}
+          point={point}
+          baseline={baseline}
+          supported={local.supportsAssertion}
+        />
 
-        {/* -------------------------------------------------------- ranking and derivation */}
-        <div className="flex min-h-0 flex-col gap-3">
-          <RankingPanel axis={axis} point={point} baseline={baseline} />
+        <SquarePanel
+          title="The verdict at this setting"
+          right={<span className="colhead">recomputed on every move</span>}
+        >
+          <div className="grid grid-cols-2 gap-px bg-gray-03">
+            <div className="flex flex-col gap-2.5 bg-white px-6 py-7">
+              <VerifyBox
+                label="Re-checked here, against the manifest this console perturbed"
+                ok={local.supportsAssertion}
+                note={
+                  local.supportsAssertion
+                    ? `${local.assignments} assignments realise ${money(local.realizedMinor)} in ${fmtMs(local.elapsedMs, 3)} · no solver`
+                    : (local.failures[0]?.code ?? "does not support the assertion")
+                }
+              />
+              {local.failures.map((failure, i) => (
+                <p
+                  key={`${failure.code}-${i}`}
+                  className="num text-code leading-[1.45] break-words text-warning"
+                >
+                  {failure.detail}
+                </p>
+              ))}
+            </div>
+            <GapCell axis={axis} point={point} />
+          </div>
+        </SquarePanel>
 
-          <Panel
-            title="The derivation at this setting"
-            hint="rebuilt in the browser from the witness, not shipped as a table"
-            right={
-              <span className="num text-pill text-ink-4">
-                {point.allocator_stats.assigned} of {point.allocator_stats.considered} pairings
-                assigned
-              </span>
-            }
-            className="min-h-0 flex-1"
-            bodyClassName="min-h-0 overflow-y-auto"
-          >
-            <DerivationTable rows={rows} point={point} axis={axis} />
-          </Panel>
-        </div>
-      </div>
-    </div>
+        <SquarePanel
+          title="The derivation at this setting"
+          right={
+            <span className="colhead">
+              {point.allocator_stats.assigned} of {point.allocator_stats.considered} pairings
+              assigned
+            </span>
+          }
+        >
+          <DerivationTable rows={rows} point={point} axis={axis} />
+        </SquarePanel>
+      </BeatSplit>
+
+      <Takeaway>
+        The answer is not that the number is wrong; it is the assumption the number needs.
+      </Takeaway>
+    </BeatPage>
   );
 }
 
 // ---------------------------------------------------------------------------------------
+
+/**
+ * The gap the handoff's verdict box carries, computed from the corpus instead of a closed
+ * form. Realised-minus-asserted is zero at every stop by construction — the engine asserts
+ * exactly what its own witness realises — so the figure that actually moves is the distance
+ * to the best rival instrument under the cardholder's criterion, and it crosses zero at the
+ * stop where the subject takes the top of the ranking.
+ *
+ * Every sentence below is keyed to the axis's fact class. A balance moving is an assumption
+ * about one account; a rate moving is a product term, and the only one here belongs to an
+ * instrument nobody signed. Neither sentence may read as a published term having changed.
+ */
+function GapCell({ axis, point }: { axis: PerturbationAxis; point: PerturbationPoint }) {
+  const subject = point.ranking.find((r) => r.instrument_id === axis.instrument_id) ?? null;
+  // The ranking arrives sorted, so the first entry that is not the subject is the best rival.
+  const rival = point.ranking.find((r) => r.instrument_id !== axis.instrument_id) ?? null;
+  const rivalName =
+    (rival && BOOK.instruments.find((i) => i.instrument_id === rival.instrument_id)?.product) ??
+    rival?.instrument_id ??
+    "the rest of the candidate set";
+  const crossover =
+    axis.points.find((p) => p.ranking[0]?.instrument_id === axis.instrument_id) ?? null;
+
+  const gap = subject && rival ? subject.asserted_minor - rival.asserted_minor : null;
+
+  const assumption =
+    axis.fact === FACT_MEMBER_STATE
+      ? "a balance assumed for one account, not a term any issuer publishes"
+      : "a rate no published source supports, on the one instrument here invented outright and signed by nobody";
+
+  let sentence: string;
+  if (gap === null) {
+    sentence = "This axis names an instrument the ranking does not carry.";
+  } else if (gap > 0) {
+    sentence =
+      `It leads ${rivalName} by ${money(gap)} at this setting. ` +
+      `That takes ${point.value_display}: ${assumption}.`;
+  } else if (gap === 0) {
+    sentence = `It draws level with ${rivalName} at this setting.`;
+  } else {
+    sentence =
+      `The best allocation this manifest admits falls ${money(-gap)} short of ${rivalName}. ` +
+      (crossover
+        ? `It leads only at ${crossover.value_display}: ${assumption}.`
+        : "No stop on this axis puts it in front.");
+  }
+
+  return (
+    <div className="flex flex-col gap-2.5 bg-white px-6 py-7">
+      <span className="colhead">The gap at this setting</span>
+      <span className="num text-[1.1875rem] font-semibold text-navy">
+        {gap === null ? "—" : signedMoney(gap)}
+      </span>
+      <p className="text-[0.90625rem] leading-[1.55] text-ink-2">{sentence}</p>
+      <span className="num text-code text-ink-4">
+        against {rivalName} · not issuer-endorsed
+      </span>
+    </div>
+  );
+}
 
 function SignaturePanel({
   instrument,
@@ -298,43 +451,52 @@ function SignaturePanel({
   atBaseline: boolean;
 }) {
   return (
-    <Panel
+    <SquarePanel
       title="What the perturbation costs"
-      hint={atBaseline ? "nothing yet" : "the signature no longer covers this body"}
-      tone={atBaseline ? "proof" : "deny"}
-      bodyClassName="flex flex-col gap-1.5 p-3.5"
+      tone={atBaseline ? "plain" : "deny"}
+      right={
+        <span className={atBaseline ? "colhead" : "strip"}>
+          {atBaseline ? "nothing yet" : "signature does not cover this body"}
+        </span>
+      }
     >
-      <HashRow
-        label="signed body"
-        value={axis.signed_manifest_hash}
-        tone={atBaseline ? "proof" : "muted"}
-      />
-      <HashRow label="body on screen" value={point.manifest_hash} tone={atBaseline ? "proof" : "muted"} />
-      {/*
-        One sentence, because the two hashes above already made the point: they either
-        match or they do not. The long version of this argument — that a balance is member
-        state and moving it asserts nothing about a published product term — is the axis
-        caption, and repeating it here was the densest text on the screen.
-      */}
-      <p className="text-pill leading-snug text-ink-3">
-        {atBaseline
-          ? "Identical. This is the body the other screens value, byte for byte."
-          : instrument.issuer_signed
-            ? "Different bodies. The issuer signature does not cover what is on screen."
-            : "Different bodies. This instrument carried no issuer signature to begin with."}
-      </p>
-      {/*
-        Compressed, not cut: quoting a real product with a rate that is not its own would
-        be a claim about that product, so the one rate axis on this screen belongs to the
-        invented instrument, and the screen must keep saying so.
-      */}
-      {axis.fact !== FACT_MEMBER_STATE && (
-        <Caveat>
-          A rate is a product term; the only one here belongs to the instrument invented
-          outright and signed by nobody.
-        </Caveat>
-      )}
-    </Panel>
+      <div className="flex flex-col gap-3 px-6 py-7">
+        <HashRow
+          label="signed body"
+          value={axis.signed_manifest_hash}
+          tone={atBaseline ? "proof" : "muted"}
+        />
+        <HashRow
+          label="body on screen"
+          value={point.manifest_hash}
+          tone={atBaseline ? "proof" : "muted"}
+        />
+        {/*
+          One sentence, because the two hashes above already made the point: they either
+          match or they do not. The long version of this argument — that a balance is member
+          state and moving it asserts nothing about a published product term — is the axis
+          caption, and repeating it here was the densest text on the screen.
+        */}
+        <p className="text-[0.90625rem] leading-[1.55] text-ink-2">
+          {atBaseline
+            ? "Identical. This is the body the other screens value, byte for byte."
+            : instrument.issuer_signed
+              ? "Different bodies. The issuer signature does not cover what is on screen."
+              : "Different bodies. This instrument carried no issuer signature to begin with."}
+        </p>
+        {/*
+          Compressed, not cut: quoting a real product with a rate that is not its own would
+          be a claim about that product, so the one rate axis on this screen belongs to the
+          invented instrument, and the screen must keep saying so.
+        */}
+        {axis.fact !== FACT_MEMBER_STATE && (
+          <Caveat>
+            A rate is a product term; the only one here belongs to the instrument invented
+            outright and signed by nobody.
+          </Caveat>
+        )}
+      </div>
+    </SquarePanel>
   );
 }
 
@@ -342,10 +504,12 @@ function RankingPanel({
   axis,
   point,
   baseline,
+  supported,
 }: {
   axis: PerturbationAxis;
   point: PerturbationPoint;
   baseline: PerturbationPoint;
+  supported: boolean;
 }) {
   const baselineRank = new Map(baseline.ranking.map((r) => [r.instrument_id, r]));
   const top = point.ranking[0].asserted_minor;
@@ -354,74 +518,104 @@ function RankingPanel({
   );
 
   return (
-    <Panel
+    <SquarePanel
       title="The ranking, under the cardholder's criterion"
-      hint={moved ? "the order moved" : "the order held"}
-      right={
-        <span className="num text-pill text-ink-4">not issuer-endorsed</span>
-      }
-      bodyClassName="flex flex-col gap-1.5 p-3.5"
+      right={<span className="colhead">not issuer-endorsed</span>}
     >
-      {point.ranking.map((entry) => {
-        // Falls back to the id rather than asserting the join. A ranked instrument the
-        // corpus does not describe is a corpus bug, and a row reading its raw id is how a
-        // reader finds out; a crash on stage is not.
-        const record = BOOK.instruments.find((i) => i.instrument_id === entry.instrument_id);
-        const was = baselineRank.get(entry.instrument_id);
-        const isSubject = entry.instrument_id === axis.instrument_id;
-        const delta = entry.asserted_minor - (was?.asserted_minor ?? entry.asserted_minor);
-        const rankDelta = (was?.rank ?? entry.rank) - entry.rank;
-        return (
-          <div
-            key={entry.instrument_id}
-            className={`flex flex-col gap-1 rounded border px-2.5 py-1.5 ${
-              isSubject ? "border-stepup/45 bg-stepup-wash/50" : "border-line bg-sunken/50"
-            }`}
-          >
-            <div className="flex items-baseline gap-2">
-              <span
-                className={`num w-5 shrink-0 text-pill ${
-                  entry.rank === 1 ? "text-allow" : "text-ink-4"
-                }`}
-              >
-                #{entry.rank}
-              </span>
-              <span className="min-w-0 flex-1 break-words text-pill text-ink-2">
-                {record?.product ?? entry.instrument_id}
-                {record && <span className="text-ink-4"> · {record.issuer}</span>}
-              </span>
-              {rankDelta !== 0 && (
-                <span
-                  className={`num shrink-0 text-pill ${
-                    rankDelta > 0 ? "text-allow" : "text-deny"
-                  }`}
-                >
-                  {rankDelta > 0 ? `▲${rankDelta}` : `▼${-rankDelta}`}
-                </span>
-              )}
-              <span className="num shrink-0 text-body text-ink">
-                {entry.asserted_display}
-              </span>
-            </div>
-            <Bar
-              value={entry.asserted_minor}
-              total={top}
-              tone={isSubject ? "proof" : entry.rank === 1 ? "allow" : "default"}
+      <div className="flex flex-col gap-[26px] px-6 py-7">
+        <div className="flex flex-col gap-[22px]">
+          {point.ranking.map((entry) => (
+            <RankingBar
+              key={entry.instrument_id}
+              entry={entry}
+              was={baselineRank.get(entry.instrument_id) ?? null}
+              top={top}
+              isSubject={entry.instrument_id === axis.instrument_id}
+              supported={supported}
             />
-            {isSubject && delta !== 0 && (
-              <span className="num text-pill text-stepup">
-                {signedMoney(delta)} against the signed terms
-              </span>
-            )}
-          </div>
-        );
-      })}
-      {/*
-        The header already carries "not issuer-endorsed", which is the load-bearing half.
-        What remains worth saying is whose criterion produced this order, in one line.
-      */}
-      <Caveat>The cardholder's criterion, not the issuer's: {BOOK.criterion}.</Caveat>
-    </Panel>
+          ))}
+        </div>
+
+        <div className="flex flex-wrap items-baseline gap-x-[14px] gap-y-2 border-l-[3px] border-navy bg-gray-01 px-[18px] py-3.5">
+          <span className="colhead">Asserted</span>
+          <span className="num text-[1.0625rem] font-semibold text-navy">
+            {point.asserted_display}
+          </span>
+          <span className="ml-auto text-[0.90625rem] text-ink-3">
+            the value this witness realises at this setting · the order{" "}
+            {moved ? "moved" : "held"}
+          </span>
+        </div>
+
+        {/*
+          The header already carries "not issuer-endorsed", which is the load-bearing half.
+          What remains worth saying is whose criterion produced this order, in one line.
+        */}
+        <Caveat>The cardholder's criterion, not the issuer's: {BOOK.criterion}.</Caveat>
+      </div>
+    </SquarePanel>
+  );
+}
+
+function RankingBar({
+  entry,
+  was,
+  top,
+  isSubject,
+  supported,
+}: {
+  entry: RankEntry;
+  was: RankEntry | null;
+  top: number;
+  isSubject: boolean;
+  supported: boolean;
+}) {
+  // Falls back to the id rather than asserting the join. A ranked instrument the corpus
+  // does not describe is a corpus bug, and a row reading its raw id is how a reader finds
+  // out; a crash on stage is not.
+  const record = BOOK.instruments.find((i) => i.instrument_id === entry.instrument_id);
+  const delta = entry.asserted_minor - (was?.asserted_minor ?? entry.asserted_minor);
+  const rankDelta = (was?.rank ?? entry.rank) - entry.rank;
+
+  // Green is not "this one won". It is "this browser re-checked the witness behind this
+  // number and it held" — so the subject's bar is the only one that carries the verdict,
+  // and it drops to blue the moment the local check stops agreeing with the engine.
+  const fill = isSubject
+    ? supported
+      ? "bg-success"
+      : "bg-blue"
+    : entry.rank === 1
+      ? "bg-navy"
+      : "bg-sky";
+
+  return (
+    <BarRow
+      label={
+        <span className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+          <span className={`num ${entry.rank === 1 ? "text-success" : "text-ink-4"}`}>
+            #{entry.rank}
+          </span>
+          <span className="break-words">{record?.product ?? entry.instrument_id}</span>
+          {record && (
+            <span className="text-[0.90625rem] font-normal text-ink-4">{record.issuer}</span>
+          )}
+          {rankDelta !== 0 && (
+            <span className={`num ${rankDelta > 0 ? "text-success" : "text-warning"}`}>
+              {rankDelta > 0 ? `▲${rankDelta}` : `▼${-rankDelta}`}
+            </span>
+          )}
+        </span>
+      }
+      value={entry.asserted_display}
+      valueClass={isSubject ? "text-blue" : "text-navy"}
+      pct={top <= 0 ? 0 : (entry.asserted_minor / top) * 100}
+      fill={`${fill} ${BAR_MOTION}`}
+      sub={
+        isSubject && delta !== 0 ? (
+          <span className="text-blue">{signedMoney(delta)} against the signed terms</span>
+        ) : undefined
+      }
+    />
   );
 }
 
@@ -435,85 +629,87 @@ function DerivationTable({
   axis: PerturbationAxis;
 }) {
   return (
-    <table className="w-full border-collapse text-pill">
-      <thead>
-        <tr className="sticky top-0 z-10 bg-panel">
-          <th className="eyebrow border-b border-line px-3.5 py-2 text-left font-semibold">
-            Line
-          </th>
-          <th className="eyebrow border-b border-line px-2 py-2 text-left font-semibold">
-            Benefit
-          </th>
-          <th className="eyebrow border-b border-line px-2 py-2 text-left font-semibold">
-            Rule from the manifest
-          </th>
-          <th className="eyebrow border-b border-line px-2 py-2 text-right font-semibold">
-            Balance before → after
-          </th>
-          <th className="eyebrow border-b border-line px-3.5 py-2 text-right font-semibold">
-            Value
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((row) => {
-          const touched = row.benefit_id === axis.benefit_id;
-          return (
-            <tr
-              key={`${row.line_sku}-${row.benefit_id}`}
-              className={`border-b border-line/50 ${touched ? "bg-stepup-wash/40" : ""}`}
-            >
-              <td className="px-3.5 py-1.5">
-                <div className="break-words text-ink-2">{row.line_description}</div>
-                <span className="num text-pill text-ink-4">
-                  {money(row.line_amount)} · MCC {row.line_mcc}
-                </span>
-              </td>
-              <td className="px-2 py-1.5">
-                <div className="flex items-baseline gap-1.5">
-                  <span className={`break-words ${touched ? "text-stepup" : "text-ink-2"}`}>
-                    {row.benefit_label}
+    <>
+      <table className="w-full border-collapse">
+        <thead>
+          <tr>
+            <th className="colhead border-b border-gray-03 px-[22px] py-3 text-left">Line</th>
+            <th className="colhead border-b border-gray-03 px-3 py-3 text-left">Benefit</th>
+            <th className="colhead border-b border-gray-03 px-3 py-3 text-left">
+              Rule from the manifest
+            </th>
+            <th className="colhead border-b border-gray-03 px-3 py-3 text-right">
+              Balance before → after
+            </th>
+            <th className="colhead border-b border-gray-03 px-[22px] py-3 text-right">
+              Value
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => {
+            const touched = row.benefit_id === axis.benefit_id;
+            return (
+              <tr
+                key={`${row.line_sku}-${row.benefit_id}`}
+                className={`border-b border-gray-03 ${touched ? "bg-blue-row" : ""}`}
+              >
+                <td className="px-[22px] py-3">
+                  <div className="text-[0.90625rem] leading-snug break-words text-ink">
+                    {row.line_description}
+                  </div>
+                  <span className="num text-code text-ink-4">
+                    {money(row.line_amount)} · MCC {row.line_mcc}
                   </span>
-                  <KindChip kind={row.benefit_kind} />
-                </div>
-              </td>
-              <td className="num px-2 py-1.5 text-pill text-ink-3">{ruleFor(row)}</td>
-              <td className="num px-2 py-1.5 text-right text-pill text-ink-4">
-                {row.capacity_before === null ? (
-                  <span>no ceiling</span>
-                ) : (
-                  <span>
-                    {money(row.capacity_before)} → {money(row.capacity_after ?? 0)}
-                  </span>
-                )}
-              </td>
-              <td className="num px-3.5 py-1.5 text-right text-body text-ink">
-                {row.value_display}
-              </td>
-            </tr>
-          );
-        })}
-        <tr>
-          <td colSpan={3} className="border-t-2 border-line-2 px-3.5 py-2.5">
-            <span className="eyebrow">Witness total at this setting</span>
-          </td>
-          <td className="border-t-2 border-line-2 px-2 py-2.5 text-right">
-            <span className="num text-pill text-ink-4">
+                </td>
+                <td className="px-3 py-3">
+                  <div className="flex flex-wrap items-baseline gap-2">
+                    <span
+                      className={`text-[0.90625rem] leading-snug break-words ${
+                        touched ? "font-bold text-blue" : "text-ink"
+                      }`}
+                    >
+                      {row.benefit_label}
+                    </span>
+                    <KindChip kind={row.benefit_kind} />
+                  </div>
+                </td>
+                <td className="num px-3 py-3 text-code text-ink-3">{ruleFor(row)}</td>
+                <td className="num px-3 py-3 text-right text-code text-ink-4">
+                  {row.capacity_before === null ? (
+                    <span>no ceiling</span>
+                  ) : (
+                    <span>
+                      {money(row.capacity_before)} → {money(row.capacity_after ?? 0)}
+                    </span>
+                  )}
+                </td>
+                <td className="num px-[22px] py-3 text-right text-[0.90625rem] font-semibold text-navy">
+                  {row.value_display}
+                </td>
+              </tr>
+            );
+          })}
+          <tr className="bg-gray-01">
+            <td colSpan={3} className="border-t-2 border-navy px-[22px] py-[18px]">
+              <span className="colhead">Witness total at this setting</span>
+            </td>
+            <td className="num border-t-2 border-navy px-3 py-[18px] text-right text-code text-ink-4">
               {shortHash(point.witness_hash, 8, 6)}
-            </span>
-          </td>
-          <td className="border-t-2 border-line-2 px-3.5 py-2.5 text-right">
-            <span className="num display-wide text-[1.25rem] leading-none font-semibold text-allow">
+            </td>
+            <td className="num border-t-2 border-navy px-[22px] py-[18px] text-right text-[1.1875rem] font-semibold text-navy">
               {point.asserted_display}
-            </span>
-          </td>
-        </tr>
-        <tr>
-          <td colSpan={5} className="px-3.5 py-2">
-            <Caveat>{BOOK.disclosure}</Caveat>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div className="flex flex-col gap-2.5 border-t border-gray-03 bg-gray-01 px-[22px] py-[18px]">
+        <Caveat>
+          Rebuilt in this browser from the witness, the manifest it names and the cart it
+          binds. Nothing here arrives pre-rendered.
+        </Caveat>
+        <Caveat>{BOOK.disclosure}</Caveat>
+      </div>
+    </>
   );
 }

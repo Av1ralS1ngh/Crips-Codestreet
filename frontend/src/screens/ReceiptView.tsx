@@ -1,25 +1,42 @@
 /**
- * Beat 2 — the Decision Receipt.
+ * Beat 02 — the Decision Receipt.
  *
  * The full candidate set, not just the winner: every instrument the agent considered, what
- * each was worth, the witness hash behind each figure, and whether that figure survives an
- * independent check.
+ * each was worth, how many assignments carried that figure, and whether it survives an
+ * independent check in this browser.
  *
- * The screen is built around one line, drawn across the middle of it. Above the line are
- * facts an issuer signed: earn rates, balances, caps, protections, per manifest, with the
- * content hash and the key id. Below the line is everything the issuer did not sign — the
- * valuation policy, the criterion, the ranking, the comparison. That boundary is not a
- * caption; it is the answer to "you want us to fund the commoditisation of the thing we
- * charge for". The issuer never signs "we beat them on this cart", so the corpus contains
- * no issuer-signed assertion that a competitor won.
+ * The screen is built around one line drawn across the middle of it. Above the line are
+ * facts an issuer signed: earn rates, balances, caps, protections, per manifest. Below the
+ * line is everything the issuer did not sign — the valuation policy, the criterion, the
+ * ranking, the comparison. That boundary is not a caption; it is the answer to "you want us
+ * to fund the commoditisation of the thing we charge for". The issuer never signs "we beat
+ * them on this cart", so the corpus contains no issuer-signed assertion that a competitor
+ * won.
  */
 
-import { BoundaryRule, Caveat, Panel, Seal, SignedRegion } from "../components/ui";
-import { HashRow, ScreenHeader, PlumblineUnavailable } from "../components/plumblineUi";
-import { firstSentence, money, shortHash } from "../lib/format";
+import { BoundaryRule, Seal } from "../components/ui";
+import {
+  BeatHeader,
+  BeatPage,
+  BeatSplit,
+  HashRow,
+  PlumblineUnavailable,
+  ShowsPanel,
+  SquarePanel,
+  Takeaway,
+} from "../components/plumblineUi";
+import { firstSentence, money } from "../lib/format";
 import { manifestFor, useConsole } from "../lib/store";
 import { verifyWitness } from "../lib/witness";
-import type { InstrumentValuation, UnpricedEntry, PlumblineState } from "../lib/plumbline";
+import type { InstrumentValuation, PlumblineState, UnpricedEntry } from "../lib/plumbline";
+
+/** The three states a candidate can be in on a receipt. Never inlined at a call site. */
+const STATUS_CHOSEN = "CHOSEN";
+const STATUS_PRICED = "PRICED";
+const STATUS_UNPRICED = "UNPRICED";
+
+const CANDIDATE_GRID =
+  "grid grid-cols-[36px_minmax(0,2fr)_1fr_1fr_minmax(0,132px)_96px] items-baseline gap-4 px-[22px]";
 
 export function ReceiptView() {
   const plumbline = useConsole((s) => s.plumbline);
@@ -28,245 +45,237 @@ export function ReceiptView() {
   if (!plumbline) return <PlumblineUnavailable error={plumblineError} />;
 
   const receipt = plumbline.receipt;
-  const signedCount = receipt.candidates.filter((c) => c.issuer_signed).length;
+  const signed = receipt.candidates.filter((c) => c.issuer_signed);
+  const signedTerms = signed.reduce(
+    (sum, c) => sum + (manifestFor(plumbline, c.instrument_id)?.benefits.length ?? 0),
+    0,
+  );
+  const keyIds = [...new Set(signed.map((c) => c.key_id).filter(Boolean))];
+  const cartMinor = receipt.cart.lines.reduce((sum, line) => sum + line.amount, 0);
+  const priced = receipt.candidates.filter((c) => statusOf(c, receipt.selected) !== STATUS_UNPRICED);
 
   return (
-    <div className="flex h-full min-h-0 flex-col gap-2">
-      <ScreenHeader
+    <BeatPage>
+      <BeatHeader
         beat="02"
+        label="Receipt"
         title="The receipt names everything it considered."
-        right={
-          <div className="num flex items-baseline gap-4 text-pill text-ink-4">
-            <span>
-              cart{" "}
-              <span className="text-ink-2">
-                {money(receipt.cart.lines.reduce((sum, l) => sum + l.amount, 0))}
-              </span>{" "}
-              · {receipt.cart.lines.length} lines · {receipt.cart.merchant}
-            </span>
-            <span>
-              ledger <span className="text-ink-2">#{receipt.ledger_seq}</span> of{" "}
-              <span className="text-ink-2">{receipt.ledger_size}</span>
-            </span>
-            <span className="hash">{shortHash(receipt.entry_hash, 10, 6)}</span>
-          </div>
+        meta={`ledger #${receipt.ledger_seq} of ${receipt.ledger_size} · cart ${money(cartMinor)} · ${receipt.cart.lines.length} lines`}
+      >
+        Not just the winner. Issuer-signed facts, the stated criterion, and the full candidate
+        set with a realised value for each, so a loser can be audited as easily as a winner.
+      </BeatHeader>
+
+      <BeatSplit
+        aside={
+          <ShowsPanel
+            points={[
+              <>
+                A receipt that lists only the winner cannot be contested. Listing the losers is
+                what makes the ranking falsifiable.
+              </>,
+              <>
+                Considered-but-unpriced is recorded too. Silence about a benefit is itself a
+                claim, and it is now on the record.
+              </>,
+              <>
+                The issuer signs facts and never signs a comparison. The valuation policy and
+                the ranking are the cardholder's; their hash is recorded, not endorsed.
+              </>,
+            ]}
+            footnote={
+              <>
+                Signatures are HMAC-SHA256 under prototype keys; production signs with the
+                issuer's HSM key. The canonicalisation and the verification flow are the part
+                the argument rests on, and they are unchanged.
+              </>
+            }
+          />
         }
       >
-        Every candidate, its derivation, the criterion that ranked them, and the value the
-        agent refused to price.
-      </ScreenHeader>
-
-      <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto pr-1">
         {/* ------------------------------------------------------ above the boundary */}
-        <SignedRegion
-          signed
-          title="Issuer-signed facts"
-          owner="issuer"
-          note="earn rates · balances · caps · protections · eligibility"
-          className="shrink-0"
-        >
-          <div className="grid grid-cols-4 gap-2.5 p-3.5">
-            {receipt.candidates
-              .filter((c) => c.issuer_signed)
-              .map((candidate) => (
-                <SignedFacts key={candidate.instrument_id} candidate={candidate} />
-              ))}
-            {receipt.candidates
-              .filter((c) => !c.issuer_signed)
-              .map((candidate) => (
-                <UnsignedFacts key={candidate.instrument_id} candidate={candidate} />
-              ))}
+        <div className="grid grid-cols-2 gap-px border border-gray-03 bg-gray-03">
+          <div className="flex flex-col gap-2.5 bg-white px-6 py-[22px]">
+            <span className="colhead">Issuer-signed facts</span>
+            <span className="text-body text-ink">
+              {signed.length} of {receipt.candidates.length} manifests issuer-signed ·{" "}
+              {signedTerms} benefit terms
+            </span>
+            <div className="flex flex-wrap items-center gap-2 pt-0.5">
+              <Seal signed keyId={keyIds[0] ?? null} />
+            </div>
+            <span className="break-words text-code text-ink-4">
+              Earn rates, balances, caps, protections and eligibility. The rest are the agent's
+              own model of published terms and carry no issuer signature.
+            </span>
           </div>
-          <div className="border-t border-line px-3.5 py-2">
-            {/* The HSM sentence went. Both disclosures that matter stay: which manifests
-                are signed, and that the signatures are prototype-key HMAC. */}
-            <Caveat>
-              {signedCount} of {receipt.candidates.length} manifests are issuer-signed; the
-              rest are the agent's own model. Signatures use HMAC under prototype keys.
-            </Caveat>
+          <div className="flex flex-col gap-2.5 bg-white px-6 py-[22px]">
+            <span className="colhead">Stated decision criterion</span>
+            <span className="break-words text-body text-ink">{receipt.criterion}</span>
+            <div className="flex flex-wrap items-center gap-2 pt-0.5">
+              <Seal signed={false} />
+            </div>
+            <span className="break-words text-code text-ink-4" title={receipt.policy.note}>
+              {firstSentence(receipt.policy.note)}
+            </span>
           </div>
-        </SignedRegion>
+        </div>
 
         <BoundaryRule>signature boundary; nothing below this line is issuer-endorsed</BoundaryRule>
 
         {/* ------------------------------------------------------ below the boundary */}
-        <SignedRegion
-          signed={false}
-          title="Valuation policy and ranking"
-          owner="cardholder"
-          note="hash recorded, not endorsed"
-          className="shrink-0"
-        >
-          <div className="flex flex-col gap-2 p-3.5">
-            <div className="rounded border border-line bg-sunken px-3 py-2">
-              <div className="eyebrow mb-1">Stated decision criterion</div>
-              <p className="num text-pill leading-relaxed text-ink">{receipt.criterion}</p>
-            </div>
-            <div className="grid grid-cols-2 gap-x-6 gap-y-1">
-              <HashRow label="policy id" value={receipt.policy.policy_id} tone="muted" />
-              <HashRow label="policy sha256" value={receipt.policy.policy_hash} />
-              <HashRow label="cart sha256" value={receipt.cart_hash} />
-              <HashRow label="receipt id" value={receipt.receipt_id} tone="muted" />
-            </div>
-            {/* 492 characters in the fixture; the sentence that matters is the first. */}
-            <span title={receipt.policy.note}>
-              <Caveat>{firstSentence(receipt.policy.note)}</Caveat>
-            </span>
-          </div>
-        </SignedRegion>
-
-        <Panel
+        <SquarePanel
           title="Candidate set"
-          hint="ranked under the criterion above · every figure carries its witness"
-          bodyClassName="overflow-x-auto"
-          className="shrink-0"
+          right={
+            <span className="num text-pill font-normal text-ink-4">
+              {priced.length} instruments priced ·{" "}
+              {receipt.candidates.length - priced.length} considered, unpriced
+            </span>
+          }
         >
-          <CandidateTable plumbline={plumbline} />
-        </Panel>
+          <div className={`${CANDIDATE_GRID} border-b border-gray-02 py-3.5`}>
+            <span className="colhead">#</span>
+            <span className="colhead">Instrument</span>
+            <span className="colhead text-right">Realised</span>
+            <span className="colhead text-right">Assignments</span>
+            <span className="colhead text-right">Re-checked</span>
+            <span className="colhead text-right">Verdict</span>
+          </div>
+
+          {receipt.candidates.map((candidate) => (
+            <CandidateRow key={candidate.instrument_id} plumbline={plumbline} candidate={candidate} />
+          ))}
+        </SquarePanel>
+
+        {/* Hashes, so the object above can be pointed at rather than described. The entry
+            hash is what the log witnessed; the candidate set is inside it, which is what
+            makes an edited set detectable on beat 03. */}
+        <div className="flex flex-col gap-4 border border-gray-03 bg-gray-01 px-6 py-5">
+          <div className="grid grid-cols-2 gap-x-10 gap-y-3">
+            <HashRow label="receipt entry sha256" value={receipt.entry_hash} />
+            <HashRow label="log root" value={receipt.ledger_root} />
+            <HashRow label="cart sha256" value={receipt.cart_hash} />
+            <HashRow label="policy sha256" value={receipt.policy.policy_hash} />
+          </div>
+          {/* Identifiers, not digests: an id abbreviated head…tail is unrecoverable and
+              therefore useless to a counterparty, so these render whole. */}
+          <div className="num flex flex-wrap gap-x-8 gap-y-1.5 border-t border-gray-03 pt-3.5 text-code text-ink-4">
+            <span className="break-words">receipt {receipt.receipt_id}</span>
+            <span className="break-words">policy {receipt.policy.policy_id}</span>
+          </div>
+        </div>
 
         <UnpricedPanel candidates={receipt.candidates} />
-      </div>
-    </div>
+      </BeatSplit>
+
+      <Takeaway>If the losers are not named, the winner cannot be checked.</Takeaway>
+    </BeatPage>
   );
 }
 
 // ---------------------------------------------------------------------------------------
 
-function SignedFacts({ candidate }: { candidate: InstrumentValuation }) {
-  return (
-    <div className="flex min-w-0 flex-col gap-1 rounded border border-proof/25 bg-proof-wash/40 px-3 py-2">
-      <span className="break-words text-body font-medium text-ink">
-        {candidate.issuer} {candidate.product}
-      </span>
-      <Seal signed keyId={candidate.key_id} />
-      <HashRow label="manifest sha256" value={candidate.manifest_hash} />
-      <HashRow label="signature" value={candidate.signature ?? "—"} />
-      <span className="break-words text-pill text-ink-4">{candidate.manifest_source}</span>
-    </div>
-  );
+/**
+ * A candidate is UNPRICED when the agent declined to put an integer on it at all — no
+ * witness, no assignments. That is a state the receipt records rather than hides: silence
+ * about an instrument is a claim, and an unpriced row says which claim it was.
+ */
+function statusOf(candidate: InstrumentValuation, selected: string): string {
+  if (candidate.instrument_id === selected) return STATUS_CHOSEN;
+  if (candidate.witness.assignments.length === 0 && candidate.asserted_minor === 0) {
+    return STATUS_UNPRICED;
+  }
+  return STATUS_PRICED;
 }
 
-function UnsignedFacts({ candidate }: { candidate: InstrumentValuation }) {
-  return (
-    <div className="flex min-w-0 flex-col gap-1 rounded border border-dashed border-line-2 px-3 py-2">
-      <span className="break-words text-body font-medium text-ink-2">
-        {candidate.issuer} {candidate.product}
-      </span>
-      <Seal signed={false} />
-      <HashRow label="manifest sha256" value={candidate.manifest_hash} tone="muted" />
-      <span className="break-words text-pill text-ink-4">{candidate.manifest_source}</span>
-    </div>
-  );
-}
-
-function CandidateTable({ plumbline }: { plumbline: PlumblineState }) {
+function CandidateRow({
+  plumbline,
+  candidate,
+}: {
+  plumbline: PlumblineState;
+  candidate: InstrumentValuation;
+}) {
   const receipt = plumbline.receipt;
+  const status = statusOf(candidate, receipt.selected);
+  const chosen = status === STATUS_CHOSEN;
+  const unpriced = status === STATUS_UNPRICED;
+
+  // Deliberately keyed on the candidate's own instrument rather than on the manifest the
+  // witness names. Those are the same thing only if the witness is honest, which is the
+  // question, so letting the witness pick its own manifest would make the binding check
+  // unfalsifiable.
+  const manifest = manifestFor(plumbline, candidate.instrument_id);
+  const local = manifest
+    ? verifyWitness({
+        witness: candidate.witness,
+        manifest,
+        cart: receipt.cart,
+        cartHash: plumbline.cart_hash,
+        assertedMinor: candidate.asserted_minor,
+      })
+    : null;
 
   return (
-    <table className="w-full min-w-[54rem] border-collapse text-pill">
-      <thead>
-        <tr>
-          <th className="eyebrow border-b border-line px-2 py-2 text-right font-semibold">#</th>
-          <th className="eyebrow border-b border-line px-2 py-2 text-left font-semibold">
-            Instrument
-          </th>
-          <th className="eyebrow border-b border-line px-2 py-2 text-left font-semibold">
-            Facts
-          </th>
-          <th className="eyebrow border-b border-line px-2 py-2 text-right font-semibold">
-            Per-line sum
-          </th>
-          <th className="eyebrow border-b border-line px-2 py-2 text-right font-semibold">
-            Witness-backed value
-          </th>
-          <th className="eyebrow border-b border-line px-2 py-2 text-left font-semibold">
-            Witness
-          </th>
-          <th className="eyebrow border-b border-line px-2 py-2 text-left font-semibold">
-            Re-checked here
-          </th>
-          <th className="eyebrow border-b border-line px-3 py-2 text-right font-semibold">
-            Unpriced
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {receipt.candidates.map((candidate) => {
-          const selected = candidate.instrument_id === receipt.selected;
-          // Deliberately keyed on the candidate's own instrument rather than on the
-          // manifest the witness names. Those are the same thing only if the witness is
-          // honest, which is the question, so letting the witness pick its own manifest
-          // would make the binding check unfalsifiable.
-          const manifest = manifestFor(plumbline, candidate.instrument_id);
-          const local = manifest
-            ? verifyWitness({
-                witness: candidate.witness,
-                manifest,
-                cart: receipt.cart,
-                cartHash: plumbline.cart_hash,
-                assertedMinor: candidate.asserted_minor,
-              })
-            : null;
-          return (
-            <tr
-              key={candidate.instrument_id}
-              className={`border-b border-line/60 ${selected ? "bg-allow-wash/40" : ""}`}
-            >
-              <td className="num px-2 py-2 text-right text-ink-4">{candidate.rank ?? "—"}</td>
-              <td className="px-2 py-2">
-                <div className="flex items-baseline gap-2">
-                  <span
-                    className={`break-words font-medium ${selected ? "text-allow" : "text-ink"}`}
-                  >
-                    {candidate.product}
-                  </span>
-                  {selected && (
-                    <span className="shrink-0 rounded border border-allow/45 px-1 py-px font-mono text-pill tracking-[0.08em] text-allow uppercase">
-                      selected
-                    </span>
-                  )}
-                </div>
-                <span className="num text-pill text-ink-4">{candidate.issuer}</span>
-              </td>
-              <td className="px-2 py-2">
-                <Seal signed={candidate.issuer_signed} />
-              </td>
-              <td className="num px-2 py-2 text-right text-body text-deny/80">
-                {candidate.reconciliation.naive_display}
-              </td>
-              <td className="num px-2 py-2 text-right text-body font-medium text-ink">
-                {candidate.asserted_display}
-              </td>
-              <td className="px-2 py-2">
-                <span className="hash text-pill" title={candidate.witness_hash}>
-                  {shortHash(candidate.witness_hash, 10, 6)}
-                </span>
-                <div className="num text-pill text-ink-4">
-                  {candidate.witness.assignments.length} assignments
-                </div>
-              </td>
-              <td className="px-2 py-2">
-                <span
-                  className={`num text-pill ${
-                    local?.supportsAssertion ? "text-allow" : "text-deny"
-                  }`}
-                >
-                  {local?.supportsAssertion ? "VERIFIED" : "REJECTED"}
-                </span>
-                <div className="num text-pill text-ink-4">
-                  {local === null
-                    ? "no manifest for this instrument"
-                    : local.supportsAssertion
-                      ? "no solver, linear time"
-                      : (local.failures[0]?.code ?? "")}
-                </div>
-              </td>
-              <td className="num px-3 py-2 text-right text-ink-3">{candidate.unpriced.length}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+    <div
+      className={`${CANDIDATE_GRID} border-b border-gray-02 py-[18px] last:border-b-0 ${
+        chosen ? "bg-blue-row" : unpriced ? "bg-[#FAFBFC]" : "bg-white"
+      }`}
+    >
+      <span className={`num text-code ${chosen ? "text-blue" : "text-ink-4"}`}>
+        {candidate.rank ?? "—"}
+      </span>
+
+      <div className="flex min-w-0 flex-col gap-1">
+        <span
+          className={`break-words text-data ${
+            chosen ? "font-bold text-navy" : unpriced ? "text-ink-3" : "text-ink"
+          }`}
+        >
+          {candidate.product}
+        </span>
+        <span className="num break-words text-pill font-normal text-ink-4">
+          {candidate.issuer} · {candidate.issuer_signed ? "issuer-signed" : "not issuer-signed"}
+        </span>
+      </div>
+
+      <span
+        className={`num text-right text-body ${
+          chosen ? "font-semibold text-blue" : unpriced ? "text-ink-4" : "text-navy"
+        }`}
+      >
+        {unpriced ? "—" : candidate.asserted_display}
+      </span>
+
+      <span className="num text-right text-code text-ink-2">
+        {candidate.witness.assignments.length}
+      </span>
+
+      {/* The VerifyPair rule, at table scale: the evaluator's verdict and this browser's own
+          recomputation always render together. A single tick would be the claim "you can
+          check this yourself" made by a cell that did not. */}
+      <div className="flex flex-col items-end gap-1">
+        <span className="num text-pill font-normal text-ink-4">
+          evaluator{" "}
+          <span className={candidate.verification.supports_assertion ? "text-success" : "text-warning"}>
+            {candidate.verification.supports_assertion ? "VERIFIED" : "REJECTED"}
+          </span>
+        </span>
+        <span className="num break-words text-pill font-normal text-ink-4">
+          this console{" "}
+          <span className={local?.supportsAssertion ? "text-success" : "text-warning"}>
+            {local === null ? "NO MANIFEST" : local.supportsAssertion ? "VERIFIED" : "REJECTED"}
+          </span>
+        </span>
+      </div>
+
+      <span
+        className={`num text-right text-pill font-normal tracking-[0.06em] ${
+          chosen ? "text-success" : "text-ink-4"
+        }`}
+      >
+        {status}
+      </span>
+    </div>
   );
 }
 
@@ -279,32 +288,39 @@ function UnpricedPanel({ candidates }: { candidates: InstrumentValuation[] }) {
   }
 
   return (
-    <Panel
+    <SquarePanel
       title="Considered but unpriced"
-      hint="the integer never claims to be the whole worth of the card"
-      className="shrink-0"
-      bodyClassName="flex flex-col gap-2 p-3.5"
+      right={
+        <span className="num text-pill font-normal text-ink-4">
+          CONSIDERED_BUT_UNPRICED · {entries.length} entries
+        </span>
+      }
     >
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-2 gap-px bg-gray-03">
         {entries.map(({ instrument, entry }) => (
           <div
             key={`${instrument}-${entry.benefit_id}`}
-            className="flex min-w-0 flex-col gap-0.5 rounded border border-line bg-sunken px-2.5 py-1"
+            className="flex min-w-0 flex-col gap-1.5 bg-white px-[22px] py-4"
           >
-            <div className="flex items-baseline gap-2">
-              <span className="min-w-0 break-words text-pill text-ink-2">{entry.label}</span>
-              <span className="num ml-auto shrink-0 text-pill text-ink-4">{instrument}</span>
+            {/* Stacked, not side-by-side: a non-shrinking mono product name in a half-width
+                cell starves the label column until break-words chops it one letter a line. */}
+            <div className="flex min-w-0 flex-col gap-0.5">
+              <span className="break-words text-data text-ink">{entry.label}</span>
+              <span className="num text-pill font-normal text-ink-4">{instrument}</span>
             </div>
-            <span className="break-words text-pill text-ink-4" title={entry.note}>
+            {/* The fixture notes run 100-480 characters because they are the terms as the
+                engine models them. The first sentence identifies the benefit; the full text
+                stays on the title attribute rather than in the layout. */}
+            <span className="break-words text-code text-ink-4" title={entry.note}>
               {firstSentence(entry.note)}
             </span>
           </div>
         ))}
       </div>
-      <Caveat>
-        Declared CONSIDERED_BUT_UNPRICED. The receipt proves the agent saw them; no integer
-        claims they are worth zero.
-      </Caveat>
-    </Panel>
+      <div className="border-t border-gray-03 bg-gray-01 px-[22px] py-4 text-code text-ink-4">
+        The integer never claims to be the whole worth of the card. The receipt proves the
+        agent saw these; no number claims they are worth zero.
+      </div>
+    </SquarePanel>
   );
 }

@@ -1,5 +1,5 @@
 /**
- * Beat 3 — omission leaves a signature.
+ * Beat 03 — omission leaves a signature.
  *
  * The attack is not a forged number. It is a card that never appears: a platform that
  * quietly drops an instrument from the candidate set, and serves one log to the issuer and
@@ -7,8 +7,8 @@
  * the cardholder sees is internally consistent.
  *
  * What catches it is the relationship between two tree heads. To remove a candidate from a
- * receipt that already sits under a published head, the platform has to rewrite that entry
- * — and a rewritten entry is a different leaf, so the newer log stops being an extension of
+ * receipt that already sits under a published head, the platform has to rewrite that entry,
+ * and a rewritten entry is a different leaf, so the newer log stops being an extension of
  * the head it already signed. The consistency proof is what makes that failure legible, and
  * the console runs it here rather than trusting a boolean.
  *
@@ -18,13 +18,27 @@
  */
 
 import { useEffect, useState } from "react";
-import { Caveat, Check, Panel } from "../components/ui";
-import { ScreenHeader, PlumblineUnavailable, VerifyBox } from "../components/plumblineUi";
-import { ms as fmtMs, shortHash } from "../lib/format";
+import { Check } from "../components/ui";
+import {
+  BeatHeader,
+  BeatPage,
+  BeatSplit,
+  PlumblineUnavailable,
+  ShowsPanel,
+  SquarePanel,
+  Takeaway,
+  VerifyBox,
+} from "../components/plumblineUi";
+import { ms as fmtMs, money, shortHash } from "../lib/format";
 import { useConsole } from "../lib/store";
 import { verifyConsistency } from "../lib/transparency";
 import { useConsistency } from "../lib/useWitness";
-import type { ConsistencyProof, OmissionCase, SignedTreeHead } from "../lib/plumbline";
+import type {
+  ConsistencyProof,
+  InstrumentValuation,
+  OmissionCase,
+  SignedTreeHead,
+} from "../lib/plumbline";
 
 export function OmissionView() {
   const plumbline = useConsole((s) => s.plumbline);
@@ -39,95 +53,176 @@ export function OmissionView() {
 
   const dropped = omission.omitted_instrument;
   // The manifest id is what the log records; the product name is what a room reads.
-  const names = new Map(
-    plumbline.instruments.map((i) => [i.instrument_id, `${i.issuer} ${i.product}`]),
-  );
+  const names = new Map(plumbline.instruments.map((i) => [i.instrument_id, i.product]));
+  const ranked = new Map(plumbline.receipt.candidates.map((c) => [c.instrument_id, c]));
+
+  const publishedBest = bestOf(omission.candidates_published, ranked);
+  const servedBest = bestOf(omission.candidates_served, ranked);
+  const costMinor = Math.max(0, (publishedBest?.asserted_minor ?? 0) - (servedBest?.asserted_minor ?? 0));
 
   return (
-    <div className="flex h-full min-h-0 flex-col gap-3">
-      <ScreenHeader
+    <BeatPage>
+      <BeatHeader
         beat="03"
+        label="Omission"
         title="A card that never appears still leaves a signature."
-        right={
-          <span className="num text-pill text-ink-4">
-            {vectors === null
-              ? "replaying proof vectors…"
-              : `${vectors.passed}/${vectors.total} RFC 6962 vectors agree`}
-          </span>
+        meta={
+          vectors === null
+            ? "replaying proof vectors…"
+            : `${vectors.passed}/${vectors.total} RFC 6962 vectors agree`
         }
       >
         {omission.narrative}
-      </ScreenHeader>
+      </BeatHeader>
 
-      {/* ---------------------------------------------------------- what was served */}
-      <div className="grid shrink-0 grid-cols-2 gap-3">
-        <Panel
-          title="Candidate set in the published receipt"
-          hint={`${omission.candidates_published.length} instruments`}
-          bodyClassName="flex flex-col gap-1 p-3.5"
-        >
-          {omission.candidates_published.map((id) => (
-            <CandidateRow key={id} id={id} name={names.get(id)} dropped={false} />
-          ))}
-        </Panel>
-        <Panel
-          title="Candidate set the platform served"
-          hint={`${omission.candidates_served.length} instruments`}
-          tone="deny"
-          bodyClassName="flex flex-col gap-1 p-3.5"
-        >
-          {omission.candidates_published.map((id) => (
-            <CandidateRow
-              key={id}
-              id={id}
-              name={names.get(id)}
-              dropped={!omission.candidates_served.includes(id)}
+      <BeatSplit
+        aside={
+          <ShowsPanel
+            points={[
+              <>
+                The interesting failure is not a wrong number. It is a card that quietly never
+                entered the comparison.
+              </>,
+              <>
+                Because the set is hashed into an append-only log before the answer is returned,
+                an edited set is arithmetic to detect.
+              </>,
+              <>
+                Nobody has to be accused of anything. Two heads from one witness kill the
+                split-view attack, and the two roots simply do not agree.
+              </>,
+            ]}
+            footnote={
+              <>
+                Tree heads are signed with HMAC under prototype keys, and the log is
+                demonstrated rather than deployed; there is no third-party witness in this
+                repository. The consistency algorithm is RFC 6962 and is unchanged by either.
+              </>
+            }
+          />
+        }
+      >
+        {/* ---------------------------------------------------------- what was served */}
+        <div className="grid grid-cols-2 gap-6">
+          <SquarePanel
+            title="Candidate set in the published receipt"
+            right={
+              <span className="num text-pill font-normal text-ink-4">
+                {omission.candidates_published.length} instruments
+              </span>
+            }
+          >
+            <div className="flex flex-col py-2">
+              {omission.candidates_published.map((id) => (
+                <CandidateRow key={id} id={id} name={names.get(id)} dropped={false} />
+              ))}
+            </div>
+            <SetHash
+              label="log root · honest extension"
+              value={omission.head_b.root_hash}
+              tone="proof"
             />
-          ))}
-        </Panel>
-      </div>
+          </SquarePanel>
 
-      <div className="shrink-0 rounded-md border border-deny/40 bg-deny-wash/50 px-4 py-2.5">
-        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <span className="eyebrow text-deny">Dropped</span>
-          <span className="text-body font-medium text-ink">
-            {dropped.issuer} {dropped.product}
-          </span>
-          <span className="num text-body text-ink-2">
-            witness-backed value on this cart {dropped.asserted_display}
-          </span>
-          <span className="ml-auto text-pill text-ink-3">
-            No industry mechanism exists to record that this instrument was considered.
-          </span>
+          <SquarePanel
+            title="Candidate set the platform served"
+            right={
+              <span className="num text-pill font-normal text-ink-4">
+                {omission.candidates_served.length} instruments
+              </span>
+            }
+          >
+            <div className="flex flex-col py-2">
+              {omission.candidates_published.map((id) => (
+                <CandidateRow
+                  key={id}
+                  id={id}
+                  name={names.get(id)}
+                  dropped={!omission.candidates_served.includes(id)}
+                />
+              ))}
+            </div>
+            <SetHash
+              label="log root · edited log"
+              value={omission.head_b_edited.root_hash}
+              tone="deny"
+            />
+          </SquarePanel>
+
+          <div className="col-span-2 grid grid-cols-2 gap-px border border-gray-03 bg-gray-03">
+            <div className="flex flex-col gap-2.5 bg-white p-6">
+              <span className="colhead text-warning">Verdict</span>
+              <span className="num text-[1.1875rem] font-semibold text-warning">SET MISMATCH</span>
+              <span className="text-card-title font-normal leading-relaxed text-ink-2">
+                The set the receipt published is not the set the transparency log witnessed. No
+                industry mechanism exists to record that {dropped.product} was considered, so
+                the log is the only place the difference can show.
+              </span>
+            </div>
+            <div className="flex flex-col gap-2.5 bg-white p-6">
+              <span className="colhead">Value withheld from the comparison</span>
+              <span className="num text-[1.1875rem] font-semibold text-navy">
+                {dropped.asserted_display}
+              </span>
+              <span className="text-card-title font-normal leading-relaxed text-ink-2">
+                {dropped.issuer} {dropped.product} realises that on this cart. The published set
+                is won by {publishedBest?.product ?? "no instrument"} at{" "}
+                <span className="num">{publishedBest?.asserted_display ?? "—"}</span>, the served
+                set by {servedBest?.product ?? "no instrument"} at{" "}
+                <span className="num">{servedBest?.asserted_display ?? "—"}</span>.{" "}
+                {costMinor > 0
+                  ? `The omission costs the cardholder ${money(costMinor)}.`
+                  : "The omission costs nothing on this cart; what changes is the record."}
+              </span>
+            </div>
+          </div>
         </div>
-      </div>
 
-      {/* ------------------------------------------------------------- the two proofs */}
-      <div className="grid min-h-0 flex-1 grid-cols-2 gap-3">
-        <ProofColumn
-          title="Honest extension"
-          hint="five later receipts appended, nothing rewritten"
-          headA={omission.head_a}
-          headB={omission.head_b}
-          proof={omission.consistency_honest}
-          result={honest}
-          expectOk
-        />
-        <ProofColumn
-          title="The platform's edited log"
-          hint="one receipt rewritten to drop a candidate"
-          headA={omission.head_a}
-          headB={omission.head_b_edited}
-          proof={omission.consistency_edited}
-          result={edited}
-          expectOk={false}
-        />
-      </div>
-    </div>
+        {/* ------------------------------------------------------------- the two proofs */}
+        <div className="grid grid-cols-2 gap-6">
+          <ProofColumn
+            title="Honest extension"
+            hint="five later receipts appended, nothing rewritten"
+            headA={omission.head_a}
+            headB={omission.head_b}
+            proof={omission.consistency_honest}
+            result={honest}
+            expectOk
+          />
+          <ProofColumn
+            title="The platform's edited log"
+            hint="one receipt rewritten to drop a candidate"
+            headA={omission.head_a}
+            headB={omission.head_b_edited}
+            proof={omission.consistency_edited}
+            result={edited}
+            expectOk={false}
+          />
+        </div>
+      </BeatSplit>
+
+      <Takeaway>
+        If it is not in the ledger it did not happen; and if it was, deleting it shows.
+      </Takeaway>
+    </BeatPage>
   );
 }
 
 // ---------------------------------------------------------------------------------------
+
+/** The highest-valued instrument a set actually contains, under the receipt's ranking. */
+function bestOf(
+  ids: string[],
+  ranked: Map<string, InstrumentValuation>,
+): InstrumentValuation | null {
+  let best: InstrumentValuation | null = null;
+  for (const id of ids) {
+    const candidate = ranked.get(id);
+    if (!candidate) continue;
+    if (!best || candidate.asserted_minor > best.asserted_minor) best = candidate;
+  }
+  return best;
+}
 
 function CandidateRow({
   id,
@@ -140,29 +235,47 @@ function CandidateRow({
 }) {
   return (
     <div
-      className={`flex items-baseline gap-2.5 rounded px-2 py-1 ${
-        dropped ? "bg-deny-wash/60" : ""
+      className={`flex items-baseline justify-between gap-3 px-[22px] py-3.5 ${
+        dropped ? "border-l-[3px] border-warning bg-warning-row pl-[19px]" : ""
       }`}
     >
-      <span
-        className={`shrink-0 text-body ${
-          dropped ? "font-medium text-deny line-through decoration-2" : "text-ink"
-        }`}
-      >
-        {name ?? id}
-      </span>
-      <span
-        className={`num min-w-0 break-words text-pill ${
-          dropped ? "text-deny/70 line-through" : "text-ink-4"
-        }`}
-      >
-        {id}
-      </span>
+      <div className="flex min-w-0 flex-col gap-1">
+        <span className={`break-words text-data ${dropped ? "font-bold text-warning" : "text-ink"}`}>
+          {name ?? id}
+        </span>
+        <span
+          className={`num break-words text-pill font-normal ${dropped ? "text-warning" : "text-ink-4"}`}
+        >
+          {id}
+        </span>
+      </div>
       {dropped && (
-        <span className="ml-auto shrink-0 rounded border border-deny/50 px-1 py-px font-mono text-pill tracking-[0.08em] text-deny uppercase">
-          omitted
+        <span className="num shrink-0 text-pill font-normal tracking-[0.12em] text-warning">
+          DROPPED
         </span>
       )}
+    </div>
+  );
+}
+
+function SetHash({
+  label,
+  value,
+  tone,
+}: {
+  label: string;
+  value: string;
+  tone: "proof" | "deny";
+}) {
+  return (
+    <div className="flex items-baseline justify-between gap-3 border-t border-gray-03 px-[22px] py-4">
+      <span className="colhead break-words">{label}</span>
+      <span
+        className={`num shrink-0 text-code ${tone === "deny" ? "text-warning" : "text-blue"}`}
+        title={value}
+      >
+        {shortHash(value, 8, 6)}
+      </span>
     </div>
   );
 }
@@ -188,133 +301,139 @@ function ProofColumn({
   const ok = result?.ok ?? false;
 
   return (
-    <Panel
+    <SquarePanel
+      // The tone states which log this is, not what the verifier concluded: the right-hand
+      // log is the edited one by construction, and colouring it only after the proof
+      // settles would make the panel look like it changed its mind.
       title={title}
-      hint={hint}
-      tone={settled ? (ok ? "proof" : "deny") : "default"}
-      className="min-h-0"
-      bodyClassName="flex min-h-0 flex-col gap-3 overflow-y-auto p-3.5"
-    >
-      <div className="flex items-stretch gap-2">
-        <HeadCard head={headA} label="Head already published" />
-        <div className="flex shrink-0 items-center px-1">
-          <span className={`text-lg ${settled && ok ? "text-allow" : "text-deny"}`}>→</span>
-        </div>
-        <HeadCard head={headB} label="Head offered now" tone={expectOk ? "default" : "deny"} />
-      </div>
-
-      <VerifyBox
-        label="Consistency, recomputed in this browser"
-        ok={ok}
-        pending={!settled}
-        note={
-          !settled
-            ? "rehashing the audit path…"
-            : ok
-              ? `the older log is contained unchanged · ${fmtMs(result.elapsedMs, 2)}`
-              : result.error
-                ? result.error
-                : !result.firstMatches
-                  ? "the rebuilt old root does not match the head already signed"
-                  : "the rebuilt new root does not match the head being offered"
-        }
-      />
-
-      {settled && !ok && (
-        <div className="flex flex-col gap-1 rounded border border-deny/40 bg-deny-wash/40 px-3 py-2">
-          <span className="eyebrow text-deny">Verdict</span>
-          <p className="text-pill leading-snug text-ink-2">
-            This log is not an extension of the head the platform already signed. The edit
-            is detectable and attributable.
-          </p>
-        </div>
-      )}
-
-      <div className="flex flex-col gap-1">
-        <div className="eyebrow">
-          Audit path · {proof.path.length} node{proof.path.length === 1 ? "" : "s"} for{" "}
+      tone={expectOk ? "navy" : "deny"}
+      right={
+        <span className="num text-pill font-normal text-white">
           {proof.first_size} → {proof.second_size} entries
+        </span>
+      }
+    >
+      <div className="flex flex-col gap-4 px-[22px] py-5">
+        <span className="text-code text-ink-4">{hint}</span>
+
+        <div className="flex flex-col">
+          <HeadLine head={headA} label="Head already published" tone="default" />
+          <HeadLine head={headB} label="Head offered now" tone={expectOk ? "default" : "deny"} />
         </div>
-        <div className="flex flex-col gap-0.5">
-          {proof.path.map((hash, index) => (
-            <div key={`${hash}-${index}`} className="flex items-baseline gap-2">
-              <span className="num w-[4.6rem] shrink-0 text-pill text-ink-4">
-                {result?.steps[index]?.role ?? "—"}
-              </span>
-              <span className="hash min-w-0 flex-1 break-words text-pill" title={hash}>
-                {hash}
-              </span>
-            </div>
-          ))}
+
+        <VerifyBox
+          label="Consistency, recomputed in this browser"
+          ok={ok}
+          pending={!settled}
+          note={
+            !settled
+              ? "rehashing the audit path…"
+              : ok
+                ? `the older log is contained unchanged · ${fmtMs(result.elapsedMs, 2)}`
+                : result.error
+                  ? result.error
+                  : !result.firstMatches
+                    ? "the rebuilt old root does not match the head already signed"
+                    : "the rebuilt new root does not match the head being offered"
+          }
+        />
+
+        {settled && !ok && (
+          <div className="border-l-[3px] border-warning bg-warning-row px-4 py-3">
+            <p className="text-card-title font-normal leading-relaxed text-ink-2">
+              This log is not an extension of the head the platform already signed. The edit is
+              detectable and attributable.
+            </p>
+          </div>
+        )}
+
+        <div className="flex flex-col gap-2">
+          <span className="colhead">
+            Audit path · {proof.path.length} node{proof.path.length === 1 ? "" : "s"}
+          </span>
+          <div className="flex flex-col gap-1">
+            {proof.path.map((hash, index) => (
+              <div key={`${hash}-${index}`} className="flex items-baseline justify-between gap-3">
+                <span className="num shrink-0 text-pill font-normal text-ink-4">
+                  {result?.steps[index]?.role ?? "—"}
+                </span>
+                <span className="num shrink-0 text-code text-ink-2" title={hash}>
+                  {shortHash(hash, 8, 6)}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
+
+        {settled && (
+          <div className="flex flex-col gap-1 border-t border-gray-02 pt-3">
+            <RootLine label="rebuilt old root" value={result.computedFirst} ok={result.firstMatches} />
+            <RootLine label="signed old root" value={result.expectedFirst} ok={result.firstMatches} />
+            <RootLine
+              label="rebuilt new root"
+              value={result.computedSecond}
+              ok={result.secondMatches}
+            />
+            <RootLine
+              label="signed new root"
+              value={result.expectedSecond}
+              ok={result.secondMatches}
+            />
+          </div>
+        )}
       </div>
-
-      {settled && (
-        <div className="flex flex-col gap-0.5">
-          <RootLine label="rebuilt old root" value={result.computedFirst} ok={result.firstMatches} />
-          <RootLine label="signed old root" value={result.expectedFirst} ok={result.firstMatches} />
-          <RootLine
-            label="rebuilt new root"
-            value={result.computedSecond}
-            ok={result.secondMatches}
-          />
-          <RootLine
-            label="signed new root"
-            value={result.expectedSecond}
-            ok={result.secondMatches}
-          />
-        </div>
-      )}
-
-      {expectOk && (
-        <Caveat>
-          O(log n), and no access to the rest of the log. Two heads from one witness kill
-          the split-view attack.
-        </Caveat>
-      )}
-    </Panel>
+    </SquarePanel>
   );
 }
 
-function HeadCard({
+function HeadLine({
   head,
   label,
-  tone = "default",
+  tone,
 }: {
   head: SignedTreeHead;
   label: string;
-  tone?: "default" | "deny";
+  tone: "default" | "deny";
 }) {
   return (
     <div
-      className={`flex min-w-0 flex-1 flex-col gap-1 rounded border px-2.5 py-2 ${
-        tone === "deny" ? "border-deny/35 bg-deny-wash/35" : "border-line bg-sunken"
+      className={`flex items-baseline justify-between gap-3 border-b border-gray-02 py-2.5 last:border-b-0 ${
+        tone === "deny" ? "text-warning" : "text-ink"
       }`}
     >
-      <div className="eyebrow break-words">{label}</div>
-      <div className="num text-body text-ink">
-        {head.tree_size} <span className="text-pill text-ink-4">entries</span>
+      <div className="flex min-w-0 flex-col gap-1">
+        <span className="break-words text-card-title font-normal text-ink-2">{label}</span>
+        <span className="num break-words text-pill font-normal text-ink-4" title={head.signature}>
+          sig {shortHash(head.signature, 8, 4)} · {head.key_id}
+        </span>
       </div>
-      <span className="hash text-pill" title={head.root_hash}>
-        {shortHash(head.root_hash, 14, 8)}
-      </span>
-      <span className="num text-pill text-ink-4" title={head.signature}>
-        sig {shortHash(head.signature, 8, 4)} · {head.key_id}
-      </span>
+      <div className="flex shrink-0 flex-col items-end gap-1">
+        <span className="num text-data text-ink">
+          {head.tree_size} <span className="text-pill font-normal text-ink-4">entries</span>
+        </span>
+        <span
+          className={`num text-code ${tone === "deny" ? "text-warning" : "text-blue"}`}
+          title={head.root_hash}
+        >
+          {shortHash(head.root_hash, 8, 6)}
+        </span>
+      </div>
     </div>
   );
 }
 
 function RootLine({ label, value, ok }: { label: string; value: string; ok: boolean }) {
   return (
-    <div className="flex min-w-0 items-baseline gap-2">
-      <span className="w-[6.8rem] shrink-0 text-pill text-ink-4">{label}</span>
-      <Check ok={ok} size={10} />
+    <div className="flex min-w-0 items-baseline justify-between gap-3">
+      <span className="flex shrink-0 items-baseline gap-2">
+        <Check ok={ok} size={10} />
+        <span className="text-code text-ink-4">{label}</span>
+      </span>
       <span
-        className={`num min-w-0 flex-1 break-words text-pill ${ok ? "text-proof" : "text-deny"}`}
+        className={`num shrink-0 text-code ${ok ? "text-blue" : "text-warning"}`}
         title={value}
       >
-        {value || "—"}
+        {value ? shortHash(value, 8, 6) : "—"}
       </span>
     </div>
   );

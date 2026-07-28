@@ -9,8 +9,7 @@
  * architecture, not the setting:
  *
  *   * The receipt obligation is a caveat on the mandate the Card Member issues to THEIR
- *     OWN AGENT. The platform is asked for nothing and never sees the check. The actor
- *     column exists to make that unmissable, and the third box is deliberately empty.
+ *     OWN AGENT. The platform is asked for nothing and never sees the check.
  *   * Default posture is observe-only. A missing counterpart receipt is recorded as an
  *     unattested selection and the transaction proceeds. A corpus with no record of its
  *     own holes cannot be used to reason about coverage.
@@ -23,12 +22,22 @@
  *
  * Every string on this screen comes from `plumbline.scenarios.graceful_degrade`. The
  * posture control re-points the screen at rows the backend already computed; it does not
- * recompute anything, because nothing here is the console's to decide.
+ * recompute anything, because nothing here is the console's to decide. The matrix columns
+ * are fixed rather than fractional: the five cells collided at every fractional split the
+ * handoff tried.
  */
 
-import { useEffect, useState, type ReactNode } from "react";
-import { Button, Caveat, Empty, Panel, ReasonCode } from "../components/ui";
-import { HashRow, ScreenHeader } from "../components/plumblineUi";
+import { useEffect, useState } from "react";
+import { Button, ReasonCode } from "../components/ui";
+import {
+  BeatHeader,
+  BeatPage,
+  BeatSplit,
+  HashRow,
+  ShowsPanel,
+  SquarePanel,
+  Takeaway,
+} from "../components/plumblineUi";
 import { currencyMoney, shortHash } from "../lib/format";
 import { useConsole } from "../lib/store";
 import {
@@ -64,6 +73,59 @@ const REASON_COPY: Record<string, string> = {
   [REASON_DISCLOSURE_CAVEAT_UNDISCHARGED]: "the cardholder's own delegation did not discharge",
 };
 
+/**
+ * The matrix vocabulary. Both columns are derived from the two booleans the engine returns
+ * — `proceeds` and `coverage_eligible` — never from a string the console invented for a
+ * row. A pass that proceeds without coverage is the whole point of the beat: the
+ * transaction lands, and what is withheld is the protection that depends on evidence.
+ */
+const OUTCOME_PROCEEDS = "PROCEEDS";
+const OUTCOME_DEGRADED = "DEGRADED";
+const OUTCOME_DENIED = "DENIED";
+
+const WITHHELD_NOTHING = "nothing";
+const WITHHELD_COVERAGE = "purchase protection";
+const WITHHELD_AUTHORISATION = "authorisation";
+
+const RECEIPT_VERIFIED = "present, verified";
+const RECEIPT_PRESENT = "present";
+const RECEIPT_ABSENT = "absent";
+
+/** Fixed columns. Fractional ones collided: pass / receipt / posture / withheld / outcome. */
+const MATRIX_COLS = "grid grid-cols-[52px_148px_104px_minmax(0,1fr)_112px] gap-5";
+
+function outcomeOf(pass: DegradePass) {
+  if (!pass.proceeds) {
+    return {
+      label: OUTCOME_DENIED,
+      ink: "text-warning",
+      row: "bg-warning-row",
+      withheld: WITHHELD_AUTHORISATION,
+    };
+  }
+  if (!pass.coverage_eligible) {
+    return {
+      label: OUTCOME_DEGRADED,
+      ink: "text-attention-ink",
+      row: "bg-attention-wash",
+      withheld: WITHHELD_COVERAGE,
+    };
+  }
+  return {
+    label: OUTCOME_PROCEEDS,
+    ink: "text-success",
+    row: "bg-white",
+    withheld: WITHHELD_NOTHING,
+  };
+}
+
+function receiptOf(pass: DegradePass): string {
+  if (!pass.counterpart_receipt) return RECEIPT_ABSENT;
+  return pass.reason_code === REASON_SELECTION_ATTESTED ? RECEIPT_VERIFIED : RECEIPT_PRESENT;
+}
+
+const passKey = (pass: DegradePass) => `${pass.posture}:${pass.counterpart_receipt}`;
+
 export function DegradeView() {
   const degrade = useConsole((s) => s.degrade);
   const degradeError = useConsole((s) => s.degradeError);
@@ -80,421 +142,347 @@ export function DegradeView() {
 
   if (!degrade) {
     return (
-      <Panel className="h-full" title="Graceful degrade" tone={degradeError ? "deny" : "default"}>
-        <Empty>
-          <div className="flex max-w-[34rem] flex-col gap-2">
-            <span className="num text-ink-3">POST /api/plumbline/scenario/graceful_degrade</span>
-            <span className="text-ink-2">
+      <BeatPage>
+        <BeatHeader beat="05" label="Degrade" title="No receipt, and it still proceeds.">
+          Enforcement is elected, not assumed. The same purchase runs four times against the
+          postures a Card Member can elect, and what is withheld changes each time; the log
+          records the absence either way.
+        </BeatHeader>
+        <SquarePanel
+          title="Graceful degrade"
+          tone={degradeError ? "deny" : "plain"}
+          right={
+            <Button onClick={() => void run()} disabled={running} size="sm">
+              {running ? "running…" : "run the four passes"}
+            </Button>
+          }
+        >
+          <div className="flex flex-col gap-2.5 px-[22px] py-[26px]">
+            <span className="num text-code text-ink-4">
+              POST /api/plumbline/scenario/graceful_degrade
+            </span>
+            <span className="text-body text-ink">
               {degradeError ?? (running ? "running the four passes…" : "not run yet")}
             </span>
             {degradeError && (
-              <span className="text-ink-4">
+              <span className="text-card-title font-normal leading-[1.55] text-ink-2">
                 The scenario runs on a fixed clock, so it can be re-run without changing a
-                byte. Switch the header badge to MOCK to drive the recorded run instead.
+                byte. Switch the header badge to RECORDED to drive the recorded run instead.
               </span>
             )}
           </div>
-        </Empty>
-      </Panel>
+        </SquarePanel>
+      </BeatPage>
     );
   }
 
   const data = degrade.data;
-  const currency = data.cart.currency;
   const passes = data.passes;
-  const denied = passes.filter((p) => !p.proceeds);
-  const rowPasses = passes.filter((p) => p.posture === posture);
+  const denied = passes.filter((pass) => !pass.proceeds);
+  const rowPasses = passes.filter((pass) => pass.posture === posture);
   const active =
-    passes.find((p) => passKey(p) === selected) ??
-    rowPasses.find((p) => !p.counterpart_receipt) ??
+    passes.find((pass) => passKey(pass) === selected) ??
+    rowPasses.find((pass) => !pass.counterpart_receipt) ??
     passes[0];
 
   return (
-    <div className="flex h-full min-h-0 flex-col gap-3">
-      <ScreenHeader
+    <BeatPage>
+      <BeatHeader
         beat="05"
+        label="Degrade"
         title="No receipt, and it still proceeds."
-        right={
-          <div className="flex items-center gap-2">
-            <span className="num text-pill text-ink-4">
-              {mode === "live" ? "live scenario" : "recorded run"} · clock {degrade.clock}
-            </span>
+        meta={
+          <span className="inline-flex items-center gap-3">
+            {mode === "live" ? "live scenario" : "recorded run"} · clock {degrade.clock}
             <Button onClick={() => void run()} disabled={running} size="sm">
               {running ? "running…" : "run again"}
             </Button>
-          </div>
+          </span>
         }
       >
         {degrade.headline}
-      </ScreenHeader>
+      </BeatHeader>
 
-      <div className="grid min-h-0 flex-1 grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)] gap-3">
-        {/* ------------------------------------------------------- the posture and matrix */}
-        <div className="flex min-h-0 flex-col gap-3">
-          <PostureControl posture={posture} onChange={setPosture} />
-
-          <Panel
-            title="Four passes, the whole matrix"
-            hint="one cart, one mandate, both postures, receipt present and absent"
-            right={
-              <span className="num text-pill text-ink-4">
-                {passes.length - denied.length} proceed · {denied.length} deny
-              </span>
+      <BeatSplit
+        aside={
+          <ShowsPanel
+            points={degrade.notes}
+            footnote={
+              <>
+                The caveat rides on <span className="num">{data.mandate.mandate_id}</span>,
+                the mandate the Card Member issued to their own agent. No platform is asked
+                for anything, and no platform sees the check.
+              </>
             }
-            bodyClassName="grid grid-cols-2 gap-2 p-3"
+          />
+        }
+      >
+        <SquarePanel
+          title="Posture"
+          right={
+            <span className="num text-code font-normal text-ink-4">
+              the Card Member's own election
+            </span>
+          }
+        >
+          {/* The gap is the rule: adjacent cells on a hairline, white children. */}
+          <div className="grid grid-cols-2 gap-px bg-gray-03">
+            {([POSTURE_OBSERVE_ONLY, POSTURE_ENFORCE] as Posture[]).map((option) => {
+              const on = option === posture;
+              const copy = POSTURE_COPY[option];
+              return (
+                <button
+                  key={option}
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => setPosture(option)}
+                  className={`flex flex-col items-start gap-2.5 border-l-[3px] px-[22px] py-[18px] text-left transition-colors duration-[180ms] ${
+                    on
+                      ? "border-l-blue bg-blue-row"
+                      : "border-l-transparent bg-white hover:bg-gray-01"
+                  }`}
+                >
+                  <span className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+                    <span
+                      className={`text-[1.0625rem] font-bold ${on ? "text-navy" : "text-ink-3"}`}
+                    >
+                      {copy.title}
+                    </span>
+                    <span className="num text-pill font-normal text-ink-4">{copy.sub}</span>
+                  </span>
+                  <PostureChip posture={option} />
+                </button>
+              );
+            })}
+          </div>
+          <p className="border-t border-gray-03 bg-gray-01 px-[22px] py-4 text-card-title font-normal leading-[1.55] text-ink-2">
+            {POSTURE_COPY[posture].elected}
+          </p>
+        </SquarePanel>
+
+        <SquarePanel
+          title="Four passes, the whole matrix"
+          right={
+            <span className="num text-code text-ink-4">
+              {passes.length - denied.length} proceed · {denied.length} deny
+            </span>
+          }
+        >
+          <div
+            className={`${MATRIX_COLS} items-baseline border-b border-gray-02 px-[22px] py-3.5`}
           >
-            {passes.map((pass) => (
-              <MatrixCell
+            <span className="colhead">Pass</span>
+            <span className="colhead">Receipt</span>
+            <span className="colhead">Posture</span>
+            <span className="colhead whitespace-nowrap">Withheld</span>
+            <span className="colhead text-right">Outcome</span>
+          </div>
+
+          {passes.map((pass, index) => {
+            const outcome = outcomeOf(pass);
+            const elected = pass.posture === posture;
+            const shown = passKey(pass) === passKey(active);
+            return (
+              <button
                 key={passKey(pass)}
-                pass={pass}
-                dimmed={pass.posture !== posture}
-                active={passKey(pass) === passKey(active)}
-                onSelect={() => setSelected(passKey(pass))}
-              />
-            ))}
-          </Panel>
+                type="button"
+                aria-pressed={shown}
+                onClick={() => setSelected(passKey(pass))}
+                className={`${MATRIX_COLS} w-full items-baseline border-l-[3px] px-[22px] py-[18px] text-left transition-colors duration-[180ms] ${
+                  index < passes.length - 1 ? "border-b border-b-gray-02" : ""
+                } ${elected ? "border-l-blue" : "border-l-transparent"} ${outcome.row}`}
+              >
+                <span
+                  className={`num text-code ${shown ? "font-semibold text-blue" : "text-ink-4"}`}
+                >
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="text-data font-normal whitespace-nowrap text-ink">
+                  {receiptOf(pass)}
+                </span>
+                <PostureChip posture={pass.posture} />
+                <span className="text-data font-normal text-ink-3">{outcome.withheld}</span>
+                <span
+                  className={`num text-right text-[0.71875rem] tracking-[0.06em] ${outcome.ink}`}
+                >
+                  {outcome.label}
+                </span>
+              </button>
+            );
+          })}
+        </SquarePanel>
 
-          <PassDetail pass={active} data={data} />
+        <div className="grid grid-cols-2 gap-6">
+          <RecordCard pass={active} index={passes.indexOf(active)} data={data} />
+          <LogCard data={data} />
         </div>
+      </BeatSplit>
 
-        {/* --------------------------------------------------------- where the check lives */}
-        <div className="flex min-h-0 flex-col gap-3 overflow-y-auto">
-          <EnforcementPoint data={data} denied={denied.length} />
-          <CoveragePanel passes={passes} />
-          <LogPanel data={data} currency={currency} />
-          <Panel title="Read into the record" bodyClassName="flex flex-col gap-2 p-3.5">
-            {degrade.notes.map((note) => (
-              <Caveat key={note}>{note}</Caveat>
-            ))}
-          </Panel>
-        </div>
-      </div>
-    </div>
+      <Takeaway>No receipt is a recorded fact before it is ever a denial.</Takeaway>
+    </BeatPage>
   );
 }
-
-const passKey = (pass: DegradePass) => `${pass.posture}:${pass.counterpart_receipt}`;
 
 // ---------------------------------------------------------------------------------------
 
-function PostureControl({
-  posture,
-  onChange,
-}: {
-  posture: Posture;
-  onChange: (next: Posture) => void;
-}) {
+/** The posture, as the engine spells it. 3px radius: the one non-square, non-pill shape. */
+function PostureChip({ posture }: { posture: Posture }) {
   return (
-    <Panel
-      title="Posture"
-      hint="the Card Member's election, on their own mandate"
-      bodyClassName="flex flex-col gap-2 p-3"
+    <span
+      className={`num justify-self-start rounded-[3px] bg-gray-02 px-[9px] py-[3px] text-[0.71875rem] whitespace-nowrap uppercase ${
+        posture === POSTURE_ENFORCE ? "text-navy" : "text-ink-3"
+      }`}
     >
-      <div className="grid grid-cols-2 gap-2">
-        {([POSTURE_OBSERVE_ONLY, POSTURE_ENFORCE] as Posture[]).map((option) => {
-          const on = option === posture;
-          const copy = POSTURE_COPY[option];
-          return (
-            <button
-              key={option}
-              type="button"
-              onClick={() => onChange(option)}
-              className={`flex flex-col items-start gap-0.5 rounded border px-3 py-2 text-left transition-colors ${
-                on
-                  ? option === POSTURE_ENFORCE
-                    ? "border-deny/55 bg-deny-wash text-deny"
-                    : "border-allow/45 bg-allow-wash text-allow"
-                  : "border-line-2 text-ink-3 hover:text-ink-2"
-              }`}
-            >
-              <span className="display-wide text-[1.05rem] leading-none font-semibold">
-                {copy.title}
-              </span>
-              <span className="num text-pill tracking-[0.06em] uppercase opacity-80">
-                {copy.sub}
-              </span>
-              <span className="num text-pill text-ink-4">{option}</span>
-            </button>
-          );
-        })}
-      </div>
-      <p className="text-pill leading-snug text-ink-2">{POSTURE_COPY[posture].elected}</p>
-    </Panel>
+      {posture}
+    </span>
   );
 }
 
-function MatrixCell({
+/**
+ * The entry the selected pass appended, verbatim. Every pass appends before it returns,
+ * including the two where no receipt existed — absence is a fact the log carries, which is
+ * what makes the corpus usable for reasoning about its own holes.
+ */
+function RecordCard({
   pass,
-  dimmed,
-  active,
-  onSelect,
+  index,
+  data,
 }: {
   pass: DegradePass;
-  dimmed: boolean;
-  active: boolean;
-  onSelect: () => void;
+  index: number;
+  data: DegradeData;
 }) {
-  const proceeds = pass.proceeds;
   return (
-    <button
-      type="button"
-      onClick={onSelect}
-      className={`flex flex-col gap-1.5 rounded border px-3 py-2.5 text-left transition-colors ${
-        proceeds ? "border-allow/35 bg-allow-wash/60" : "border-deny/55 bg-deny-wash"
-      } ${dimmed ? "opacity-45" : ""} ${active ? "outline outline-2 outline-blue" : ""}`}
-    >
-      <div className="flex items-baseline justify-between gap-2">
-        <span className="num text-pill tracking-[0.08em] text-ink-3 uppercase">
-          {pass.posture}
+    <SquarePanel
+      title="Read into the record"
+      right={
+        <span className="num text-code text-ink-4">
+          pass {String(index + 1).padStart(2, "0")} · log entry {pass.log_seq}
         </span>
-        <span className="num text-pill text-ink-4">seq {pass.log_seq}</span>
-      </div>
-      <div className="text-pill text-ink-2">
-        counterpart receipt{" "}
-        <span className={pass.counterpart_receipt ? "text-ink" : "text-deny"}>
-          {pass.counterpart_receipt ? "present" : "absent"}
-        </span>
-      </div>
-      <div
-        className={`display-wide text-[1.15rem] leading-none font-semibold ${
-          proceeds ? "text-allow" : "text-deny"
-        }`}
-      >
-        {proceeds ? "PROCEEDS" : "DOES NOT DISCHARGE"}
-      </div>
-      <ReasonCode code={pass.reason_code} tone={proceeds ? "muted" : "deny"} />
-    </button>
-  );
-}
-
-function PassDetail({ pass, data }: { pass: DegradePass; data: DegradeData }) {
-  const record = pass.assessment.record;
-  return (
-    <Panel
-      title="What the engine returned for that pass"
-      hint={REASON_COPY[pass.reason_code] ?? ""}
-      tone={pass.proceeds ? "default" : "deny"}
-      className="min-h-0 flex-1"
-      bodyClassName="flex min-h-0 flex-col gap-2.5 overflow-y-auto p-3.5"
+      }
     >
-      <p className="num text-pill leading-relaxed text-ink-2">{pass.detail}</p>
+      <div className="flex flex-col gap-3.5 px-[22px] py-[22px]">
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-2">
+          <ReasonCode code={pass.reason_code} tone={pass.proceeds ? "muted" : "deny"} />
+          <span className="text-card-title font-normal leading-[1.55] text-ink-3">
+            {REASON_COPY[pass.reason_code] ?? ""}
+          </span>
+        </div>
 
-      {!pass.proceeds && (
-        <div className="flex flex-col gap-1 rounded border border-deny/40 bg-deny-wash/50 px-3 py-2">
-          <span className="eyebrow text-deny">What actually failed</span>
-          {/* This used to restate the engine's own detail, rendered verbatim two lines
-              above, and then draw the spend-limit analogy. Both went. What is left is the
-              only part the detail does not already say. */}
-          <p className="text-pill leading-snug text-ink-2">
+        <p className="text-data font-normal leading-[1.6] text-ink">{pass.detail}</p>
+
+        {!pass.proceeds && (
+          <p className="border-l-[3px] border-warning bg-gray-01 px-[18px] py-3.5 text-data font-normal leading-[1.5] text-ink">
             Their own delegated authority failing to discharge, on{" "}
-            <span className="num text-ink">{data.mandate.mandate_id}</span>. No issuer
-            declined anything, and no platform was asked.
+            <span className="num">{data.mandate.mandate_id}</span>. No issuer declined
+            anything, and no platform was asked.
           </p>
-        </div>
-      )}
+        )}
 
-      <div className="flex flex-col gap-1.5 border-t border-line pt-2.5">
-        <span className="eyebrow">The record that landed in the log</span>
-        {Object.entries(record).map(([key, value]) => (
-          <div key={key} className="flex min-w-0 items-baseline gap-2">
-            <span className="num w-[8.5rem] shrink-0 text-pill text-ink-4">{key}</span>
-            <span
-              className={`num min-w-0 flex-1 break-words text-pill ${
-                /^[0-9a-f]{32,}$/.test(String(value)) ? "text-proof" : "text-ink-2"
-              }`}
-              title={String(value)}
-            >
-              {String(value)}
-            </span>
-          </div>
-        ))}
+        <div className="flex flex-col gap-2 border-t border-gray-03 pt-3.5">
+          <span className="colhead">The entry the pass appended</span>
+          {Object.entries(pass.assessment.record).map(([key, value]) => {
+            const text = String(value);
+            const isHash = /^[0-9a-f]{32,}$/.test(text);
+            return (
+              <div key={key} className="flex min-w-0 items-baseline gap-3">
+                <span className="num w-[7.5rem] shrink-0 text-[0.71875rem] text-ink-4">
+                  {key}
+                </span>
+                <span
+                  className={`num min-w-0 flex-1 break-words text-code ${
+                    isHash ? "text-blue" : "text-ink-2"
+                  }`}
+                  title={text}
+                >
+                  {isHash ? shortHash(text, 10, 8) : text}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+
+        <p className="text-code leading-relaxed text-ink-4">
+          Hashes and identifiers only. The log never carries the cart, and never a
+          credential.
+        </p>
       </div>
-      <Caveat>
-        Hashes and identifiers only. The log never carries the cart, and never a credential.
-      </Caveat>
-    </Panel>
+    </SquarePanel>
   );
 }
 
-function EnforcementPoint({ data, denied }: { data: DegradeData; denied: number }) {
-  return (
-    <Panel
-      title="Where the check lives"
-      hint="and where it does not"
-      bodyClassName="flex flex-col gap-2 p-3.5"
-    >
-      <Actor
-        role="Card Member"
-        detail={
-          <>
-            issues <span className="num text-ink-2">{data.mandate.mandate_id}</span> to their
-            own agent, carrying a disclosure caveat
-          </>
-        }
-        tone="ink"
-      />
-      <Connector label="the caveat travels with the delegation" />
-      <Actor
-        role="Their shopping agent"
-        detail={
-          <>
-            must produce a receipt to discharge it. Under enforcement this is the party that
-            fails, {denied} of {data.passes.length} passes.
-          </>
-        }
-        tone="deny"
-      />
-      <Connector label="nothing crosses this line" struck />
-      <Actor
-        role="The third-party checkout"
-        detail="asked for nothing. Sees no check, holds no obligation, is not a party to the caveat."
-        tone="absent"
-      />
-      <Caveat>
-        A credential that hard-fails in someone else's checkout gets routed around. So the
-        enforcement point moved; it was not softened.
-      </Caveat>
-    </Panel>
-  );
-}
-
-function Actor({
-  role,
-  detail,
-  tone,
-}: {
-  role: string;
-  detail: ReactNode;
-  tone: "ink" | "deny" | "absent";
-}) {
-  const styles = {
-    ink: "border-line-2 bg-raised",
-    deny: "border-deny/40 bg-deny-wash/40",
-    absent: "border-dashed border-line-2 bg-transparent",
-  }[tone];
-  return (
-    <div className={`flex flex-col gap-0.5 rounded border px-3 py-2 ${styles}`}>
-      <span
-        className={`text-body font-medium ${tone === "absent" ? "text-ink-3" : "text-ink"}`}
-      >
-        {role}
-      </span>
-      <span
-        className={`text-pill leading-snug ${tone === "absent" ? "text-ink-4" : "text-ink-3"}`}
-      >
-        {detail}
-      </span>
-    </div>
-  );
-}
-
-function Connector({ label, struck }: { label: string; struck?: boolean }) {
-  return (
-    <div className="flex items-center gap-2 pl-3">
-      <span className={`h-3 w-px ${struck ? "bg-deny/50" : "bg-line-2"}`} />
-      <span
-        className={`text-pill ${struck ? "text-deny/70 line-through decoration-deny/50" : "text-ink-4"}`}
-      >
-        {label}
-      </span>
-    </div>
-  );
-}
-
-function CoveragePanel({ passes }: { passes: DegradePass[] }) {
-  const covered = passes.filter((p) => p.coverage_eligible).length;
-  return (
-    <Panel
-      title="What is withheld instead"
-      hint="coverage, never authorization"
-      tone="proof"
-      bodyClassName="flex flex-col gap-2 p-3.5"
-    >
-      <div className="grid grid-cols-2 gap-2">
-        <div className="flex flex-col gap-0.5">
-          <span className="eyebrow">Authorization</span>
-          <span className="num display-wide text-[1.3rem] leading-none font-semibold text-allow">
-            {passes.filter((p) => p.proceeds).length}/{passes.length}
-          </span>
-          <span className="text-pill text-ink-4">proceed</span>
-        </div>
-        <div className="flex flex-col gap-0.5">
-          <span className="eyebrow">Purchase protection</span>
-          <span className="num display-wide text-[1.3rem] leading-none font-semibold text-stepup">
-            {covered}/{passes.length}
-          </span>
-          <span className="text-pill text-ink-4">covered</span>
-        </div>
-      </div>
-      {/* The carrot-and-stick gloss was cut. The two counters above already say it. */}
-      <p className="text-pill leading-snug text-ink-2">
-        No receipt, no Agent Purchase Protection. Coverage is conditioned on evidence;
-        authorization is not.
-      </p>
-    </Panel>
-  );
-}
-
-function LogPanel({ data, currency }: { data: DegradeData; currency: string }) {
+/** The log state after the four passes, and what the receipt under assessment attests. */
+function LogCard({ data }: { data: DegradeData }) {
+  const head = data.signed_tree_head;
   const receipt = data.receipt.receipt;
   const chosen = receipt.candidate_set.candidates.find(
-    (c) => c.instrument_id === receipt.selection.instrument_id,
+    (candidate) => candidate.instrument_id === receipt.selection.instrument_id,
   );
   return (
-    <Panel
+    <SquarePanel
       title="The log, after four passes"
-      hint={`tree size ${data.signed_tree_head.tree_size}`}
-      tone="proof"
-      bodyClassName="flex flex-col gap-2 p-3.5"
+      right={<span className="num text-code text-ink-4">tree size {head.tree_size}</span>}
     >
-      <div className="flex flex-col gap-1">
-        {Object.entries(data.log_entry_kinds).map(([kind, count]) => (
-          <div key={kind} className="flex items-baseline justify-between gap-2">
-            <span className="num text-pill text-ink-3">{kind}</span>
-            <span className="num text-pill text-ink">{count}</span>
-          </div>
-        ))}
-      </div>
-      <div className="flex flex-col gap-1 border-t border-line pt-2">
-        {Object.entries(data.reason_code_counts).map(([code, count]) => (
-          <div key={code} className="flex items-baseline justify-between gap-2">
-            <span className="num text-pill text-ink-3">{code}</span>
-            <span className="num text-pill text-ink">{count}</span>
-          </div>
-        ))}
-      </div>
-      <HashRow label="tree root" value={data.signed_tree_head.root_hash} />
-      <span className="num text-pill text-ink-4">
-        head signed {shortHash(data.signed_tree_head.signature.value, 10, 6)} ·{" "}
-        {data.signed_tree_head.signature.alg}
-      </span>
-      <div className="flex flex-col gap-1 border-t border-line pt-2">
-        <span className="eyebrow">The selection under assessment</span>
-        <div className="flex items-baseline justify-between gap-2">
-          <span className="min-w-0 break-words text-pill text-ink-2">
-            {chosen ? `${chosen.issuer} · ${chosen.product}` : receipt.selection.instrument_id}
-          </span>
-          <span className="num shrink-0 text-pill text-ink">
-            {chosen?.asserted_value_display ?? currencyMoney(data.cart_total_minor, currency)}
+      <div className="flex flex-col gap-3.5 px-[22px] py-[22px]">
+        <div className="flex flex-col gap-2">
+          {Object.entries(data.log_entry_kinds).map(([kind, count]) => (
+            <div key={kind} className="flex items-baseline justify-between gap-3">
+              <span className="num text-code text-ink-2">{kind}</span>
+              <span className="num text-code font-semibold text-navy">{count}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-col gap-2 border-t border-gray-03 pt-3.5">
+          {Object.entries(data.reason_code_counts).map(([code, count]) => (
+            <div key={code} className="flex items-baseline justify-between gap-3">
+              <span className="num min-w-0 break-words text-code text-ink-2">{code}</span>
+              <span className="num shrink-0 text-code font-semibold text-navy">{count}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-col gap-2 border-t border-gray-03 pt-3.5">
+          <HashRow label="tree root" value={head.root_hash} />
+          <span className="num text-code text-ink-4">
+            head signed {shortHash(head.signature.value, 10, 6)} · {head.signature.alg}
           </span>
         </div>
-        <div className="flex items-baseline gap-2">
-          <ReasonCode code={receipt.attestation.outcome} tone="muted" />
-          <span className="text-pill text-ink-4">
-            {receipt.attestation.faithful
-              ? "certifies compliance whether or not the issuer's own card won"
-              : "the attestation found the ranking unfaithful"}
+
+        <div className="flex flex-col gap-2 border-t border-gray-03 pt-3.5">
+          <span className="colhead">The selection under assessment</span>
+          <div className="flex items-baseline justify-between gap-3">
+            <span className="min-w-0 break-words text-data font-normal text-ink-2">
+              {chosen
+                ? `${chosen.issuer} · ${chosen.product}`
+                : receipt.selection.instrument_id}
+            </span>
+            <span className="num shrink-0 text-code font-semibold text-navy">
+              {chosen?.asserted_value_display ??
+                currencyMoney(data.cart_total_minor, data.cart.currency)}
+            </span>
+          </div>
+          <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+            <span
+              className={`num text-code font-medium ${
+                receipt.attestation.faithful ? "text-success" : "text-warning"
+              }`}
+            >
+              {receipt.attestation.outcome}
+            </span>
+            <span className="text-code text-ink-4">
+              {receipt.attestation.faithful
+                ? "certifies compliance whether or not the issuer's own card won"
+                : "the attestation found the ranking unfaithful"}
+            </span>
+          </div>
+          <span className="text-code leading-relaxed text-ink-4">
+            Signed {data.receipt.signature.role}-side. No issuer signature covers a ranking.
+            Cart {currencyMoney(data.cart_total_minor, data.cart.currency)} at{" "}
+            <span className="num">{data.cart.merchant}</span>.
           </span>
         </div>
-        {/* The compliance-symmetry sentence was cut, not lost: the attestation line
-            directly above now carries it against the outcome code. What has to survive
-            here is the narrow signing scope, so that is all this says. */}
-        <Caveat>
-          Signed {data.receipt.signature.role}-side. No issuer signature covers a ranking.
-          Cart {currencyMoney(data.cart_total_minor, currency)} at{" "}
-          <span className="num">{data.cart.merchant}</span>.
-        </Caveat>
       </div>
-    </Panel>
+    </SquarePanel>
   );
 }
