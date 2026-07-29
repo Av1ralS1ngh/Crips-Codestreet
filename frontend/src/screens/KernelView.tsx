@@ -26,7 +26,6 @@ import {
   BeatPage,
   BeatSplit,
   ShowsPanel,
-  SquarePanel,
   Takeaway,
 } from "../components/plumblineUi";
 import { humanReason, money, ms as fmtMs } from "../lib/format";
@@ -37,39 +36,23 @@ import { DelegationView } from "./DelegationView";
 import { ExposureView } from "./ExposureView";
 import { KillSwitchView } from "./KillSwitchView";
 
-const TABS: { key: KernelTab; label: string; note: string }[] = [
-  { key: "attack", label: "Injection", note: "theft, then no theft" },
-  { key: "delegation", label: "Delegation", note: "the escalation proof" },
-  { key: "kill", label: "Kill switch", note: "one row, four hops" },
-  { key: "exposure", label: "Exposure", note: "protection, priced" },
+const TABS: { key: KernelTab; label: string }[] = [
+  { key: "attack", label: "Injection" },
+  { key: "delegation", label: "Delegation" },
+  { key: "kill", label: "Kill switch" },
+  { key: "exposure", label: "Exposure" },
 ];
 
 /**
- * The closing statement is the same on all four tabs on purpose: it is the standing
- * constraint the whole screen exists to make true, and it is the sentence that keeps the
- * enforcement point on the cardholder's side of the wire.
+ * One pair of statements for all four tabs, because the sidebar sits outside the tab
+ * switch. The second is the standing constraint the screen exists to make true: it keeps
+ * the enforcement point on the cardholder's side of the wire, so it cannot vary with which
+ * tab is open.
  */
-const ENFORCEMENT_POINT =
-  "An agent that cannot produce a receipt fails to discharge the cardholder's own delegated authority. No platform is asked for anything and none of them see the check.";
-
-const SHOWS: Record<KernelTab, string[]> = {
-  attack: [
-    "The same agent, the same injected merchant page, run down both sides. Only the governed side reads the signed intent back before it authorises.",
-    "An injected line is not a larger basket. It is a basket the Card Member never signed, and that is a different claim entirely.",
-  ],
-  delegation: [
-    "A mandate can be narrowed and never widened. Entailment is checked at every hop, before the child credential exists.",
-    "Set containment is the check a competent engineer writes first, and it says yes to a hop the solver refuses.",
-  ],
-  kill: [
-    "One row is written. Every descendant credential in flight fails closed at its next discharge fetch.",
-    "Nothing is notified and nothing is enumerated, including sub-agents that were never registered anywhere.",
-  ],
-  exposure: [
-    "Coverage is underwritten from decisions the ledger already recorded, per operator rather than per platform.",
-    "Strict is not free. The operator picks a point on this curve and the log records which one.",
-  ],
-};
+const SHOWS = [
+  "The receipt obligation is enforceable because the mandate underneath it is. Same machinery as a spend limit, applied to a disclosure.",
+  "An agent that cannot produce a receipt fails to discharge the cardholder's own delegated authority.",
+];
 
 export function KernelView() {
   const tab = useConsole((s) => s.kernelTab);
@@ -77,7 +60,7 @@ export function KernelView() {
 
   const sidebar = (
     <>
-      <ShowsPanel points={[...SHOWS[tab], ENFORCEMENT_POINT]} />
+      <ShowsPanel points={SHOWS} />
       <DecisionFeed />
     </>
   );
@@ -89,7 +72,9 @@ export function KernelView() {
         label="Governance kernel"
         title="The layer the receipt obligation rides on."
       >
-        The Card Member caveats their own agent; no platform is asked for anything.
+        A caveat the Card Member puts on their own agent. A mandate can be narrowed and never
+        widened, entailment is checked at every delegation hop, and one row kills a whole
+        subtree.
       </BeatHeader>
 
       {/* The rail's active treatment, at pill scale: one selection affordance for the
@@ -100,7 +85,6 @@ export function KernelView() {
             key={item.key}
             type="button"
             onClick={() => setTab(item.key)}
-            title={item.note}
             className={`rounded-pill border px-[18px] py-[9px] text-[0.84375rem] font-semibold transition-colors duration-[180ms] ${
               tab === item.key
                 ? "border-blue bg-blue text-white"
@@ -119,7 +103,10 @@ export function KernelView() {
         {tab === "exposure" && <ExposureView />}
       </BeatSplit>
 
-      <Takeaway>One caveat, checked at every hop, revocable in one row.</Takeaway>
+      <Takeaway>
+        Every state-changing decision appends to the ledger before it is returned. If it is
+        not in the ledger, it did not happen.
+      </Takeaway>
     </BeatPage>
   );
 }
@@ -141,77 +128,44 @@ const CONN_LABEL: Record<ConnStatus, string> = {
 function DecisionFeed() {
   const feed = useConsole((s) => s.feed);
   const conn = useConsole((s) => s.conn);
-  const clearFeed = useConsole((s) => s.clearFeed);
 
   const base = feed.length ? feed[feed.length - 1].at : 0;
 
   return (
-    <SquarePanel
-      title="Decision feed"
-      tone="navy"
-      right={
-        <span className="flex items-center gap-3">
-          <span className="num text-[0.71875rem] tracking-normal text-white/70 normal-case">
-            {CONN_LABEL[conn]}
-          </span>
-          {feed.length > 0 && (
-            <button
-              type="button"
-              onClick={clearFeed}
-              className="num text-[0.71875rem] tracking-normal text-white/60 normal-case transition-colors duration-[180ms] hover:text-white"
-            >
-              clear
-            </button>
-          )}
+    <div className="flex flex-col border border-gray-03 bg-white">
+      <div className="flex items-center gap-2.5 border-b border-gray-03 px-5 py-3.5">
+        {/* The dot is the transport, not decoration: it is green only while the socket the
+            label names is actually open. */}
+        <span
+          className={`h-1.5 w-1.5 shrink-0 rounded-pill ${
+            conn === "open" ? "bg-success" : "bg-gray-04"
+          }`}
+        />
+        <span className="num text-[0.65625rem] font-semibold tracking-[0.16em] text-navy uppercase">
+          Decision feed
         </span>
-      }
-    >
-      {feed.length === 0 ? (
-        <p className="px-5 py-[18px] text-[0.84375rem] leading-[1.6] text-ink-3">
-          No traffic yet. Every state-changing decision appends to the ledger before it is
-          returned; if it is not in the ledger, it did not happen.
-        </p>
-      ) : (
-        feed.slice(0, 12).map((item) => <FeedRow key={item.id} item={item} base={base} />)
-      )}
-    </SquarePanel>
+        <span className="num ml-auto text-[0.6875rem] text-ink-4">{CONN_LABEL[conn]}</span>
+      </div>
+      <div className="flex flex-col">
+        {feed.slice(0, 12).map((item) => (
+          <FeedRow key={item.id} item={item} base={base} />
+        ))}
+      </div>
+    </div>
   );
 }
 
 function FeedRow({ item, base }: { item: FeedItem; base: number }) {
-  const openEvidence = useConsole((s) => s.openEvidence);
-  const evidenceTxn = useConsole((s) => s.evidenceTxn);
   const meta = describe(item);
   const stamp = `T+${((item.at - base) / 1000).toFixed(1)}s`;
 
-  const body = (
-    <>
-      <span className="flex items-baseline justify-between gap-3">
-        <span className={`num text-[0.75rem] font-medium ${meta.tone}`}>{meta.verb}</span>
-        <span className="num text-[0.6875rem] font-normal text-ink-4">{stamp}</span>
-      </span>
-      <span className="text-[0.84375rem] leading-[1.5] break-words text-ink-2">{meta.text}</span>
-    </>
-  );
-
-  if (item.event.kind === "decision") {
-    const txn = item.event.payload.txn_id;
-    return (
-      <button
-        type="button"
-        onClick={() => void openEvidence(txn)}
-        className={`anim-line-in flex w-full flex-col gap-1 border-b border-gray-02 px-5 py-3.5 text-left transition-colors duration-[180ms] last:border-b-0 ${
-          evidenceTxn === txn ? "bg-gray-01" : "bg-white hover:bg-gray-01"
-        }`}
-      >
-        {body}
-      </button>
-    );
-  }
-
   return (
     <div className="anim-line-in flex flex-col gap-1 border-b border-gray-02 px-5 py-3.5 last:border-b-0">
-      {body}
+      <span className="flex items-baseline justify-between gap-3">
+        <span className={`num text-[0.75rem] ${meta.tone}`}>{meta.verb}</span>
+        <span className="num text-[0.6875rem] text-ink-4">{stamp}</span>
+      </span>
+      <span className="text-[0.84375rem] leading-[1.5] break-words text-ink-2">{meta.text}</span>
     </div>
   );
 }

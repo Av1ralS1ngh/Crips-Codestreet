@@ -77,7 +77,7 @@ export function LandingView() {
             <h1 className="max-w-[15ch] text-hero text-balance">Proving what a card is worth.</h1>
             <p className="max-w-[52ch] text-[1.25rem] leading-[1.5] text-pretty text-[#C9D8E8]">
               When an agent picks a card on your behalf, it states a number. Plumbline makes
-              that number checkable; a receipt that names every candidate it considered and
+              that number checkable — a receipt that names every candidate it considered and
               an allocation anyone can re-add by hand.
             </p>
             <div className="flex items-center gap-4 pt-1.5">
@@ -181,7 +181,7 @@ export function LandingView() {
               </p>
               <div className="h-px bg-gray-03" />
               <p className="text-[1.125rem] leading-[1.55] text-ink">
-                Annualised, roughly <strong>$7.8B</strong>; our derivation, not an Amex figure.
+                Annualised, roughly <strong>$7.8B</strong> — our derivation, not an Amex figure.
               </p>
             </div>
             <div className="border border-t-0 border-gray-03 bg-white px-7 py-[22px] text-card-title font-normal leading-relaxed text-ink-2">
@@ -208,7 +208,7 @@ export function LandingView() {
             {
               n: "02",
               title: "Exhibit the allocation",
-              body: "No value is asserted without a concrete allocation that realises it. The witness is the derivation, and checking one is arithmetic; no solver, linear time.",
+              body: "No value is asserted without a concrete allocation that realises it. The witness is the derivation, and checking one is arithmetic — no solver, linear time.",
             },
             {
               n: "03",

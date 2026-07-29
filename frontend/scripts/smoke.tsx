@@ -62,7 +62,7 @@ g.IS_REACT_ACT_ENVIRONMENT = true;
 const { act, StrictMode } = await import("react");
 const { createRoot } = await import("react-dom/client");
 const { default: App } = await import("../src/App");
-const { money } = await import("../src/lib/format");
+const { humanReason, money } = await import("../src/lib/format");
 const { verifyInclusionProof } = await import("../src/lib/merkle");
 const { useConsole } = await import("../src/lib/store");
 const { createMockTransport } = await import("../src/mock/mockClient");
@@ -1111,51 +1111,44 @@ await waitFor("the overstatement screen", () => mainText().includes("The intuiti
 const rec = plumbline.receipt.candidates.find(
   (c) => c.instrument_id === plumbline.valuation.headline_instrument,
 )!.reconciliation;
+/*
+ * The artifact design's beat-01 inventory: three bars, the collision table, three aside
+ * statements, one takeaway. The cause strip, the on-screen VerifyPair, the latency panel
+ * and the optimality caveats were removed with it; the engine-level truths stay asserted
+ * in the data phase above (verifyWitness on every candidate, measured_here === false).
+ */
 check("the per-line sum is on screen", mainText().includes(rec.naive_display), rec.naive_display);
-check("the steelmanned per-line sum is on screen", mainText().includes(rec.capped_display));
 check("the witness-backed figure is on screen", mainText().includes(rec.witness_display));
 check("the overstatement is stated as a figure", mainText().includes(rec.overstatement_display));
-check("all three causes are named", ["Over the remaining balance", "Struck by an exclusivity group", "Balance already consumed"].every((s) => mainText().includes(s)));
-const headlineValuation = plumbline.valuation.instruments.find(
-  (v) => v.instrument_id === plumbline.valuation.headline_instrument,
-)!;
 check(
-  "the exclusivity group is named by the name the manifest gave it",
-  headlineValuation.collisions.every((c) => mainText().includes(c.exclusivity_group)),
-  headlineValuation.collisions.map((c) => c.exclusivity_group).join(","),
+  "the overstatement factor is stated against the provable figure",
+  mainText().includes("the provable figure"),
 );
-check("a competing credit is struck", mainText().includes("Struck by an exclusivity group"));
-check("the console verified the witness itself", mainText().includes("VERIFIED"));
-check("it says it used no solver", mainText().includes("no solver"));
-// The redesign replaced the full allocation table with the claimed-vs-allocated collision
-// table; the derivation-as-table claim now rides on beat 7, where the balance drawdown
-// arrows and the manifest rules render (asserted in that section).
 check(
   "the collision table shows claimed against allocated",
   mainText().includes("Two credits, one line") && mainText().includes("Allocated"),
 );
-/**
- * One assertion per benefit kind PRESENT in this derivation. Which kinds appear is a
- * property of the catalogue — the published Indian cards carry earn benefits and no
- * statement credits — so asserting a credit row onto a card that has none would be testing
- * the fixture rather than the renderer.
- */
-const kindsOnScreen = new Set(headlineValuation.derivation.map((r) => r.benefit_kind));
-check("the derivation names at least one kind", kindsOnScreen.size > 0);
-const drawnDown = headlineValuation.derivation.find(
-  (r) => r.capacity_before !== null && r.capacity_after !== r.capacity_before,
-);
-check("a capped benefit is drawn down in the data", Boolean(drawnDown));
 /*
- * The handoff redesign removed the beat-1 latency panel (allocator p50, the cited solver
- * range, "not measured here", the incoherent-bound failure mode) and the full per-rule
- * allocation table. Those figures live in the deck and in artifacts/plumbline_bench.json;
- * the engine-level truth of the solver attribution is still asserted above
- * (latency.solver.measured_here === false), and the rule/arrow rendering is asserted on
- * beat 7 where the derivation table now lives.
+ * The table groups reconciliation rows by benefit; a benefit renders "—" only when its
+ * allocated sum is zero across the whole cart. Mirror that rule rather than assuming
+ * every collision zeroes its loser.
  */
-check("optimality is explicitly not claimed", mainText().includes("conservative by construction but not optimal"));
-check("entailment latency is kept away from valuation latency", mainText().includes("different component"));
+{
+  const allocatedByBenefit = new Map<string, number>();
+  for (const row of rec.rows) {
+    allocatedByBenefit.set(
+      row.benefit_id,
+      (allocatedByBenefit.get(row.benefit_id) ?? 0) + row.realized_minor,
+    );
+  }
+  const zeroed = [...allocatedByBenefit.values()].some((v) => v === 0);
+  check(
+    "a fully struck benefit renders as unallocated",
+    !zeroed || mainText().includes("—"),
+  );
+}
+check("the witness total is the asserted value", mainText().includes("Witness total, the asserted value"));
+check("the aside still says no solver is needed", mainText().includes("no solver"));
 
 await act(async () => {
   useConsole.getState().setInstrument(plumbline.receipt.candidates[2].instrument_id);
@@ -1175,88 +1168,94 @@ await act(async () => {
   useConsole.getState().setScreen("receipt");
   await tick(60);
 });
-check("the signing boundary is drawn and named", mainText().includes("signature boundary"));
-check("it says what is below the line is not endorsed", mainText().includes("nothing below this line is issuer-endorsed"));
-check("issuer-signed facts are labelled", mainText().includes("Issuer-signed facts"));
-check("the unsigned side is labelled too", (mainText().match(/not issuer-signed/gi) ?? []).length >= 2);
+/*
+ * The artifact design's beat-02 inventory: criterion + facts two-up, the candidate table,
+ * two hashes, three aside statements. The boundary rule, seals, unpriced grid, per-row
+ * re-verification and the prototype-key footnote left the screen with it; the per-candidate
+ * verification is still enforced in the data phase above, and the design's third aside
+ * statement was corrected to keep the signing boundary true (the criterion and ranking are
+ * the cardholder's, endorsed by nobody).
+ */
 check("the criterion is printed verbatim", mainText().includes(plumbline.receipt.criterion));
-check(
-  "the policy hash is recorded",
-  mainText().includes(plumbline.receipt.policy.policy_hash.slice(0, 8)) &&
-    mainText().includes(plumbline.receipt.policy.policy_hash.slice(-6)),
-);
+check("issuer-signed facts are counted", /\d+ manifests · \d+ benefit terms/.test(mainText()));
 check(
   "every candidate appears with its value",
   plumbline.receipt.candidates.every((c) => mainText().includes(c.asserted_display)),
 );
 check("the winner is marked chosen", mainText().includes("CHOSEN"));
-check("unpriced value is carried, not dropped", mainText().includes("Considered but unpriced"));
 check(
-  "an unpriced benefit is named, not merely counted",
-  mainText().includes(headlineValuation.unpriced[0].label),
-  headlineValuation.unpriced[0].label,
+  "the receipt entry hash anchors the candidate set",
+  mainText().includes(plumbline.receipt.entry_hash.slice(0, 8)),
 );
 check(
-  "each candidate is re-verified in the console",
-  (mainText().match(/VERIFIED/g) ?? []).length >= plumbline.receipt.candidates.length,
+  "the boundary survives in the aside, truthfully",
+  mainText().includes("endorsed by nobody"),
 );
-check("the prototype-key limitation is disclosed", mainText().includes("prototype keys"));
 
 section("beat 3 — omission");
 await act(async () => {
   useConsole.getState().setScreen("omission");
   await tick(60);
 });
-await waitFor("both consistency proofs to settle", () =>
-  (mainText().match(/VERIFIED|REJECTED/g) ?? []).length >= 2,
-);
-check("the honest extension verifies", mainText().includes("the older log is contained unchanged"));
-check("the edited log is rejected", mainText().includes("REJECTED"));
-check("the failure is explained, not just flagged", mainText().includes("not an extension of the head"));
+/*
+ * The artifact design's beat-03 inventory: two candidate lists footed by their log roots,
+ * the verdict/cost pair, three aside statements. The consistency-proof columns, audit
+ * path, head panels and the in-browser vector replay left the screen; the RFC 6962
+ * mechanics remain covered by the data phase (verifyConsistency over the fixture heads)
+ * and the backend suite.
+ */
 check("the dropped instrument is named", mainText().includes(plumbline.omission.omitted_instrument.product));
 check("its foregone value is named", mainText().includes(plumbline.omission.omitted_instrument.asserted_display));
 check("the omission is labelled on the served set", mainText().includes("DROPPED"));
-check("both tree heads are shown with their sizes", mainText().includes(`${plumbline.omission.head_a.tree_size}`) && mainText().includes(`${plumbline.omission.head_b.tree_size}`));
-check("the audit path is printed", mainText().includes("Audit path"));
-check("the risk-factor framing is used, not a blindness claim", mainText().includes("No industry mechanism exists to record"));
-await waitFor("the proof vectors to replay in the browser", () => text().includes("vectors agree"));
+check("the verdict is a set mismatch", mainText().includes("SET MISMATCH"));
 check(
-  "every generated vector agrees in the browser",
-  text().includes(`${plumbline.omission.vectors.length}/${plumbline.omission.vectors.length} RFC 6962 vectors agree`),
+  "both log roots render, and they differ",
+  mainText().includes(plumbline.omission.head_b.root_hash.slice(0, 8)) &&
+    mainText().includes(plumbline.omission.head_b_edited.root_hash.slice(0, 8)),
 );
+check("the cost of the omission is stated", mainText().includes("Cost of the omission"));
 
 section("beat 4 — refusal");
 await act(async () => {
   useConsole.getState().setScreen("refusal");
   await tick(60);
 });
-check("the evaluator declines", mainText().includes("REFUSED TO SIGN"));
+/*
+ * The artifact design's beat-04 inventory: asserted vs offered two-up, the verifier
+ * two-up with failing clauses, the log anchor line, three aside statements. The case
+ * selector, inclusion-proof recompute and witness hash left the screen; the second
+ * refusal case and the inclusion proof remain covered in the data phase above.
+ */
 check("the refusal carries a reason code", mainText().includes("VALUATION_REFUSED_NO_SUPPORTING_WITNESS"));
 check("the verifier's own code is shown", mainText().includes(plumbline.refusals[0].verification.failures[0].code));
 check("the failure detail is shown verbatim", mainText().includes(plumbline.refusals[0].verification.failures[0].detail));
 check("the asserted figure is struck", mainText().includes(plumbline.refusals[0].asserted_display));
-check("the supported figure is offered instead", mainText().includes(plumbline.refusals[0].supported_display));
-await waitFor("the inclusion proof to verify in the browser", () => mainText().includes("INCLUSION VERIFIED"));
-check("the refusal is anchored in the log", mainText().includes("INCLUSION VERIFIED"));
-check("the log rule is restated", mainText().includes("If it is not in the log it did not happen"));
-
-await click(plumbline.refusals[1].label);
-await waitFor("the second refusal case", () =>
-  mainText().includes(plumbline.refusals[1].verification.failures[0].code),
+check(
+  "the realised figure is offered instead",
+  mainText().includes(plumbline.refusals[0].verification.realized_display),
 );
-check("the exclusivity refusal names the group violation", mainText().includes("WITNESS_EXCLUSIVITY_VIOLATED"));
+check("the evaluator and this console both reject", mainText().includes("Evaluator") && mainText().includes("This console"));
+check(
+  "the refusal is anchored in the log by entry and hash",
+  mainText().includes(`entry ${plumbline.refusals[0].ledger_seq}`) &&
+    mainText().includes(plumbline.refusals[0].entry_hash.slice(0, 8)),
+);
 
 section("beat 5 — graceful degrade, on screen");
 await act(async () => {
   useConsole.getState().setScreen("degrade");
   await tick(60);
 });
-// The matrix keeps the run's own append order: PROCEEDS, DEGRADED, PROCEEDS, DENIED.
-// Reordering rows to group outcomes would misstate log_seq.
+/*
+ * The artifact design's beat-05 inventory: the four-pass matrix, the two record cards,
+ * three aside statements. The posture election control, reason-code pills, mandate id,
+ * attestation block and the enforcement-point prose left the screen; those remain
+ * asserted in the data phase above (postures, codes, attestation on the run itself).
+ * The matrix keeps the run's own append order: PROCEEDS, DEGRADED, PROCEEDS, DENIED.
+ */
 await waitFor("the degrade screen to run its four passes", () =>
   (mainText().match(/PROCEEDS/g) ?? []).length >= 2 && mainText().includes("DENIED"),
 );
-check("the headline is the engine's own", mainText().includes(degradeRun.headline));
 check(
   "two passes proceed, one degrades, one denies",
   (mainText().match(/PROCEEDS/g) ?? []).length === 2 &&
@@ -1265,63 +1264,22 @@ check(
   `${(mainText().match(/PROCEEDS/g) ?? []).length} proceed`,
 );
 check(
-  "every reason code the engine returned is on screen",
-  new Set(passes.map((p) => p.reason_code)).size ===
-    [...new Set(passes.map((p) => p.reason_code))].filter((c) => mainText().includes(c)).length,
-);
-/*
- * The actor diagram went with the redesign; the enforcement point survives as copy. The
- * routing-around framing lives in the deck rather than on this screen now.
- */
-check(
-  "the enforcement point is stated on screen",
-  mainText().includes("no platform sees the check") ||
-    mainText().includes("no platform was asked"),
+  "both electable postures appear in the matrix",
+  mainText().includes("observe_only") && mainText().includes("enforce"),
 );
 check(
-  "coverage is separated from authorization",
-  mainText().includes("conditioned on evidence") &&
-    mainText().toLowerCase().includes("purchase protection"),
+  "what is withheld is coverage, never authorisation, until enforcement is elected",
+  mainText().toLowerCase().includes("purchase protection") &&
+    mainText().includes("authorisation"),
 );
-check("the log records the unattested selections", mainText().includes("unattested_selection"));
+check("the record cards are on screen", mainText().includes("Read into the record") && mainText().includes("The log, after four passes"));
 check(
-  "the receipt's attestation is shown, so the record certifies compliance too",
-  mainText().includes(degradeRun.data.receipt.receipt.attestation.outcome) &&
-    mainText().includes("whether or not the issuer's own card won"),
-);
-
-// The Card Member elects enforcement, live, in front of the room.
-// Clicked by the sub-label rather than by "Enforce": the nav entry for this beat reads
-// "enforcement is elected", and a substring search would find the nav first.
-await click("elected by the Card Member");
-await waitFor("the enforce posture copy", () =>
-  mainText().includes("The Card Member has required the disclosure"),
+  "the log summary counts the run",
+  mainText().includes(`entries ${passes.length}`),
 );
 check(
-  "the elected posture is the one now described",
-  mainText().includes("The check runs against their agent") &&
-    !mainText().includes("Nothing is ever refused here"),
-);
-
-// The matrix rows are the pass selectors now; the denied pass's row carries DENIED.
-await click("DENIED");
-check(
-  "the denial's detail is shown verbatim",
-  mainText().includes(denials[0].detail),
-  denials[0].detail.slice(0, 40),
-);
-check(
-  "and it is named as the cardholder's own delegation failing",
-  mainText().includes("their own delegated authority failing to discharge") ||
-    mainText().includes("failing to discharge"),
-);
-check(
-  "the mandate that failed to discharge is named",
-  mainText().includes(degradeRun.data.mandate.mandate_id),
-);
-check(
-  "no issuer and no platform is said to have declined",
-  mainText().includes("No issuer declined anything, and no platform was asked"),
+  "the tree root anchors the record",
+  mainText().includes(degradeRun.data.signed_tree_head.root_hash.slice(0, 8)),
 );
 
 section("beat 6 — attribution");
@@ -1333,8 +1291,8 @@ check("all four quadrants are on screen", ["Dead weight", "Load-bearing", "Noise
 check("the verdicts are stated, not implied", ["cut or renegotiate", "protect", "fund it, stop apologising for breakage"].every((s) => mainText().includes(s)));
 check("the corpus size is stated", mainText().includes(String(book.corpus_size)));
 check("the axis is selection influence, not usage", mainText().includes("selection influence"));
-check("the retention caveat is on screen", mainText().includes("does not measure"));
-check("the removal method is stated", mainText().includes("delete one benefit"));
+check("the retention caveat is on screen", mainText().includes("not retention"));
+check("the removal method is stated", mainText().includes("elete one benefit"));
 check("the nudge posture is stated", mainText().includes("is ever shown to a Card Member"));
 check(
   "the highest-cost load-bearing benefit is named",
@@ -1350,50 +1308,31 @@ await waitFor("the controls screen", () =>
   mainText().includes("Move one number."),
 );
 
-/**
- * The axis a judge would reach for: the one whose ranking actually moves. Picked from the
- * corpus rather than named, so this drives whichever axis carries the flip today.
+/*
+ * The artifact design's beat-07 inventory: one knob on the default axis, the ranking
+ * bars, the live browser check, the gap cell, three aside statements. The axis pill row,
+ * signature-cost panel, rate-axis disclosures and the full derivation table left the
+ * screen; the perturb-and-reverify wiring is unchanged and the derivation stays covered
+ * by the data phase (verifyWitness over every stop of every axis, asserted above).
  */
-const movingAxis = PERTURBATION.axes.find((axis) => {
-  const at = new Map(
-    axis.points[axis.baseline_index].ranking.map((r) => [r.instrument_id, r.rank]),
-  );
-  return axis.points.some((p) => p.ranking.some((r) => at.get(r.instrument_id) !== r.rank));
-})!;
-const movingStop = movingAxis.points.findIndex((p) => {
-  const at = new Map(
-    movingAxis.points[movingAxis.baseline_index].ranking.map((r) => [r.instrument_id, r.rank]),
-  );
-  return p.ranking.some((r) => at.get(r.instrument_id) !== r.rank);
-});
-const movingBaseline = movingAxis.points[movingAxis.baseline_index];
-
-await click(movingAxis.label);
-await waitFor("the chosen axis", () => mainText().includes(movingAxis.benefit_label));
-
-check("the axis opens at the value the manifest declares", mainText().includes(movingBaseline.value_display));
-check(
-  "and at that value the console reproduces the published body byte for byte",
-  mainText().includes("Identical."),
-);
+const knobAxis = PERTURBATION.axes[0];
+const knobBaseline = knobAxis.points[knobAxis.baseline_index];
+check("the knob opens at the value the manifest pinned", mainText().includes(knobBaseline.value_display));
 check(
   "the baseline asserted value is the one the other screens show",
-  mainText().includes(movingBaseline.asserted_display),
-  movingBaseline.asserted_display,
+  mainText().includes(knobBaseline.asserted_display),
+  knobBaseline.asserted_display,
 );
-check("the console verified the witness itself, here", mainText().includes("VERIFIED"));
+check(
+  "the ranking is titled as the cardholder's",
+  mainText().includes("the cardholder's criterion"),
+);
+check(
+  "the browser's own check is live on screen",
+  mainText().includes("SUPPORTED") || mainText().includes("REJECTED"),
+);
 check("it says it used no solver", mainText().includes("no solver"));
-check(
-  "the derivation is rebuilt in the browser, and says so",
-  mainText().includes("Rebuilt in this browser from the witness"),
-);
-// The rule and drawdown rendering moved here from beat 1 with the derivation table.
-check("balances are shown drawing down, with the arrow", /₹[\d,]+(\.\d\d)? → ₹[\d,]+(\.\d\d)?/.test(mainText()) && mainText().includes("Balance before"));
-check("the earn rule is spelled out in the derivation", /\d+\.\d\d% of ₹/.test(mainText()));
-check(
-  "the criterion travels with the ranking",
-  mainText().includes("not issuer-endorsed") && mainText().includes(PERTURBATION.criterion),
-);
+check("the perturbation cost cell is on screen", mainText().includes("What the perturbation costs"));
 
 /** React tracks the value on the node, so the native setter is what a real drag looks like. */
 async function setSlider(index: number) {
@@ -1413,63 +1352,25 @@ async function setSlider(index: number) {
   });
 }
 
-await setSlider(movingStop);
-const moved = movingAxis.points[movingStop];
-check(
-  "moving the knob re-values the instrument on screen",
-  mainText().includes(moved.asserted_display),
-  moved.asserted_display,
+const knobStop = knobAxis.points.findIndex(
+  (pt) => pt.asserted_display !== knobBaseline.asserted_display,
 );
-check(
-  "the console re-verified the perturbed allocation and stands behind the same figure",
-  mainText().includes(`assignments realise ${moved.asserted_display}`),
-  moved.asserted_display,
-);
-check(
-  "the ranking moved, with the direction shown",
-  /[▲▼]\d/.test(mainText()),
-);
-check(
-  "and the signature is disclosed as no longer covering the body",
-  mainText().includes("Different bodies"),
-);
-// HashRow abbreviates to head…tail with the full value on the title attribute, so the
-// assertion checks the rendered form: both hashes' heads and tails, not the full hex.
-check(
-  "the perturbed body's hash is shown beside the signed one",
-  mainText().includes(moved.manifest_hash.slice(0, 8)) &&
-    mainText().includes(movingAxis.signed_manifest_hash.slice(0, 8)) &&
-    mainText().includes(moved.manifest_hash.slice(-6)),
-);
-check(
-  "every stop is disclosed as engine-evaluated rather than solved in the browser",
-  mainText().includes(`${movingAxis.points.length} engine-evaluated stops`),
-);
-
-await click("reset to the signed terms");
-await waitFor("the reset", () => mainText().includes("Identical."));
-check(
-  "reset returns the screen to the signed terms",
-  mainText().includes(movingBaseline.asserted_display) && mainText().includes("Identical."),
-);
-
-const rateAxis = PERTURBATION.axes.find((a) => a.field === "rate_bp")!;
-await click(rateAxis.label);
-await waitFor("the rate axis", () => mainText().includes(rateAxis.benefit_label));
-check(
-  "the rate axis discloses that a rate is a product term",
-  mainText().includes("A rate is a product term"),
-);
-check(
-  "and that the instrument carrying it is signed by nobody",
-  mainText().includes("invented outright and signed by nobody"),
-);
-check(
-  "the instrument whose rate moves is not issuer-signed",
-  rateAxis.issuer_signed === false,
-);
-
-// -- 5. the governance kernel, as supporting evidence ---------------------------------------
+check("the default axis has a stop that moves the assertion", knobStop >= 0);
+if (knobStop >= 0) {
+  const movedPoint = knobAxis.points[knobStop];
+  await setSlider(knobStop);
+  check(
+    "moving the knob re-values the instrument on screen",
+    mainText().includes(movedPoint.asserted_display),
+    movedPoint.asserted_display,
+  );
+  check("the moved value is on the knob", mainText().includes(movedPoint.value_display));
+  await setSlider(knobAxis.baseline_index);
+  check(
+    "returning the knob restores the signed assertion",
+    mainText().includes(knobBaseline.asserted_display),
+  );
+}
 
 section("beat 8 — kernel, injection");
 await act(async () => {
@@ -1477,84 +1378,49 @@ await act(async () => {
   useConsole.getState().setKernelTab("attack");
   await tick(40);
 });
+/*
+ * The artifact design's beat-08 inventory per tab is a fraction of the old screens: the
+ * two-outcome panes and the divergence table (injection), the mandate tree with its
+ * violated clauses (delegation), the revocation table with its propagation figure
+ * (kill switch), the three cutoff bars (exposure), and the decision feed in the aside.
+ * The PDP ladder, reason-code chips, proof panel, counterexample dump, containment
+ * panel, probes, stat strip, curve and operator table all left the screens; every one of
+ * those facts is still exercised in the data phase above or the backend suite, and the
+ * evidence-drawer section below still drives the drawer through the store.
+ */
 check("the kernel is framed as the layer the caveat rides on", mainText().includes("Governance kernel"));
 check("the decision feed comes back with the kernel", text().includes("Decision feed"));
-check("the enforcement point is stated", mainText().includes("no platform is asked for anything"));
 await waitFor("the scenario slot to free", () => useConsole.getState().running === null);
 await click("Run injection");
-await waitFor("the five PDP stages to finish revealing", () =>
-  mainText().includes("Step-up") && mainText().includes("INJECTION_COMPROMISE"),
+await waitFor("both outcomes to settle", () =>
+  mainText().includes("AUTHORISED") && mainText().includes("DENIED"),
 );
-check("ungoverned side shows APPROVED", mainText().includes("APPROVED"));
-check("both panes show ₹55,200", (mainText().match(/₹55,200/g) ?? []).length >= 2);
-check("divergence delta is +₹50,000", mainText().includes("+₹50,000"));
-check("signed intent total is ₹5,200", mainText().includes("₹5,200"));
-check("primary reason code is on screen", mainText().includes("MANDATE_CART_DIVERGENCE"));
-check("stored-value MCC is called out", mainText().includes("MCC_NOT_ALLOWED"));
-check("liability is routed away from the cardholder", mainText().includes("cardholder not liable"));
-// The injected lines render once, in the divergence table, rather than in both panes.
+check("the ungoverned side authorises the theft", mainText().includes("AUTHORISED"));
+check("the governed side denies it", mainText().includes("DENIED"));
+check("the divergence table is on screen", mainText().includes("Cart ↔ signed intent"));
 check(
-  "ten injected lines render in the divergence table",
-  (mainText().match(/sku_giftcard_/g) ?? []).length === 10,
-  String((mainText().match(/sku_giftcard_/g) ?? []).length),
+  "the denial names its reasons in words",
+  mainText().includes(humanReason("MANDATE_CART_DIVERGENCE")),
 );
-check(
-  "every injected line is tagged",
-  (mainText().match(/INJECTED/g) ?? []).length >= 10,
-  String((mainText().match(/INJECTED/g) ?? []).length),
-);
-check(
-  "all five PDP stages are named",
-  ["Revocation", "Credential", "Cart ↔ intent", "Scope", "Step-up"].every((s) =>
-    mainText().includes(s),
-  ),
-);
-
-await click("Clean run");
-// The diff panel renders as soon as the decision arrives, so "cart matches signed intent"
-// appears before the reveal has settled. Wait for the outcome chip, which only mounts
-// once the check ladder has run.
-await waitFor("clean run to settle", () => mainText().includes("ALLOW"));
-check("clean run authorises", mainText().includes("ALLOW"));
-check("clean run matches signed intent", mainText().includes("cart matches signed intent"));
-check("clean run total is ₹5,200", mainText().includes("₹5,200"));
-check("clean run shows no injected lines", !mainText().includes("INJECTED"));
 
 section("beat 8 — kernel, delegation and the escalation proof");
 await act(async () => {
   useConsole.getState().setKernelTab("delegation");
   await tick(40);
 });
-// The run buttons disable while any scenario is in flight, and the previous section's run
-// can still hold the slot for a few frames after its assertions pass. A presenter cannot
-// click a disabled button and neither may the suite.
 await waitFor("the scenario slot to free", () => useConsole.getState().running === null);
 await click("Run delegation hops");
-await waitFor("proof panel", () => mainText().includes("NARROWER"));
-check("both verdicts are shown side by side", mainText().includes("NARROWER") && mainText().includes("SCOPE_ESCALATION"));
-check("the disagreement is called out", mainText().includes("subset check was about to authorise"));
-check("the entailment formula is printed", mainText().includes("UNSAT( child ∧ ¬parent )"));
-check("the counterexample is printed verbatim", mainText().includes("<any merchant outside the named sets>"));
-check("the counterexample amount is shown", mainText().includes("800001"));
-check("violated parent constraints are named", mainText().includes("category ∈ {groceries, appliances}"));
-check("entailment time is shown in ms", /entailment\s+[\d.]+\s*ms/.test(mainText()));
-check("rejected hops appear on the graph", (mainText().match(/REJECTED/g) ?? []).length >= 2);
-check("accepted hops show their proof time", /proved in [\d.]+\s*ms/.test(mainText()));
-check("the decidability limit is disclosed", mainText().includes("quantifier-free linear integer arithmetic"));
-
-// The two checks disagree in both directions. Selecting an accepted hop that the subset
-// check would have rejected must not print the "about to authorise" copy.
-const falseReject = delegations.findIndex((d) => d.naive_disagrees && d.accepted);
-check("the corpus contains a disagreement in each direction", falseReject >= 0);
-if (falseReject >= 0) {
-  await click(delegations[falseReject].title!);
-  await waitFor("false-rejection hop", () => mainText().includes("would have rejected"));
-  check(
-    "an accepted hop is not described as an escalation",
-    !mainText().includes("about to authorise"),
-  );
-  check("the entailment column still reads ENTAILED", mainText().includes("ENTAILED"));
-}
+await waitFor("the mandate tree", () => mainText().includes("SCOPE_ESCALATION"));
+check("the tree renders with its caps", mainText().includes("Delegation tree"));
+check("the refused hop carries the real reason code", mainText().includes("SCOPE_ESCALATION"));
+check(
+  "the violated parent constraints are named",
+  mainText().includes("category ∈ {groceries, appliances}"),
+);
+check(
+  "the violation rows are labelled as the witness's breach",
+  mainText().includes("Parent constraints this witness breaks"),
+);
 
 section("beat 8 — kernel, kill switch");
 await act(async () => {
@@ -1574,37 +1440,27 @@ check(
   (mainText().match(/DENIED/g) ?? []).length >= 4,
 );
 check("no hop is still live", !/\bLIVE\b/.test(mainText()));
-check("the unregistered sub-agent is labelled", mainText().includes("NEVER REGISTERED"));
-check("rows written is 1", /Rows written\s*1/.test(mainText().replace(/\s+/g, " ")));
-check("descendants contained is 4", /Descendants contained\s*4/.test(mainText().replace(/\s+/g, " ")));
-check("the TTL bound is disclosed, not hidden", mainText().includes("bounded by the discharge TTL"));
-check("engine containment time is shown", /Engine containment\s*[\d.]+\s*ms/.test(mainText().replace(/\s+/g, " ")));
-check("before/after probes are shown", mainText().includes("Probe at the deepest agent"));
+check(
+  "propagation to the deepest agent is measured",
+  mainText().includes("Propagation to the deepest agent"),
+);
 
 section("beat 8 — kernel, exposure book");
 await act(async () => {
   useConsole.getState().setKernelTab("exposure");
   await tick(60);
 });
-check("book exposure is shown", mainText().includes("Book exposure"));
-check("declined exposure is shown", mainText().includes("Declined"));
-check("blended rate in bps", /\d+ bps/.test(mainText()));
-check("operator table is populated", mainText().includes("NightMarket Relay") && mainText().includes("RESTRICTED"));
-check("cutoff curve is interactive", document.querySelector('[role="slider"]') !== null);
-check("the model is disclosed as modelled", mainText().includes("mock dataset"));
-check("the volume prior is disclosed", mainText().includes("shrink toward a prior on low volume"));
-
-const slider = document.querySelector('[role="slider"]') as SVGElement | null;
-if (slider) {
-  const before = useConsole.getState().state!.exposure.cutoff_score;
-  await act(async () => {
-    slider.dispatchEvent(
-      new dom.window.KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }),
-    );
-    await tick(30);
-  });
-  check("cutoff responds to keyboard", text().includes(String(before + 1)));
-}
+check("the cutoff bars are on screen", mainText().includes("Exposure retained by cutoff"));
+check(
+  "permissive, book and strict cutoffs render",
+  mainText().includes("Cutoff 0") &&
+    mainText().includes("operator book") &&
+    mainText().includes("Cutoff 100"),
+);
+check(
+  "strict is priced as coverage, never as declined authorisations",
+  mainText().includes("outside coverage") && !mainText().toLowerCase().includes("legitimate authorisations"),
+);
 
 section("beat 8 — kernel, evidence drawer");
 const txn = useConsole.getState().state!.decisions[0]!.txn_id;

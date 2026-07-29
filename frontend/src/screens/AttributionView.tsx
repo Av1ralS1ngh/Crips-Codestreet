@@ -48,10 +48,9 @@ const GRID: Quadrant[] = [
 /** Ten rows was too long to scan; five is the argument. The rest are one click away. */
 const TOP_N = 5;
 
-/** Fill thresholds read the benefit's own decisive share, never the scaled bar width. */
-const DECISIVE_SUCCESS_BP = 1000;
-const DECISIVE_SKY_BP = 200;
-
+// #6E7A85 (tertiary ink) and #C3CCD5 (the neutral rule) are written out because Tailwind
+// scans source text: a class assembled from a constant is never emitted. The console's own
+// `ink-3` is a colder grey, so it is not a substitute here.
 const TONE: Record<Quadrant, { top: string; text: string; pill: string; fill: string }> = {
   [QUADRANT_DEAD_WEIGHT]: {
     top: "border-t-deny",
@@ -65,11 +64,8 @@ const TONE: Record<Quadrant, { top: string; text: string; pill: string; fill: st
     pill: "bg-success-wash text-success",
     fill: "bg-success",
   },
-  // #6E7A85 is the handoff's tertiary ink and is written out because Tailwind scans source
-  // text: a class assembled from a constant is never emitted. The console's own `ink-3` is
-  // a colder grey, so it is not a substitute here.
   [QUADRANT_NOISE]: {
-    top: "border-t-[#6E7A85]",
+    top: "border-t-[#C3CCD5]",
     text: "text-[#6E7A85]",
     pill: "bg-gray-02 text-[#6E7A85]",
     fill: "bg-[#6E7A85]",
@@ -83,18 +79,20 @@ const TONE: Record<Quadrant, { top: string; text: string; pill: string; fill: st
 };
 
 /**
- * A share of the most decisive benefit in the corpus, floored so a benefit that never moved
- * a decision still renders a bar rather than an empty track. The caption beside it always
- * carries the raw count, so the floor cannot be read as influence.
+ * A share of the most decisive benefit in the corpus, with no floor: a benefit that never
+ * moved a decision renders an empty track. A stub bar under the caption "decisive on 0 of
+ * 159 receipts" would be the chart contradicting its own caption.
  */
 function barWidth(bp: number, maxBp: number): number {
-  return Math.max(4, Math.min(100, (bp / maxBp) * 100));
+  return Math.max(0, Math.min(100, (bp / maxBp) * 100));
 }
 
-function decisiveFill(bp: number): string {
-  if (bp >= DECISIVE_SUCCESS_BP) return "bg-success";
-  if (bp >= DECISIVE_SKY_BP) return "bg-sky";
-  return "bg-gray-03";
+/**
+ * The table bar carries one fact beyond its width: whether the benefit cleared the decisive
+ * threshold the header states. Nothing else is encoded, because nothing else is measured.
+ */
+function decisiveFill(bp: number, thresholdBp: number): string {
+  return bp >= thresholdBp ? "bg-success" : "bg-gray-03";
 }
 
 export function AttributionView() {
@@ -112,6 +110,9 @@ export function AttributionView() {
   );
   const rows = showAll ? ranked : ranked.slice(0, TOP_N);
   const totalCostMinor = book.benefits.reduce((sum, b) => sum + b.annual_cost_minor, 0);
+  const deadWeightMinor = book.benefits
+    .filter((b) => b.quadrant === QUADRANT_DEAD_WEIGHT)
+    .reduce((sum, b) => sum + b.annual_cost_minor, 0);
 
   return (
     <BeatPage>
@@ -119,32 +120,42 @@ export function AttributionView() {
         beat="06"
         label="Attribution"
         title="Which benefit dollars actually caused a card to be chosen."
-        meta={
-          <>
-            corpus <Figure>{book.corpus_size}</Figure> receipts &middot; decisive threshold{" "}
-            <Figure>{(book.thresholds.decisive_bp / 100).toFixed(0)}%</Figure> &middot; high cost
-            above <Figure>{book.thresholds.high_cost_display}</Figure>/yr
-          </>
-        }
       >
-        Selection influence is measured by removal: delete one benefit from its manifest,
-        re-run the allocator on the same cart, re-apply the stated criterion. If the chosen
-        instrument changes, that benefit was decisive. Across {book.corpus_size} receipts,
-        that produces a cut list.
+        Delete one benefit from its manifest, re-run the allocator, re-apply the stated
+        criterion. If the selected instrument changes, that benefit was decisive. Across a
+        corpus of {book.corpus_size} receipts, that produces a cut list.
+        {/* The handoff puts this strip under the standfirst. The shared header's own `meta`
+            slot rides the eyebrow row, which is a different place, so it is not used here. */}
+        <span className="num mt-[19px] flex items-center gap-[26px] text-[0.75rem] text-[#6E7A85]">
+          <span>
+            corpus <Figure>{book.corpus_size}</Figure> receipts
+          </span>
+          <span>
+            decisive threshold <Figure>{(book.thresholds.decisive_bp / 100).toFixed(0)}%</Figure>
+          </span>
+          <span>
+            high cost above <Figure>{book.thresholds.high_cost_display}</Figure>/yr
+          </span>
+        </span>
       </BeatHeader>
 
       <BeatSplit
         asideWidth="312px"
         gap="gap-8"
         aside={
-          <ShowsPanel
-            points={[
-              "This measures selection influence at the moment of choice. It does not measure retention, incremental spend, or renewal.",
-              "A benefit that never appears in a winning derivation may still be why the card was taken out. Base earn is the obvious candidate.",
-              "Cost is a modelled annual programme figure, an input rather than a measurement. Read the quadrant as evidence, never as the decision.",
-            ]}
-            footnote="Nothing on this screen is ever shown to a Card Member. It goes into an agent's ranking, not a member's inbox."
-          />
+          <div className="flex flex-col gap-6">
+            <ShowsPanel
+              points={[
+                "This measures selection influence at the moment of choice — not retention, incremental spend, or renewal.",
+                "A benefit that never appears in a winning derivation may still be why the card was taken out. The quadrant is a starting point for a conversation, not a mandate.",
+                "Cost is a modelled annual programme figure — an input, not a measurement.",
+              ]}
+            />
+            <div className="border border-gray-03 bg-white px-6 py-5 text-card-title font-normal leading-relaxed text-ink-2">
+              Nothing on this screen is ever shown to a Card Member. It goes into an agent's
+              ranking, not a member's inbox.
+            </div>
+          </div>
         }
       >
         <div className="flex flex-col gap-6">
@@ -207,7 +218,7 @@ export function AttributionView() {
                 <div className="flex items-center justify-end gap-[9px]">
                   <div className="h-[5px] w-[46px] shrink-0 bg-gray-02">
                     <div
-                      className={`h-full ${decisiveFill(benefit.decisive_bp)}`}
+                      className={`h-full ${decisiveFill(benefit.decisive_bp, book.thresholds.decisive_bp)}`}
                       style={{ width: `${barWidth(benefit.decisive_bp, maxDecisiveBp)}%` }}
                     />
                   </div>
@@ -232,7 +243,7 @@ export function AttributionView() {
 
             <div className="border-t border-gray-02 px-[22px] py-3">
               <span className="num text-[0.71875rem] leading-normal text-ink-4">
-                decisive = the choice moved when the benefit was deleted
+                decisive = deleting the benefit changes which instrument the criterion selects
               </span>
             </div>
           </SquarePanel>
@@ -240,8 +251,8 @@ export function AttributionView() {
       </BeatSplit>
 
       <Takeaway>
-        Evidence for a cut, alongside the retention data you already hold; never the decision
-        itself.
+        {money(deadWeightMinor)} a year sits in the dead-weight quadrant. That is a decision
+        you can now defend.
       </Takeaway>
     </BeatPage>
   );
@@ -298,13 +309,7 @@ function QuadrantCard({
         </div>
       </div>
 
-      {ordered.length === 0 ? (
-        <div className="border-t border-gray-02 px-[22px] py-4">
-          <p className="text-[0.90625rem] leading-relaxed text-ink-3">
-            Nothing in this corpus lands here. An empty quadrant is a finding, not a gap.
-          </p>
-        </div>
-      ) : compact ? (
+      {compact ? (
         <div className="flex flex-col gap-[11px] border-t border-gray-02 px-[22px] py-4">
           {ordered.map((benefit) => (
             <div key={benefit.benefit_id} className="flex items-baseline justify-between gap-3">
@@ -342,7 +347,7 @@ function QuadrantCard({
 
       {quadrant === QUADRANT_OPTION && (
         <div className="mt-auto border-t border-gray-02 px-[22px] py-4">
-          <p className="text-[0.875rem] leading-relaxed text-ink-3">
+          <p className="text-[0.875rem] leading-relaxed text-[#6E7A85]">
             Low cost and often decisive: {copy.verdict}.
           </p>
         </div>
